@@ -1,12 +1,11 @@
 package frc.robot.controls;
 
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import java.util.HashMap;
 
 public class Buttonboard {
-    public static class ButtonboardPort {
+  public static class ButtonboardPort {
     public int joystickPort;
     public int id;
     public boolean invert;
@@ -53,7 +52,6 @@ public class Buttonboard {
     buttonMap.put(5, new ButtonboardPort(0, 5));
     buttonMap.put(6, new ButtonboardPort(0, 6));
     buttonMap.put(7, new ButtonboardPort(0, 7));
-
 
     /* Switches on the button board going left to right */
     switchMap.put(8, new ButtonboardPort(0, 8));
@@ -143,4 +141,3 @@ public class Buttonboard {
     }
   }
 }
-
