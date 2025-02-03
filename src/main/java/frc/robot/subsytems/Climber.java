@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -29,6 +30,7 @@ public class Climber extends SubsystemBase {
   TalonFXConfiguration climberConfig = new TalonFXConfiguration();
   MotionMagicConfigs climberMagic = new MotionMagicConfigs();
   MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
+  VoltageOut m_requst = new VoltageOut(0);
 
   public Climber() {
     climberMaster.getConfigurator().apply(new TalonFXConfiguration());
@@ -72,6 +74,18 @@ public class Climber extends SubsystemBase {
 
   public double ClimberPos() {
     return climberMaster.getPosition().getValueAsDouble();
+  }
+
+  public void manualClimb(double voltage) {
+    climberMaster.setControl(m_requst.withOutput(voltage));
+  }
+
+  public void resetManualClimb() {
+    climberMaster.setControl(m_requst.withOutput(0));
+  }
+
+  public double manualClimbSpeed() {
+    return climberMaster.getVelocity().getValueAsDouble();
   }
 
   public void zeroClimber() {

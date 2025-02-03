@@ -4,11 +4,11 @@
 
 package frc.robot;
 
-import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
@@ -21,11 +21,12 @@ public class RobotContainer {
   private Manipulator s_Manipulator = new Manipulator();
 
   public RobotContainer() {
-    DogLog.log("ClimberPos", s_Climber.ClimberPos());
+    // DogLog.log("ClimberPos", s_Climber.ClimberPos());
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
     configureBindings();
+    Controls.driverControls();
   }
 
   private void configureBindings() {}
