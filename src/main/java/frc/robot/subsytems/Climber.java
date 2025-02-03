@@ -4,9 +4,77 @@
 
 package frc.robot.subsytems;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
-  public Climber() {}
+
+  // Creates new TalonFX Libarry motors
+  TalonFX climberMaster = new TalonFX(ClimberConstants.climberMasterID);
+
+  TalonFX climberFollower = new TalonFX(ClimberConstants.climberFollowerID);
+
+  // Configuration For The Motors
+  TalonFXConfiguration climberConfig = new TalonFXConfiguration();
+  MotionMagicConfigs climberMagic = new MotionMagicConfigs();
+  MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
+
+  public Climber() {
+    climberMaster.getConfigurator().apply(new TalonFXConfiguration());
+    climberFollower.getConfigurator().apply(new TalonFXConfiguration());
+
+    climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    climberConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    climberConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+        ClimberConstants.climberForwardSoftLimit;
+    climberConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
+        ClimberConstants.climberReverseSoftLimit;
+    climberConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    climberConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+
+    var slot0Configs = new Slot0Configs();
+    slot0Configs.kG = ClimberConstants.kG;
+    slot0Configs.kV = ClimberConstants.kV;
+    slot0Configs.kP = ClimberConstants.kP;
+    slot0Configs.kI = ClimberConstants.kI;
+    slot0Configs.kD = ClimberConstants.kD;
+    slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
+
+    climberMagic.MotionMagicAcceleration = ClimberConstants.kMagicAcceleration;
+    climberMagic.MotionMagicCruiseVelocity = ClimberConstants.kMagicVelocity;
+
+    climberMaster.getConfigurator().apply(climberConfig);
+    climberFollower.getConfigurator().apply(climberConfig);
+    climberFollower.setControl(new Follower(climberMaster.getDeviceID(), false));
+
+    climberMaster.getConfigurator().apply(slot0Configs);
+    climberMaster.getConfigurator().apply(climberMagic);
+  }
+
+  public void goToSetPoint(double setpoint) {
+    climberMaster.setControl(magicRequest.withPosition(setpoint));
+  }
+
+  public boolean isAtSetPoint(double setpoint) {
+    return climberMaster.getPosition().getValue().in(Units.Rotations) == setpoint;
+  }
+
+  public double ClimberPos() {
+    return climberMaster.getPosition().getValueAsDouble();
+  }
+
+  public void zeroClimber() {
+    climberMaster.setPosition(0);
+  }
 }
