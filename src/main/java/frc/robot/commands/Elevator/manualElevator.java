@@ -10,6 +10,7 @@ import frc.robot.subsytems.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class manualElevator extends Command {
   Elevator s_Elevator;
+
   /** Creates a new manualElevator. */
   public manualElevator(Elevator elevator) {
     elevator = s_Elevator;

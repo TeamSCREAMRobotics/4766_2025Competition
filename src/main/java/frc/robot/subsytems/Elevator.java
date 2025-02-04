@@ -7,7 +7,6 @@ package frc.robot.subsytems;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -15,21 +14,19 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
-  //Motors
+  // Motors
   TalonFX elevatorMaster = new TalonFX(Constants.ElevatorConstants.elevatorMasterID);
   TalonFX elevatorFollower = new TalonFX(Constants.ElevatorConstants.elevatorFollowerID);
-  //Configs 
+  // Configs
   TalonFXConfiguration elevatorConfigs = new TalonFXConfiguration();
   Slot0Configs elevatorPIDConfigs = new Slot0Configs();
   MotionMagicConfigs elevatorMagicConfigs = new MotionMagicConfigs();
-  //Voltages
+  // Voltages
   VoltageOut m_request = new VoltageOut(0);
   MotionMagicVoltage m_magicRequest = new MotionMagicVoltage(0);
 
@@ -66,23 +63,23 @@ public class Elevator extends SubsystemBase {
     elevatorMaster.getConfigurator().apply(elevatorMagicConfigs);
   }
 
-  public void manualElevatorMotor(double voltage){
-  elevatorMaster.setControl(m_request.withOutput(voltage));
+  public void manualElevatorMotor(double voltage) {
+    elevatorMaster.setControl(m_request.withOutput(voltage));
   }
 
-  public void stopElevatorMotor(){
-  elevatorMaster.setControl(m_request.withOutput(0));
+  public void stopElevatorMotor() {
+    elevatorMaster.setControl(m_request.withOutput(0));
   }
 
-  public void goToSetPoint(double setpoint){
-  elevatorMaster.setPosition(setpoint);
+  public void goToSetPoint(double setpoint) {
+    elevatorMaster.setPosition(setpoint);
   }
 
-  public void setElevatorZero(){
-  elevatorMaster.setPosition(0);
+  public void setElevatorZero() {
+    elevatorMaster.setPosition(0);
   }
 
-  public double getSetPoint(){
-  return elevatorMaster.getPosition().getValueAsDouble();
+  public double getSetPoint() {
+    return elevatorMaster.getPosition().getValueAsDouble();
   }
 }

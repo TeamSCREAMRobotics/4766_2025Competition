@@ -11,6 +11,7 @@ import frc.robot.subsytems.Elevator;
 public class runElevator extends Command {
   Elevator s_Elevator;
   double Setpoint;
+
   /** Creates a new runElevator. */
   public runElevator(Elevator elevator, double setpoint) {
     elevator = s_Elevator;

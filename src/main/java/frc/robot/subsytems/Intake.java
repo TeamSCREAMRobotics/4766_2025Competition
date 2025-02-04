@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
     intakeConfigs.SoftwareLimitSwitch.withForwardSoftLimitEnable(true);
     intakeConfigs.SoftwareLimitSwitch.withReverseSoftLimitThreshold(0);
     intakeConfigs.SoftwareLimitSwitch.withReverseSoftLimitEnable(true);
-    
+
     var slot0Configs = new Slot0Configs();
     slot0Configs.kG = IntakeConstants.intakeKG;
     slot0Configs.kV = IntakeConstants.intakeKV;
