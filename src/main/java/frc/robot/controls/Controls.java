@@ -61,8 +61,7 @@ public class Controls {
   }
 
   public static void driverControls() {
-    driverCon
-        .rightTrigger(0.5).whileTrue(new runIntake(s_Intake));
+    driverCon.rightTrigger(0.5).whileTrue(new runIntake(s_Intake));
   }
 
   public static void opControls() {}
