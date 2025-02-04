@@ -4,13 +4,14 @@
 
 package frc.robot;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Climber.runClimber;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
@@ -25,16 +26,18 @@ public class RobotContainer {
 
   
   public RobotContainer() {
-    // DogLog.log("ClimberPos", s_Climber.ClimberPos());
+    DogLog.log("ClimberPos", s_Climber.ClimberPos());
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
     configureBindings();
     Controls.driverControls();
+    Controls.opControls();
+    Controls.buttonBoard();
   }
 
   private void configureBindings() {
-    
+    Controls.driverCon.a().whileTrue(new runClimber(s_Climber, 8.0));
   }
 
   public Command getAutonomousCommand() {

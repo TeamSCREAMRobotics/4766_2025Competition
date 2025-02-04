@@ -46,7 +46,23 @@ public class Constants {
   }
 
   // Constants for the Intake Subsystem
-  public static final class IntakeConstants {}
+  public static final class IntakeConstants {
+    public static int intakePIDMotorID = 10;
+    public static int intakeMotorID = 11;
+    public static int BeamBreakID = 12;
+
+    public static final double intakeFowardSoftLimit = 0.0;
+    public static final double intakeReverseSoftLimit = 0.0;
+
+    public static double intakeKP = 0;
+    public static double intakeKD = 0;
+    public static double intakeKI = 0;
+    public static double intakeKV = 0;
+    public static double intakeKG = 0;
+
+    public static double motionMagicAcceleration = 0;
+    public static double motionMagicCruiseVelocity = 0;
+  }
 
   // Constants for the Manipulator Subsystem
   public static final class ManipulatorConstants {}
