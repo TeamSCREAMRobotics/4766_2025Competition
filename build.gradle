@@ -73,6 +73,8 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:main-SNAPSHOT'
+
 }
 
 test {
@@ -120,3 +122,14 @@ spotless {
 }
 
 build.dependsOn(spotlessApply)
+
+allprojects {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {url 'https://jitpack.io'}
+    }
+}
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}

@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.commands.Climber.runClimber;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
@@ -21,15 +23,19 @@ public class RobotContainer {
   private Manipulator s_Manipulator = new Manipulator();
 
   public RobotContainer() {
-    // DogLog.log("ClimberPos", s_Climber.ClimberPos());
+    DogLog.log("ClimberPos", s_Climber.ClimberPos());
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
     configureBindings();
     Controls.driverControls();
+    Controls.opControls();
+    Controls.buttonBoard();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    Controls.driverCon.a().whileTrue(new runClimber(s_Climber, 8.0));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
