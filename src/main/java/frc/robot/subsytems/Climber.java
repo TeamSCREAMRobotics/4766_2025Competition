@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
+  // If this works, it will be a miracle
+
   /** Creates a new Climber. */
 
   // Creates new TalonFX Libarry motors

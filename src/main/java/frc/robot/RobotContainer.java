@@ -24,6 +24,7 @@ public class RobotContainer {
   public RobotContainer() {
     DogLog.log("ClimberPos", s_Climber.ClimberPos());
     DogLog.log("Elevator Pos", s_Elevator.elevatorPos());
+    DogLog.log("Intake Pos", s_Intake.getPosition());
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
