@@ -25,22 +25,22 @@ public class Constants {
 
   // Constants for the Elevator Subsystem
   public static final class ElevatorConstants {
-    // TODO: Configure motorIDs for elevator
+    // TODO: Configure motorIDs for Elevator
     public static final int elevatorMasterID = 0;
     public static final int elevatorFollowerID = 0;
 
-    // TODO: Configure SoftLimits for elevator
+    // TODO: Configure SoftLimits for Elevator
     public static final double elevatorForwardSoftLimit = 0.0;
     public static final double elevatorReverseSoftLimit = 0.0;
 
-    // TODO: Configure PID for elevator
+    // TODO: Configure PID for Elevator
     public static final double kG = 0.0;
     public static final double kV = 0.0;
     public static final double kP = 0.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
-    // TODO: Configure MAGIC for elevator
+    // TODO: Configure MAGIC for Elevator
     public static final double kMagicVelocity = 0.0;
     public static final double kMagicAcceleration = 0.0;
   }
