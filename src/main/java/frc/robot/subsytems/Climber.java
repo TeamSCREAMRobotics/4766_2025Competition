@@ -69,6 +69,11 @@ public class Climber extends SubsystemBase {
     climberMaster.setControl(magicRequest.withPosition(setpoint));
   }
 
+  public boolean atSetpoint(double setpoint) {
+    if (climberMaster.getPosition().getValueAsDouble() == setpoint) return true;
+    return false;
+  }
+
   public boolean isAtSetPoint(double setpoint) {
     return climberMaster.getPosition().getValue().in(Units.Rotations) == setpoint;
   }

@@ -70,13 +70,31 @@ public class Controls {
         () -> buttonboard.getRawButton(3) && eSwitch().getAsBoolean() || opCon.a().getAsBoolean());
   }
 
+  public static final Trigger L1() {
+    return new Trigger(() -> buttonboard.getRawButton(4) || opCon.povDown().getAsBoolean());
+  }
+
+  public static final Trigger L2() {
+    return new Trigger(() -> buttonboard.getRawButton(5) || opCon.povLeft().getAsBoolean());
+  }
+
+  public static final Trigger L3() {
+    return new Trigger(() -> buttonboard.getRawButton(6) || opCon.povUp().getAsBoolean());
+  }
+
+  public static final Trigger L4() {
+    return new Trigger(() -> buttonboard.getRawButton(7) || opCon.povDownRight().getAsBoolean());
+  }
+
   public static void driverControls() {
     driverCon.rightTrigger(0.5).whileTrue(new runIntake(s_Intake));
   }
 
   public static void opControls() {
     // Without eSwitch
-    runClimber().whileTrue(new runClimber(s_Climber, 8.0));
+    runClimber()
+        .toggleOnTrue(new runClimber(s_Climber, 8.0))
+        .toggleOnFalse(new runClimber(s_Climber, 0.0));
 
     // With eSwitch
     resetClimber().whileTrue(new InstantCommand(() -> s_Climber.zeroClimber()));
