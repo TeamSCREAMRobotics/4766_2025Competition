@@ -22,19 +22,17 @@ public class RobotContainer {
   private Manipulator s_Manipulator = new Manipulator();
 
   public RobotContainer() {
-    DogLog.log("ClimberPos", s_Climber.ClimberPos());
-    DogLog.log("Elevator Pos", s_Elevator.elevatorPos());
+    // Log Posistion For Climber, Elevator, Intake, and Manipulator
+    DogLog.log("ClimberPos", s_Climber.getPose());
+    DogLog.log("Elevator Pos", s_Elevator.getPose());
     DogLog.log("Intake Pos", s_Intake.getPosition());
+    DogLog.log("Manipulator Pos", s_Manipulator.getPose());
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
-    configureBindings();
     Controls.driverControls();
     Controls.opControls();
-    Controls.buttonBoard();
   }
-
-  private void configureBindings() {}
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

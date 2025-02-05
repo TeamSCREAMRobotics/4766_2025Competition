@@ -24,6 +24,7 @@ public class Controls {
     return new Trigger(() -> buttonboard.getRawSwitch(8));
   }
 
+  /*
   public static final Trigger b1() {
     return new Trigger(() -> buttonboard.getRawButton(1));
   }
@@ -51,7 +52,7 @@ public class Controls {
   public static final Trigger b7() {
     return new Trigger(() -> buttonboard.getRawButton(7));
   }
-
+  */
   public static final DoubleSupplier JoyY() {
     return () -> buttonboard.getBigSwitchY();
   }
@@ -60,17 +61,24 @@ public class Controls {
     return () -> buttonboard.getBigSwitchX();
   }
 
+  public static final Trigger runClimber() {
+    return new Trigger(() -> buttonboard.getRawButton(3) || opCon.leftBumper().getAsBoolean());
+  }
+
+  public static final Trigger resetClimber() {
+    return new Trigger(
+        () -> buttonboard.getRawButton(3) && eSwitch().getAsBoolean() || opCon.a().getAsBoolean());
+  }
+
   public static void driverControls() {
     driverCon.rightTrigger(0.5).whileTrue(new runIntake(s_Intake));
   }
 
-  public static void opControls() {}
-
-  public static void buttonBoard() {
+  public static void opControls() {
     // Without eSwitch
-    b3().whileTrue(new runClimber(s_Climber, 8.0));
+    runClimber().whileTrue(new runClimber(s_Climber, 8.0));
 
     // With eSwitch
-    b7().and(eSwitch()).whileTrue(new InstantCommand(() -> s_Climber.zeroClimber()));
+    resetClimber().whileTrue(new InstantCommand(() -> s_Climber.zeroClimber()));
   }
 }

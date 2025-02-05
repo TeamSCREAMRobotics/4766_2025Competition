@@ -39,6 +39,6 @@ public class runElevator extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Elevator.elevatorPos() == Setpoint;
+    return s_Elevator.getPose() == Setpoint;
   }
 }

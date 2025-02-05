@@ -52,4 +52,8 @@ public class Manipulator extends SubsystemBase {
     pivotMotor.getConfigurator().apply(slot0Configs);
     pivotMotor.getConfigurator().apply(pivotMagic);
   }
+
+  public double getPose() {
+    return pivotMotor.getPosition().getValueAsDouble();
+  }
 }
