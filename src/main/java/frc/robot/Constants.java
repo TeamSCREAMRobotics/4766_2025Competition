@@ -73,6 +73,7 @@ public class Constants {
     // TODO: Configure MotorIDs for Manipulator
     public static final int feederMotorID = 0;
     public static final int pivotMotorID = 0;
+    public static final int beamBreakID = 0;
 
     // TODO: Configure SoftLimits for Manipulator
     public static final double climberForwardSoftLimit = 0.0;

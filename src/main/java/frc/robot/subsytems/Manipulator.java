@@ -13,14 +13,16 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
-  TalonFX feederMotor = new TalonFX(0);
+  TalonFX feederMotor = new TalonFX(ManipulatorConstants.feederMotorID);
 
-  TalonFX pivotMotor = new TalonFX(0);
+  TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
+  DigitalInput beamBreak = new DigitalInput(ManipulatorConstants.beamBreakID);
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
   MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
   MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
