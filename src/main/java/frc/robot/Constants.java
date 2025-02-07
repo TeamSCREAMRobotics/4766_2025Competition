@@ -4,23 +4,26 @@ public class Constants {
   // Constants for the Climber Subsystem
   public static final class ClimberConstants {
     // TODO: Configure motorIDs for Climber
-    public static final int climberMasterID = 0;
-    public static final int climberFollowerID = 0;
+    public static final int climberMasterID = 9;
+    public static final int climberFollowerID = 10;
 
     // TODO: Configure SoftLimits for Climber
-    public static final double climberForwardSoftLimit = 0.0;
-    public static final double climberReverseSoftLimit = 0.0;
+    public static final double climberForwardSoftLimit = 60;
+    public static final double climberReverseSoftLimit = -10;
 
     // TODO: Configure PID for Climber
     public static final double kG = 0.0;
     public static final double kV = 0.0;
-    public static final double kP = 0.0;
+    public static final double kP = 1.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
     // TODO: Configure MAGIC for Climber
-    public static final double kMagicVelocity = 0.0;
-    public static final double kMagicAcceleration = 0.0;
+    public static final double kMagicVelocity = 80.0;
+    public static final double kMagicAcceleration = 80.0;
+
+    // TODO: Configure setpoint
+    public static final double setpointForClimb = 50;
   }
 
   // Constants for the Elevator Subsystem
