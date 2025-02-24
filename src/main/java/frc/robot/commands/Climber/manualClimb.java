@@ -4,11 +4,10 @@
 
 package frc.robot.commands.Climber;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
+import java.util.function.DoubleSupplier;
 
 public class manualClimb extends Command {
   /** Creates a new manualClimb. */
@@ -29,10 +28,10 @@ public class manualClimb extends Command {
   public void execute() {
     if (Controls.eSwitch().getAsBoolean() == true) {
       double percent = 0;
-    if(joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4){
-      percent = joy.getAsDouble() * 0.8;
-    }
-    s_Climber.manualClimb(percent);
+      if (joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4) {
+        percent = joy.getAsDouble() * 0.8;
+      }
+      s_Climber.manualClimb(percent);
     }
   }
 
