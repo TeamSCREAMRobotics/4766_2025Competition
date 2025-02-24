@@ -11,6 +11,8 @@ java {
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
+def useLocalVersion = System.getenv('CI') == null;
+
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
 deploy {
@@ -73,7 +75,13 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    //implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:main-SNAPSHOT'
+
+    if(useLocalVersion) {
+        implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:local'
+    }
+    else {
+        implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:main-SNAPSHOT'
+    }
 
 }
 
@@ -123,7 +131,7 @@ spotless {
 
 build.dependsOn(spotlessApply)
 
-/*allprojects {
+allprojects {
     repositories {
         mavenLocal()
         jcenter()
@@ -133,4 +141,4 @@ build.dependsOn(spotlessApply)
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
-*/
+

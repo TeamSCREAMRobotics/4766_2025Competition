@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ClimberConstants;
+import frc.robot.commands.Climber.manualClimb;
 import frc.robot.commands.Climber.runClimber;
+import frc.robot.commands.Elevator.manualElevator;
 import frc.robot.commands.Intake.runIntake;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
@@ -20,12 +22,12 @@ public class Controls {
   private static Elevator s_Elevator = new Elevator();
   private static Intake s_Intake = new Intake();
   private static Manipulator s_Manipulator = new Manipulator();
+  boolean eSwitchA = eSwitch().getAsBoolean() == true;
 
   public static final Trigger eSwitch() {
     return new Trigger(() -> buttonboard.getRawSwitch(8));
   }
 
-  /*
   public static final Trigger b1() {
     return new Trigger(() -> buttonboard.getRawButton(1));
   }
@@ -53,7 +55,7 @@ public class Controls {
   public static final Trigger b7() {
     return new Trigger(() -> buttonboard.getRawButton(7));
   }
-  */
+
   public static final DoubleSupplier JoyY() {
     return () -> buttonboard.getBigSwitchY();
   }
@@ -73,7 +75,15 @@ public class Controls {
     return new Trigger(
         () ->
             buttonboard.getRawButton(3) && eSwitch().getAsBoolean() == true
-                || opCon.a().getAsBoolean());
+                || opCon.y().getAsBoolean());
+  }
+
+  public static final DoubleSupplier manualClimber() {
+    return () -> buttonboard.getBigSwitchY();
+  }
+
+  public static final DoubleSupplier manualElevator() {
+    return () -> buttonboard.getBigSwitchY();
   }
 
   public static final Trigger L1() {
@@ -101,8 +111,10 @@ public class Controls {
     runClimber()
         .toggleOnTrue(new runClimber(s_Climber, ClimberConstants.setpointForClimb))
         .toggleOnFalse(new runClimber(s_Climber, 0.0));
+    s_Elevator.setDefaultCommand(new manualElevator(s_Elevator));
 
     // With eSwitch
     resetClimber().whileTrue(new InstantCommand(() -> s_Climber.zeroClimber()));
+    s_Climber.setDefaultCommand(new manualClimb(s_Climber, manualClimber()));
   }
 }
