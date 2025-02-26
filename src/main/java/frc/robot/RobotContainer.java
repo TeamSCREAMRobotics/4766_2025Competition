@@ -52,6 +52,8 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
 
   public RobotContainer() {
+    System.out.println(MaxSpeed);
+
     // Setting the Trough to work with Autos
     NamedCommands.registerCommand("Trough", new intakeSpitOut(s_Intake, 0));
 
