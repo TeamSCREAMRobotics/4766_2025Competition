@@ -16,7 +16,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimberConstants;
+import frc.robot.constants.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
   // If this works, it will be a miracle
@@ -68,11 +68,6 @@ public class Climber extends SubsystemBase {
 
   public void goToSetPoint(double setpoint) {
     climberMaster.setControl(magicRequest.withPosition(setpoint));
-  }
-
-  public boolean atSetpoint(double setpoint) {
-    if (climberMaster.getPosition().getValueAsDouble() == setpoint) return true;
-    return false;
   }
 
   public boolean isAtSetPoint(double setpoint) {

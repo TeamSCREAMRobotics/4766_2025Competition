@@ -15,7 +15,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ManipulatorConstants;
+import frc.robot.constants.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */

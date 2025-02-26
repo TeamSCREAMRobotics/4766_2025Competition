@@ -4,13 +4,21 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import dev.doglog.DogLog;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.constants.TunerConstants;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
+import frc.robot.subsytems.CommandSwerveDrivetrain;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
 import frc.robot.subsytems.Manipulator;
@@ -20,8 +28,22 @@ public class RobotContainer {
   private Elevator s_Elevator = new Elevator();
   private Intake s_Intake = new Intake();
   private Manipulator s_Manipulator = new Manipulator();
+  private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private final Telemetry logger = new Telemetry(MaxSpeed);
+
+    /* Setting up bindings for necessary control of the swerve drive platform */
 
   public RobotContainer() {
+            // Note that X is defined as forward according to WPILib convention,
+        // and Y is defined as to the left according to WPILib convention.
+
+
+
+
+        drivetrain.registerTelemetry(logger::telemeterize);
     // Log Posistion For Climber, Elevator, Intake, and Manipulator
     DogLog.log("ClimberPos", s_Climber.getPose());
     DogLog.log("Elevator Pos", s_Elevator.getPose());
@@ -30,8 +52,8 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
-    Controls.driverControls();
-    Controls.opControls();
+    Controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+    Controls.opControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
   }
 
   public Command getAutonomousCommand() {
