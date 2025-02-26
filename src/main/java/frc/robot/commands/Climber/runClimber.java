@@ -29,6 +29,6 @@ public class runClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Climber.atSetpoint(setpoint);
+    return s_Climber.isAtSetPoint(setpoint);
   }
 }

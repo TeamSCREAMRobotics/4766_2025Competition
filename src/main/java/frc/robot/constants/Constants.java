@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.constants;
 
 public class Constants {
   // Constants for the Climber Subsystem

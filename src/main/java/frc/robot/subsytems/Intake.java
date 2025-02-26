@@ -14,8 +14,8 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
+import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
   TalonFX intakePIDMotor = new TalonFX(Constants.IntakeConstants.intakePIDMotorID);
