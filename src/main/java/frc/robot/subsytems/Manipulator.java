@@ -94,4 +94,8 @@ public class Manipulator extends SubsystemBase {
   public boolean laserPassed() {
     return manipRange.getIsDetected().getValue();
   }
+
+  public void manualManip(double voltage) {
+    pivotMotor.setControl(m_request.withOutput(voltage));
+  }
 }

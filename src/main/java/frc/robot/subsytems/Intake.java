@@ -86,4 +86,8 @@ public class Intake extends SubsystemBase {
   public void resetPIDMotor() {
     intakePIDMotor.setControl(m_VoltageOut.withOutput(0));
   }
+
+  public void manualIntake(double voltage) {
+    intakePIDMotor.setControl(m_VoltageOut.withOutput(voltage));
+  }
 }
