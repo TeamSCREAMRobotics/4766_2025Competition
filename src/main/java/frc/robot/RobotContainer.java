@@ -9,7 +9,6 @@ import static edu.wpi.first.units.Units.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -65,11 +64,12 @@ public class RobotContainer {
         "L3",
         new runElevator(s_Elevator, ElevatorConstants.L3Setpoint)
             .alongWith(new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint)));
-    
+
     // Setting the Manip Commands to work with Autos
     NamedCommands.registerCommand("ManipIntake", new manipIntake(s_Manipulator));
     NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
-    NamedCommands.registerCommand("MaipPivot", new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint));
+    NamedCommands.registerCommand(
+        "MaipPivot", new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint));
 
     auto = AutoBuilder.buildAutoChooser();
 
