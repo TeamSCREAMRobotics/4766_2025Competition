@@ -12,6 +12,7 @@ public class intakeIn extends Command {
   Intake s_Intake;
   double setpoint;
   private boolean algaeIn;
+
   /** Creates a new intakePivot. */
   public intakeIn(Intake intake, double Setpoint) {
     intake = s_Intake;
@@ -31,7 +32,7 @@ public class intakeIn extends Command {
   public void execute() {
     s_Intake.goToSetpoint(setpoint);
     s_Intake.runFlywheel(7);
-    if(s_Intake.amperageSpiked(0.5)){
+    if (s_Intake.amperageSpiked(0.5)) {
       algaeIn = true;
     }
   }
@@ -39,18 +40,14 @@ public class intakeIn extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(algaeIn){
+    if (algaeIn) {
       s_Intake.runFlywheel(2);
       s_Intake.goToSetpoint(0.5);
+    } else if (!algaeIn) {
+      s_Intake.resetFlywheel();
+      s_Intake.goToSetpoint(0.0);
+      s_Intake.resetPIDMotor();
     }
-    else if(!algaeIn){
-    s_Intake.resetFlywheel();
-    s_Intake.goToSetpoint(0.0);
-    s_Intake.resetPIDMotor();
-
-    } 
-    
-
   }
 
   // Returns true when the command should end.

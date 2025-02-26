@@ -10,6 +10,7 @@ import frc.robot.subsytems.Manipulator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class manipOuttake extends Command {
   Manipulator s_Manipulator;
+
   /** Creates a new manipOuttake. */
   public manipOuttake(Manipulator manipulator) {
     s_Manipulator = manipulator;

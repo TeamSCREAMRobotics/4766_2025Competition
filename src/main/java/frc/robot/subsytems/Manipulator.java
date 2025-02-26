@@ -15,14 +15,13 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
   TalonFX feederMotor = new TalonFX(ManipulatorConstants.feederMotorID);
-  
+
   TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
   MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
@@ -30,7 +29,7 @@ public class Manipulator extends SubsystemBase {
   VoltageOut m_request = new VoltageOut(0);
   CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
   CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
-  
+
   public Manipulator() {
     pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     pivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
@@ -64,36 +63,35 @@ public class Manipulator extends SubsystemBase {
     return pivotMotor.getPosition().getValueAsDouble();
   }
 
-  public void runManip(double setpoint){
+  public void runManip(double setpoint) {
     pivotMotor.setControl(magicRequest.withPosition(setpoint));
   }
 
-  public boolean atSetpoint(double setpoint){
-  return pivotMotor.getPosition().getValueAsDouble() == setpoint;
+  public boolean atSetpoint(double setpoint) {
+    return pivotMotor.getPosition().getValueAsDouble() == setpoint;
   }
 
-  public void resetManip(){
+  public void resetManip() {
     pivotMotor.setControl(magicRequest.withPosition(0));
   }
 
-  public void resetManipSetpoint(){
+  public void resetManipSetpoint() {
     pivotMotor.setPosition(0);
   }
 
-  public void stopFeed(){
+  public void stopFeed() {
     feederMotor.setControl(m_request.withOutput(0));
   }
 
-  public void stopManip(){
+  public void stopManip() {
     pivotMotor.setControl(m_request.withOutput(0));
   }
 
-  public void runFeedMotor(double voltage){
+  public void runFeedMotor(double voltage) {
     feederMotor.setControl(m_request.withOutput(voltage));
   }
 
-  public boolean laserPassed(){
+  public boolean laserPassed() {
     return manipRange.getIsDetected().getValue();
   }
-
 }

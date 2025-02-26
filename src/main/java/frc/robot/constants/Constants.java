@@ -53,7 +53,6 @@ public class Constants {
     // TODO: Configure Intake Motor and BeamBreakIDs
     public static final int intakePIDMotorID = 0;
     public static final int intakeMotorID = 0;
-    
 
     // TODO: Configure Intake SoftLimits
     public static final double intakeFowardSoftLimit = 0.0;

@@ -11,6 +11,7 @@ import frc.robot.subsytems.Manipulator;
 public class manipPivot extends Command {
   Manipulator s_Manipulator;
   double setpoint;
+
   /** Creates a new manipulatorPivot. */
   public manipPivot(Manipulator manipulator, double Setpoint) {
     s_Manipulator = manipulator;
@@ -27,9 +28,7 @@ public class manipPivot extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

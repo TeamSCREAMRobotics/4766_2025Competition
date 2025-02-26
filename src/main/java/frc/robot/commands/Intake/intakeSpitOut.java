@@ -14,6 +14,7 @@ public class intakeSpitOut extends Command {
   double setpoint;
   private boolean timeUp;
   private Timer timer = new Timer();
+
   /** Creates a new intakePivot. */
   public intakeSpitOut(Intake intake, double Setpoint) {
     intake = s_Intake;
@@ -42,15 +43,13 @@ public class intakeSpitOut extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(setpoint == 0.0){
+    if (setpoint == 0.0) {
       s_Intake.resetPIDMotor();
       s_Intake.resetFlywheel();
-    }
-    else{
+    } else {
       s_Intake.resetFlywheel();
       s_Intake.goToSetpoint(0.0);
     }
-
   }
 
   // Returns true when the command should end.

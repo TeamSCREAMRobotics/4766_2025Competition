@@ -12,7 +12,6 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.IntakeConstants;
@@ -52,7 +51,7 @@ public class Intake extends SubsystemBase {
     intakeMotor.getConfigurator().apply(intakeConfigs);
   }
 
-  public boolean amperageSpiked(double amps){
+  public boolean amperageSpiked(double amps) {
     return intakeMotor.getSupplyCurrent().getValueAsDouble() == amps;
   }
 
