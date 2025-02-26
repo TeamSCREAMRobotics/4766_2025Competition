@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.8919464,
+  "robotLength": 0.9046464,
   "holonomicMode": true,
   "pathFolders": [
     "Center Auto Paths"
@@ -19,16 +19,18 @@
   "maxDriveSpeed": 5.45,
   "driveMotorType": "krakenX60",
   "driveCurrentLimit": 60.0,
-  "wheelCOF": 1.2,
-  "flModuleX": 0.273,
-  "flModuleY": 0.273,
-  "frModuleX": 0.273,
-  "frModuleY": -0.273,
-  "blModuleX": -0.273,
-  "blModuleY": 0.273,
-  "brModuleX": -0.273,
-  "brModuleY": -0.273,
+  "wheelCOF": 1.6,
+  "flModuleX": 0.296,
+  "flModuleY": 0.29,
+  "frModuleX": 0.296,
+  "frModuleY": -0.29,
+  "blModuleX": -0.296,
+  "blModuleY": 0.29,
+  "brModuleX": -0.296,
+  "brModuleY": -0.29,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"radius\":0.2,\"strokeWidth\":0.02,\"filled\":false}}"
+  ]
 }
