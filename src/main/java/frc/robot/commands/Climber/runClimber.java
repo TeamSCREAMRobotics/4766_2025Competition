@@ -12,7 +12,7 @@ public class runClimber extends Command {
   double setpoint;
 
   /** Creates a new runClimber. */
-  public runClimber(Climber climber, Double Setpoint) {
+  public runClimber(Climber climber, double Setpoint) {
     s_Climber = climber;
     Setpoint = setpoint;
 

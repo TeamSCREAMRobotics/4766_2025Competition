@@ -79,6 +79,10 @@ public class Elevator extends SubsystemBase {
     elevatorMaster.setPosition(0);
   }
 
+  public boolean atSetpoint(double setpoint) {
+    return elevatorMaster.getPosition().getValueAsDouble() == setpoint;
+  }
+
   public double getPose() {
     return elevatorMaster.getPosition().getValueAsDouble();
   }

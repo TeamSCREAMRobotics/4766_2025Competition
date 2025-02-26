@@ -20,7 +20,6 @@ import frc.robot.Constants.IntakeConstants;
 public class Intake extends SubsystemBase {
   TalonFX intakePIDMotor = new TalonFX(Constants.IntakeConstants.intakePIDMotorID);
   TalonFX intakeMotor = new TalonFX(Constants.IntakeConstants.intakeMotorID);
-  DigitalInput beamBreak = new DigitalInput(Constants.IntakeConstants.BeamBreakID);
 
   MotionMagicVoltage m_MagicRequest = new MotionMagicVoltage(0).withSlot(0);
   VoltageOut m_VoltageOut = new VoltageOut(0);
@@ -53,16 +52,16 @@ public class Intake extends SubsystemBase {
     intakeMotor.getConfigurator().apply(intakeConfigs);
   }
 
-  public boolean beamBreakTriggered() {
-    return !beamBreak.get();
-  }
-
-  public void runFlywheel(double voltage) {
-    intakeMotor.setControl(m_VoltageOut.withOutput(voltage));
+  public boolean amperageSpiked(double amps){
+    return intakeMotor.getSupplyCurrent().getValueAsDouble() == amps;
   }
 
   public void reverseFlywheel(double voltage) {
     intakeMotor.setControl(m_VoltageOut.withOutput(-voltage));
+  }
+
+  public void runFlywheel(double voltage) {
+    intakeMotor.setControl(m_VoltageOut.withOutput(voltage));
   }
 
   public void resetFlywheel() {

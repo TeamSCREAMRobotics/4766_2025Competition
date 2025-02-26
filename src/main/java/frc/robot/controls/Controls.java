@@ -7,7 +7,10 @@ import frc.robot.Constants.ClimberConstants;
 import frc.robot.commands.Climber.manualClimb;
 import frc.robot.commands.Climber.runClimber;
 import frc.robot.commands.Elevator.manualElevator;
-import frc.robot.commands.Intake.runIntake;
+import frc.robot.commands.Intake.intakeSpitOut;
+import frc.robot.commands.Manipulator.manipIntake;
+import frc.robot.commands.Manipulator.manipOuttake;
+import frc.robot.commands.Intake.intakeIn;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
@@ -103,7 +106,14 @@ public class Controls {
   }
 
   public static void driverControls() {
-    driverCon.rightTrigger(0.5).whileTrue(new runIntake(s_Intake));
+    driverCon.leftBumper().onTrue(new intakeIn(s_Intake, 5));
+    driverCon.leftTrigger(0.5).onTrue(new intakeSpitOut(s_Intake, 5));
+
+    driverCon.rightBumper().onTrue(new manipIntake(s_Manipulator));
+    driverCon.rightTrigger(0.5).onTrue(new manipOuttake(s_Manipulator));
+
+    
+
   }
 
   public static void opControls() {

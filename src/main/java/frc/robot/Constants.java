@@ -53,7 +53,7 @@ public class Constants {
     // TODO: Configure Intake Motor and BeamBreakIDs
     public static final int intakePIDMotorID = 0;
     public static final int intakeMotorID = 0;
-    public static final int BeamBreakID = 3;
+    
 
     // TODO: Configure Intake SoftLimits
     public static final double intakeFowardSoftLimit = 0.0;
@@ -76,7 +76,7 @@ public class Constants {
     // TODO: Configure MotorIDs for Manipulator
     public static final int feederMotorID = 0;
     public static final int pivotMotorID = 0;
-    public static final int beamBreakID = 0;
+    public static final int canRangeID = 0;
 
     // TODO: Configure SoftLimits for Manipulator
     public static final double climberForwardSoftLimit = 0.0;
@@ -92,5 +92,11 @@ public class Constants {
     // TODO: Configure MAGIC for Manipulator
     public static final double kMagicVelocity = 0.0;
     public static final double kMagicAcceleration = 0.0;
+
+    // TODO: Configure AMPS for Manipulator
+    public static final double kAmps = 0.0;
+
+    // TODO: Configure Laser Threshold Distance for Manipulator
+    public static final double kCanRangeDistance = 0.075;
   }
 }
