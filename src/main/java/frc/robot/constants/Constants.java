@@ -46,6 +46,10 @@ public class Constants {
     // TODO: Configure MAGIC for Elevator
     public static final double kMagicVelocity = 0.0;
     public static final double kMagicAcceleration = 0.0;
+
+    // TODO: Configure setpoints For Elevator
+    public static final double L2Setpoint = 0.0;
+    public static final double L3Setpoint = 0.0;
   }
 
   // Constants for the Intake Subsystem
@@ -97,5 +101,8 @@ public class Constants {
 
     // TODO: Configure Laser Threshold Distance for Manipulator
     public static final double kCanRangeDistance = 0.075;
+
+    // TODO: Configure Setpoint For Manip
+    public static final double manipSetpoint = 0.0;
   }
 }
