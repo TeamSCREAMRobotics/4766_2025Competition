@@ -19,8 +19,8 @@ public class manualClimb extends Command {
     joy = Joy;
     s_Climber = climber;
 
-    addRequirements(climber);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climber);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
