@@ -6,11 +6,13 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.constants.TunerConstants;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
@@ -33,13 +35,25 @@ public class RobotContainer {
           .in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
+  double Vel;
+  double Rot;
+
+  private final SendableChooser<Command> auto;
+
   /* Setting up bindings for necessary control of the swerve drive platform */
 
   public RobotContainer() {
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
 
+    auto = AutoBuilder.buildAutoChooser();
+
+    SmartDashboard.putData(auto);
+
     drivetrain.registerTelemetry(logger::telemeterize);
+
+    DogLog.setOptions(new DogLogOptions().withCaptureDs(true));
+
     // Log Posistion For Climber, Elevator, Intake, and Manipulator
     DogLog.log("ClimberPos", s_Climber.getPose());
     DogLog.log("Elevator Pos", s_Elevator.getPose());
@@ -48,11 +62,19 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
-    Controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+    if (Controls.driverCon.getRightTriggerAxis() > 0.5) {
+      Vel = 0.9;
+      Rot = 0.99;
+    } else {
+      Vel = MaxSpeed;
+      Rot = MaxAngularRate;
+    }
+
+    Controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain, Vel, Rot);
     Controls.opControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return auto.getSelected();
   }
 }
