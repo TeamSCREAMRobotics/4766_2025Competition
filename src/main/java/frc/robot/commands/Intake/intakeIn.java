@@ -15,7 +15,7 @@ public class intakeIn extends Command {
 
   /** Creates a new intakePivot. */
   public intakeIn(Intake intake, double Setpoint) {
-    intake = s_Intake;
+    s_Intake = intake;
     setpoint = Setpoint;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Intake);

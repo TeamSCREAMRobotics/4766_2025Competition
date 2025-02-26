@@ -4,8 +4,7 @@ public class Constants {
   // Constants for the Climber Subsystem
   public static final class ClimberConstants {
     // TODO: Configure motorIDs for Climber
-    public static final int climberMasterID = 9;
-    public static final int climberFollowerID = 10;
+    public static final int climberMasterID = 15;
 
     // TODO: Configure SoftLimits for Climber
     public static final double climberForwardSoftLimit = 60;
@@ -29,8 +28,8 @@ public class Constants {
   // Constants for the Elevator Subsystem
   public static final class ElevatorConstants {
     // TODO: Configure motorIDs for Elevator
-    public static final int elevatorMasterID = 0;
-    public static final int elevatorFollowerID = 0;
+    public static final int elevatorMasterID = 13;
+    public static final int elevatorFollowerID = 14;
 
     // TODO: Configure SoftLimits for Elevator
     public static final double elevatorForwardSoftLimit = 0.0;
@@ -55,8 +54,8 @@ public class Constants {
   // Constants for the Intake Subsystem
   public static final class IntakeConstants {
     // TODO: Configure Intake Motor and BeamBreakIDs
-    public static final int intakePIDMotorID = 0;
-    public static final int intakeMotorID = 0;
+    public static final int intakePIDMotorID = 12;
+    public static final int intakeMotorID = 11;
 
     // TODO: Configure Intake SoftLimits
     public static final double intakeFowardSoftLimit = 0.0;
@@ -77,8 +76,8 @@ public class Constants {
   // Constants for the Manipulator Subsystem
   public static final class ManipulatorConstants {
     // TODO: Configure MotorIDs for Manipulator
-    public static final int feederMotorID = 0;
-    public static final int pivotMotorID = 0;
+    public static final int feederMotorID = 9;
+    public static final int pivotMotorID = 10;
     public static final int canRangeID = 0;
 
     // TODO: Configure SoftLimits for Manipulator

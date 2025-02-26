@@ -165,14 +165,14 @@ public class Controls {
     driverCon.start().and(driverCon.y()).whileTrue(Drivetrain.sysIdQuasistatic(Direction.kForward));
     driverCon.start().and(driverCon.x()).whileTrue(Drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-    // reset the field-centric heading on left bumper press
-    driverCon.leftBumper().onTrue(Drivetrain.runOnce(() -> Drivetrain.seedFieldCentric()));
+    // reset the field-centric heading on y button press
+    driverCon.y().onTrue(Drivetrain.runOnce(() -> Drivetrain.seedFieldCentric()));
 
     // Other Subsystems Declairations
     driverCon.leftTrigger(0.5).whileTrue(new intakeSpitOut(Intake, 0));
     driverCon.leftBumper().onTrue(new intakeIn(Intake, 0));
 
-    driverCon.rightBumper().onTrue(new manipIntake(Manipulator));
+    driverCon.rightBumper().whileTrue(new manipIntake(Manipulator));
     driverCon.rightTrigger(0.5).onTrue(new manipOuttake(Manipulator));
   }
 

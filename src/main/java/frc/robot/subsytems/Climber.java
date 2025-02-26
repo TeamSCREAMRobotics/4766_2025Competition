@@ -7,7 +7,6 @@ package frc.robot.subsytems;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -26,8 +25,6 @@ public class Climber extends SubsystemBase {
   // Creates new TalonFX Libarry motors
   TalonFX climberMaster = new TalonFX(ClimberConstants.climberMasterID);
 
-  TalonFX climberFollower = new TalonFX(ClimberConstants.climberFollowerID);
-
   // Configuration For The Motors
   TalonFXConfiguration climberConfig = new TalonFXConfiguration();
   MotionMagicConfigs climberMagic = new MotionMagicConfigs();
@@ -37,7 +34,6 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     climberMaster.getConfigurator().apply(new TalonFXConfiguration());
-    climberFollower.getConfigurator().apply(new TalonFXConfiguration());
 
     climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     climberConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
@@ -59,8 +55,6 @@ public class Climber extends SubsystemBase {
     climberMagic.MotionMagicCruiseVelocity = ClimberConstants.kMagicVelocity;
 
     climberMaster.getConfigurator().apply(climberConfig);
-    climberFollower.getConfigurator().apply(climberConfig);
-    climberFollower.setControl(new Follower(climberMaster.getDeviceID(), true));
 
     climberMaster.getConfigurator().apply(slot0Configs);
     climberMaster.getConfigurator().apply(climberMagic);

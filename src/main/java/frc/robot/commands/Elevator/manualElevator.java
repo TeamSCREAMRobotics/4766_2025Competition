@@ -18,6 +18,7 @@ public class manualElevator extends Command {
   /** Creates a new manualElevator. */
   public manualElevator(Elevator elevator, DoubleSupplier Joy) {
     joy = Joy;
+
     s_Elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);

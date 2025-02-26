@@ -21,17 +21,20 @@ public class manipIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_Manipulator.runFeedMotor(7);
+    s_Manipulator.runFeedMotor(12);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    System.out.println(s_Manipulator.laserPassed());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     s_Manipulator.stopFeed();
+    System.out.println("The manipulator has been stopped");
   }
 
   // Returns true when the command should end.
