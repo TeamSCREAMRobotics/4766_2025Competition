@@ -185,18 +185,18 @@ public class Controls {
 
     /* Without eSwitch */
 
-    // Makes the Robot Move Left
+    // Makes the Robot Move Left When Pushed
     goToLeft().whileTrue(null);
 
-    // Makes the Robot Move Right
+    // Makes the Robot Move Right When Pushed
     goToRight().whileTrue(null);
 
-    // Run Climber
+    // Run Climber When Pushed
     runClimber()
         .toggleOnTrue(new runClimber(Climber, ClimberConstants.setpointForClimb))
         .toggleOnFalse(new runClimber(Climber, 0.0));
 
-    // Elevator setpoints
+    // Go To Elevator setpoints When Pushed
     L1().whileTrue(new runElevator(Elevator, 0));
     L2().whileTrue(
             new runElevator(Elevator, ElevatorConstants.L2Setpoint)
@@ -210,6 +210,8 @@ public class Controls {
     Intake.setDefaultCommand(new manualIntake(Intake, manualIntake()));
 
     /* With eSwitch */
+
+    // Zero Subsystems When Pushed
     zeroClimber().whileTrue(new InstantCommand(() -> Climber.zeroClimber()));
     zeroElevator().whileTrue(new InstantCommand(() -> Elevator.setElevatorZero()));
     zeroIntake().whileTrue(new InstantCommand(() -> Intake.zeroIntakePivot()));
