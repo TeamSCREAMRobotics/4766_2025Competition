@@ -174,10 +174,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     if (Utils.isSimulation()) {
       startSimThread();
     }
-    configureAutoBuilder();
   }
 
-  private void configureAutoBuilder() {
+  public void configureAutoBuilder() {
     try {
       var config = RobotConfig.fromGUISettings();
       AutoBuilder.configure(

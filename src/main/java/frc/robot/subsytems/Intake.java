@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
   TalonFX intakePIDMotor = new TalonFX(Constants.IntakeConstants.intakePIDMotorID);
   TalonFX intakeMotor = new TalonFX(Constants.IntakeConstants.intakeMotorID);
 
-  MotionMagicVoltage m_MagicRequest = new MotionMagicVoltage(0).withSlot(0);
+  MotionMagicVoltage m_MagicRequest = new MotionMagicVoltage(0);
   VoltageOut m_VoltageOut = new VoltageOut(0);
 
   TalonFXConfiguration intakeConfigs = new TalonFXConfiguration();
@@ -32,21 +32,23 @@ public class Intake extends SubsystemBase {
     intakeConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
     intakeConfigs.SoftwareLimitSwitch.withForwardSoftLimitThreshold(0);
-    intakeConfigs.SoftwareLimitSwitch.withForwardSoftLimitEnable(true);
+    intakeConfigs.SoftwareLimitSwitch.withForwardSoftLimitEnable(false);
     intakeConfigs.SoftwareLimitSwitch.withReverseSoftLimitThreshold(0);
-    intakeConfigs.SoftwareLimitSwitch.withReverseSoftLimitEnable(true);
+    intakeConfigs.SoftwareLimitSwitch.withReverseSoftLimitEnable(false);
 
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kG = IntakeConstants.intakeKG;
-    slot0Configs.kV = IntakeConstants.intakeKV;
-    slot0Configs.kP = IntakeConstants.intakeKP;
-    slot0Configs.kI = IntakeConstants.intakeKI;
-    slot0Configs.kD = IntakeConstants.intakeKD;
-    slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
+    intakeMagicConfigs.MotionMagicAcceleration = IntakeConstants.motionMagicAcceleration;
+    intakeMagicConfigs.MotionMagicCruiseVelocity = IntakeConstants.motionMagicCruiseVelocity;
+
+    intakePIDConfigs.kG = IntakeConstants.intakeKG;
+    intakePIDConfigs.kV = IntakeConstants.intakeKV;
+    intakePIDConfigs.kP = IntakeConstants.intakeKP;
+    intakePIDConfigs.kI = IntakeConstants.intakeKI;
+    intakePIDConfigs.kD = IntakeConstants.intakeKD;
+    intakePIDConfigs.GravityType = GravityTypeValue.Arm_Cosine;
 
     intakePIDMotor.getConfigurator().apply(intakeMagicConfigs);
     intakePIDMotor.getConfigurator().apply(intakePIDConfigs);
-    intakePIDMotor.getConfigurator().apply(intakeConfigs);
+    // intakePIDMotor.getConfigurator().apply(intakeConfigs);
 
     intakeMotor.getConfigurator().apply(intakeConfigs);
   }
@@ -72,6 +74,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void goToSetpoint(double setpoint) {
+    System.out.println(setpoint);
     intakePIDMotor.setControl(m_MagicRequest.withPosition(setpoint));
   }
 
@@ -87,7 +90,7 @@ public class Intake extends SubsystemBase {
     intakePIDMotor.setControl(m_VoltageOut.withOutput(0));
   }
 
-  public void manualIntake(double voltage) {
+  public void manualIntakePivot(double voltage) {
     intakePIDMotor.setControl(m_VoltageOut.withOutput(voltage));
   }
 }

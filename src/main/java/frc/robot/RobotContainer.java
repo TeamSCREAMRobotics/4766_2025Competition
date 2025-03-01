@@ -10,18 +10,12 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import dev.doglog.DogLog;
-import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Elevator.runElevator;
-import frc.robot.commands.Intake.intakeSpitOut;
 import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipOuttake;
-import frc.robot.commands.Manipulator.manipPivot;
-import frc.robot.constants.Constants.ElevatorConstants;
-import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.constants.TunerConstants;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
@@ -52,45 +46,6 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
 
   public RobotContainer() {
-    System.out.println(MaxSpeed);
-
-    // Setting the Trough to work with Autos
-    NamedCommands.registerCommand("Trough", new intakeSpitOut(s_Intake, 0));
-
-    // Setting the Elevator to work with Autos
-    NamedCommands.registerCommand(
-        "L2",
-        new runElevator(s_Elevator, ElevatorConstants.L2Setpoint)
-            .alongWith(new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint)));
-    NamedCommands.registerCommand(
-        "L3",
-        new runElevator(s_Elevator, ElevatorConstants.L3Setpoint)
-            .alongWith(new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint)));
-
-    // Setting the Manip Commands to work with Autos
-    NamedCommands.registerCommand("ManipIntake", new manipIntake(s_Manipulator));
-    NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
-    NamedCommands.registerCommand(
-        "MaipPivot", new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint));
-
-    auto = AutoBuilder.buildAutoChooser();
-
-    auto.addOption("testAuto", new PathPlannerAuto("Test Auto"));
-
-    SmartDashboard.putData(auto);
-
-    drivetrain.registerTelemetry(logger::telemeterize);
-
-    DogLog.setOptions(new DogLogOptions().withCaptureDs(true));
-
-    // Log Posistion For Climber, Elevator, Intake, and Manipulator
-    DogLog.log("ClimberPos", s_Climber.getPose());
-    DogLog.log("Elevator Pos", s_Elevator.getPose());
-    DogLog.log("Intake Pos", s_Intake.getPosition());
-    DogLog.log("Manipulator Pos", s_Manipulator.getPose());
-
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-
     if (Controls.driverCon.getRightTriggerAxis() > 0.5) {
       Vel = 0.9;
       Rot = 0.99;
@@ -101,6 +56,49 @@ public class RobotContainer {
 
     Controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain, Vel, Rot);
     Controls.opControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+
+    drivetrain.configureAutoBuilder();
+
+    System.out.println(MaxSpeed);
+
+    // Setting the Trough to work with Auto
+
+    // Setting the Elevator to work with Autos
+
+    // Setting the Manip Commands to work with Autos
+    NamedCommands.registerCommand("ManipIntake", new manipIntake(s_Manipulator));
+    NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
+
+    auto = AutoBuilder.buildAutoChooser();
+
+    auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
+
+    SmartDashboard.putData(auto);
+
+    drivetrain.registerTelemetry(logger::telemeterize);
+
+    // Log Posistion For Climber, Elevator, Intake, and Manipulator
+    DogLog.log("ClimberPos", s_Climber.getPose());
+    DogLog.log("Elevator Pos", s_Elevator.getPose());
+    DogLog.log("Intake Pos", s_Intake.getPosition());
+    DogLog.log("Manipulator Pos", s_Manipulator.getPose());
+
+    // Log Swerve
+    DogLog.log("Swerve Lin", drivetrain.getModuleLocations());
+    DogLog.log("Swerve Rot", drivetrain.getOperatorForwardDirection());
+  }
+
+  public void RobotContainerPeriodic() {
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPose());
+    SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPose());
+    SmartDashboard.putNumber("Intake Pose", s_Intake.getPosition());
+    SmartDashboard.putNumber("Climber Pose", s_Climber.getPose());
+  }
+
+  public void zeros() {
+    s_Intake.zeroIntakePivot();
+    ;
   }
 
   public Command getAutonomousCommand() {

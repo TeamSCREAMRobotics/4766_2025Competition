@@ -21,7 +21,7 @@ public class manipIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_Manipulator.runFeedMotor(12);
+    s_Manipulator.runFeedMotor(5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

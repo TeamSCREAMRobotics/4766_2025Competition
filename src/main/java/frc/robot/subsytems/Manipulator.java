@@ -68,15 +68,17 @@ public class Manipulator extends SubsystemBase {
   }
 
   public boolean atSetpoint(double setpoint) {
-    return pivotMotor.getPosition().getValueAsDouble() == setpoint;
+    return pivotMotor.getPosition().getValueAsDouble() >= setpoint - 0.3
+        && pivotMotor.getPosition().getValueAsDouble() <= setpoint + 0.3;
   }
 
   public void resetManip() {
     pivotMotor.setControl(magicRequest.withPosition(0));
   }
 
-  public void resetManipSetpoint() {
+  public void zeroManip() {
     pivotMotor.setPosition(0);
+    System.out.print("Zeroed Manip");
   }
 
   public void stopFeed() {

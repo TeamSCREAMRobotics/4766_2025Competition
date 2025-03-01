@@ -36,7 +36,7 @@ public class Elevator extends SubsystemBase {
     elevatorFollower.getConfigurator().apply(new TalonFXConfiguration());
 
     elevatorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    elevatorConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    elevatorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     elevatorConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
         ElevatorConstants.elevatorForwardSoftLimit;
     elevatorConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
@@ -57,7 +57,7 @@ public class Elevator extends SubsystemBase {
 
     elevatorMaster.getConfigurator().apply(elevatorConfigs);
     elevatorFollower.getConfigurator().apply(elevatorConfigs);
-    elevatorFollower.setControl(new Follower(elevatorMaster.getDeviceID(), false));
+    elevatorFollower.setControl(new Follower(elevatorMaster.getDeviceID(), true));
 
     elevatorMaster.getConfigurator().apply(slot0Configs);
     elevatorMaster.getConfigurator().apply(elevatorMagicConfigs);
@@ -72,16 +72,18 @@ public class Elevator extends SubsystemBase {
   }
 
   public void goToSetPoint(double setpoint) {
-    elevatorMaster.setPosition(setpoint);
+    elevatorMaster.setControl(m_magicRequest.withPosition(setpoint));
   }
 
   public void setElevatorZero() {
     elevatorMaster.setPosition(0);
+    elevatorFollower.setPosition(0);
     System.out.print("Zeroed Elevator");
   }
 
   public boolean atSetpoint(double setpoint) {
-    return elevatorMaster.getPosition().getValueAsDouble() == setpoint;
+    return elevatorMaster.getPosition().getValueAsDouble() >= setpoint - 0.3
+        && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + 0.3;
   }
 
   public double getPose() {

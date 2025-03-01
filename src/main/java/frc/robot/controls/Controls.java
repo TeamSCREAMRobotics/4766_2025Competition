@@ -2,17 +2,14 @@ package frc.robot.controls;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.Climber.manualClimb;
 import frc.robot.commands.Climber.runClimber;
-import frc.robot.commands.Elevator.manualElevator;
 import frc.robot.commands.Elevator.runElevator;
-import frc.robot.commands.Intake.intakeIn;
-import frc.robot.commands.Intake.intakeSpitOut;
-import frc.robot.commands.Intake.manualIntake;
+import frc.robot.commands.Intake.intakeAngle;
+import frc.robot.commands.Intake.runIntake;
 import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipOuttake;
 import frc.robot.commands.Manipulator.manipPivot;
@@ -25,7 +22,6 @@ import frc.robot.subsytems.CommandSwerveDrivetrain;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
 import frc.robot.subsytems.Manipulator;
-import java.util.function.DoubleSupplier;
 
 public class Controls {
   public static Buttonboard buttonboard = new Buttonboard(0);
@@ -115,21 +111,21 @@ public class Controls {
                 || opCon.povRight().getAsBoolean());
   }
 
-  public static final DoubleSupplier manualClimber() {
-    return () -> buttonboard.getBigSwitchY();
-  }
-
-  public static final DoubleSupplier manualElevator() {
-    return () -> buttonboard.getBigSwitchY();
-  }
-
-  public static final DoubleSupplier manualIntake() {
-    return () -> buttonboard.getBigSwitchX();
-  }
-
-  public static final DoubleSupplier manualManipulator() {
-    return () -> buttonboard.getBigSwitchX();
-  }
+  // public static final DoubleSupplier manualClimber() {
+  //   return () -> buttonboard.getBigSwitchY();
+  // }
+  //
+  // public static final DoubleSupplier manualElevator() {
+  //   return () -> buttonboard.getBigSwitchY();
+  // }
+  //
+  // public static final DoubleSupplier manualIntake() {
+  //   return () -> buttonboard.getBigSwitchX();
+  // }
+  //
+  // public static final DoubleSupplier manualManipulator() {
+  //   return () -> buttonboard.getBigSwitchX();
+  // }
 
   public static void driverControls(
       Intake Intake,
@@ -169,8 +165,6 @@ public class Controls {
     driverCon.y().onTrue(Drivetrain.runOnce(() -> Drivetrain.seedFieldCentric()));
 
     // Other Subsystems Declairations
-    driverCon.leftTrigger(0.5).whileTrue(new intakeSpitOut(Intake, 0));
-    driverCon.leftBumper().onTrue(new intakeIn(Intake, 0));
 
     driverCon.rightBumper().whileTrue(new manipIntake(Manipulator));
     driverCon.rightTrigger(0.5).onTrue(new manipOuttake(Manipulator));
@@ -186,10 +180,10 @@ public class Controls {
     /* Without eSwitch */
 
     // Makes the Robot Move Left When Pushed
-    goToLeft().whileTrue(null);
+    // goToLeft().whileTrue(null);
 
     // Makes the Robot Move Right When Pushed
-    goToRight().whileTrue(null);
+    // goToRight().whileTrue(null);
 
     // Run Climber When Pushed
     runClimber()
@@ -197,28 +191,38 @@ public class Controls {
         .toggleOnFalse(new runClimber(Climber, 0.0));
 
     // Go To Elevator setpoints When Pushed
-    L1().whileTrue(new runElevator(Elevator, 0));
-    L2().whileTrue(
-            new runElevator(Elevator, ElevatorConstants.L2Setpoint)
-                .alongWith(new manipPivot(Manipulator, ManipulatorConstants.manipSetpoint)));
-    L3().whileTrue(
-            new runElevator(Elevator, ElevatorConstants.L3Setpoint)
-                .alongWith(new manipPivot(Manipulator, ManipulatorConstants.manipSetpoint)));
 
     // Joysticks Commands
-    Elevator.setDefaultCommand(new manualElevator(Elevator, manualElevator()));
-    Intake.setDefaultCommand(new manualIntake(Intake, manualIntake()));
+    // Elevator.setDefaultCommand(new manualElevator(Elevator, manualElevator()));
+    driverCon.leftTrigger(0.5).whileTrue(new intakeAngle(Intake));
 
     /* With eSwitch */
 
     // Zero Subsystems When Pushed
-    zeroClimber().whileTrue(new InstantCommand(() -> Climber.zeroClimber()));
-    zeroElevator().whileTrue(new InstantCommand(() -> Elevator.setElevatorZero()));
-    zeroIntake().whileTrue(new InstantCommand(() -> Intake.zeroIntakePivot()));
-    zeroManipulator().whileTrue(new InstantCommand(() -> Intake.zeroIntakePivot()));
+    zeroClimber().whileTrue(Commands.runOnce(() -> Climber.zeroClimber()));
+    opCon.b().whileTrue(Commands.runOnce(() -> Elevator.setElevatorZero()));
+    opCon.leftTrigger().whileTrue(Commands.runOnce(() -> Intake.zeroIntakePivot()));
+    zeroManipulator().whileTrue(Commands.runOnce(() -> Manipulator.zeroManip()));
+
+    opCon
+        .povUp()
+        .onTrue(
+            new runElevator(
+                Elevator, ElevatorConstants.L3Setpoint, Manipulator, driverCon.rightTrigger(0.5)));
+    opCon
+        .povLeft()
+        .onTrue(
+            new runElevator(
+                Elevator, ElevatorConstants.L2Setpoint, Manipulator, driverCon.rightTrigger(0.5)));
+    opCon.povRight().onTrue(new runElevator(Elevator, 20, Manipulator, driverCon.rightTrigger()));
+    Intake.setDefaultCommand(new runIntake(Intake, driverCon.leftBumper(), 4.4));
 
     // Joysticks Commands
-    Climber.setDefaultCommand(new manualClimb(Climber, manualClimber()));
-    Manipulator.setDefaultCommand(new manualMinip(Manipulator, manualManipulator()));
+    // Climber.setDefaultCommand(new manualClimb(Climber, manualClimber()));
+    Manipulator.setDefaultCommand(new manualMinip(Manipulator, () -> opCon.getLeftY()));
+    opCon
+        .rightTrigger(0.5)
+        .whileTrue(new manipPivot(Manipulator, ManipulatorConstants.manipSetpoint))
+        .whileFalse(new manipPivot(Manipulator, 0));
   }
 }

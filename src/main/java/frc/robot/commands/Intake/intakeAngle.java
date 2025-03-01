@@ -8,51 +8,34 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class intakeIn extends Command {
-  Intake s_Intake;
-  double setpoint;
-  private boolean algaeIn;
+public class intakeAngle extends Command {
+  private final Intake intake;
 
-  /** Creates a new intakePivot. */
-  public intakeIn(Intake intake, double Setpoint) {
-    s_Intake = intake;
-    setpoint = Setpoint;
+  /** Creates a new intakeAngle. */
+  public intakeAngle(Intake intake) {
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Intake);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    algaeIn = false;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Intake.goToSetpoint(setpoint);
-    s_Intake.runFlywheel(7);
-    if (s_Intake.amperageSpiked(0.5)) {
-      algaeIn = true;
-    }
+    intake.goToSetpoint(2);
+    System.out.println("running");
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    if (algaeIn) {
-      s_Intake.runFlywheel(2);
-      s_Intake.goToSetpoint(0.5);
-    } else if (!algaeIn) {
-      s_Intake.resetFlywheel();
-      s_Intake.goToSetpoint(0.0);
-      s_Intake.resetPIDMotor();
-    }
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return algaeIn;
+    return false;
   }
 }

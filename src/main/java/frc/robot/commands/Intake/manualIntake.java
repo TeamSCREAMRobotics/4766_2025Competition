@@ -31,7 +31,7 @@ public class manualIntake extends Command {
       if (joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4) {
         percent = joy.getAsDouble() * 0.8;
       }
-      s_Intake.manualIntake(percent);
+      s_Intake.manualIntakePivot(percent);
     }
   }
 
