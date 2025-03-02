@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.5731050531881365,
-        "y": 4.0
+        "x": 1.6077284024199556,
+        "y": 0.6973857759728321
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.281547636777381,
-        "y": 4.006854395619155
+        "x": 3.1802655549343917,
+        "y": 1.0171917955816139
+      },
+      "isLocked": false,
+      "linkedName": "C3"
+    },
+    {
+      "anchor": {
+        "x": 4.809861939731468,
+        "y": 1.543146184325642
+      },
+      "prevControl": {
+        "x": 3.560966663678994,
+        "y": 0.6642939530294562
+      },
+      "nextControl": {
+        "x": 5.973859357443665,
+        "y": 2.362255478271262
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.834406711428826,
-        "y": 4.0
+        "x": 5.804180597318755,
+        "y": 3.8623237403462314
       },
       "prevControl": {
-        "x": 7.023742583842084,
-        "y": 3.9902844573858944
+        "x": 5.775548686277883,
+        "y": 2.9658096948627723
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C1"
+      "linkedName": "C4"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -0.0
   },
   "reversed": false,
   "folder": "Center Auto Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -126.0
   },
   "useDefaultConstraints": true
 }

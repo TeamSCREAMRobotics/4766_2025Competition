@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Elevator.runElevator;
-import frc.robot.commands.Manipulator.manipIntake;
+import frc.robot.commands.Elevator.autoElevator;
+import frc.robot.commands.Intake.runIntakeTrough;
+import frc.robot.commands.Manipulator.autoManipIntake;
 import frc.robot.commands.Manipulator.manipOuttake;
 import frc.robot.commands.Manipulator.manipPivot;
-import frc.robot.constants.TunerConstants;
 import frc.robot.constants.Constants.ElevatorConstants;
+import frc.robot.constants.TunerConstants;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.CommandSwerveDrivetrain;
@@ -49,12 +50,13 @@ public class RobotContainer {
 
     // Setting the Manip Commands to work with Autos
     NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
-    NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
+    NamedCommands.registerCommand("intakeManip", new autoManipIntake(s_Manipulator));
     NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("intakeManip", new manipIntake(s_Manipulator, false));
+    NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
+    NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -1.5));
     NamedCommands.registerCommand("L2", new manipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("L3", new runElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator, false));
-    NamedCommands.registerCommand("resetElevator", new runElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator, true));
+    NamedCommands.registerCommand(
+        "L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
 
     auto = AutoBuilder.buildAutoChooser();
 
@@ -68,8 +70,10 @@ public class RobotContainer {
     DogLog.log("Intake Pos", s_Intake.getPosition());
     DogLog.log("Manipulator Pos", s_Manipulator.getPose());
 
+    DogLog.log("Elevator State", s_Elevator.elevatorState);
+
     // Log Swerve
-    DogLog.log("Swerve Lin", drivetrain.getModuleLocations());
+    DogLog.log("Swerve Lin", drivetrain.getLinearVelocity());
     DogLog.log("Swerve Rot", drivetrain.getOperatorForwardDirection());
   }
 
@@ -84,7 +88,7 @@ public class RobotContainer {
 
   public void zeros() {
     s_Intake.zeroIntakePivot();
-    // s_Climber.zeroClimber();
+    s_Climber.zeroClimber();
     s_Elevator.setElevatorZero();
     s_Manipulator.zeroManip();
     ;

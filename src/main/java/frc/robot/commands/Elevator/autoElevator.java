@@ -9,24 +9,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
-import java.util.function.BooleanSupplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class runElevator extends Command {
+public class autoElevator extends Command {
   Elevator s_Elevator;
   double Setpoint;
   private final Manipulator manipulator;
   private double manipSetpoint = ManipulatorConstants.manipSetpoint;
   int state = s_Elevator.elevatorState;
-  BooleanSupplier trigger;
 
   /** Creates a new runElevator. */
-  public runElevator(
-      Elevator elevator, double setpoint, Manipulator manipulator, BooleanSupplier triggSupplier) {
+  public autoElevator(Elevator elevator, double setpoint, Manipulator manipulator) {
     s_Elevator = elevator;
     Setpoint = setpoint;
     this.manipulator = manipulator;
-    trigger = triggSupplier;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Elevator);
   }
@@ -41,7 +37,7 @@ public class runElevator extends Command {
   @Override
   public void execute() {
     if (!manipulator.laserPassed() && state == 0) {
-      state = 3;
+      state = 5;
     }
 
     if (state == 0) {
@@ -53,20 +49,27 @@ public class runElevator extends Command {
     if (state == 1) {
       manipulator.runManip(manipSetpoint);
       s_Elevator.goToSetPoint(Setpoint);
+      state = 2;
     }
 
-    if (state == 1 && trigger.getAsBoolean() == true) {
-      state = 2;
-      Timer.delay(0.1);
-      manipulator.runManip(0);
-      s_Elevator.goToSetPoint(Setpoint);
+    if (state == 2) {
+      manipulator.runManip(manipSetpoint);
+      Timer.delay(.5);
+      manipulator.runFeedMotor(-7);
       state = 3;
     }
 
     if (state == 3) {
+      Timer.delay(0.1);
+      manipulator.runManip(0);
+      s_Elevator.goToSetPoint(Setpoint);
+      state = 4;
+    }
+
+    if (state == 5) {
       s_Elevator.goToSetPoint(0);
       manipulator.runManip(0);
-      state = 4;
+      state = 6;
     }
   }
 
@@ -80,6 +83,6 @@ public class runElevator extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Elevator.atSetpoint(0.0) && state == 4;
+    return s_Elevator.atSetpoint(0.0) && state == 6;
   }
 }
