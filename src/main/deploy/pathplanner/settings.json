@@ -3,7 +3,9 @@
   "robotLength": 0.9046464,
   "holonomicMode": true,
   "pathFolders": [
-    "Center Auto Paths"
+    "C2L",
+    "Center Auto Paths",
+    "C2R"
   ],
   "autoFolders": [],
   "defaultMaxVel": 7.0,
