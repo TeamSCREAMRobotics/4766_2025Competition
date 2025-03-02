@@ -8,30 +8,33 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class intakeAngle extends Command {
-  private final Intake intake;
+public class runIntakeTrough extends Command {
+  private Intake s_Intake;
+  private double volts;
 
-  /** Creates a new intakeAngle. */
-  public intakeAngle(Intake intake) {
-    this.intake = intake;
+  /** Creates a new runIntakeTrough. */
+  public runIntakeTrough(Intake intake, double shootingVolts) {
+    s_Intake = intake;
+    volts = shootingVolts;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    addRequirements(s_Intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    s_Intake.runFlywheel(volts);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intake.goToSetpoint(2);
-    System.out.println("running");
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    s_Intake.resetFlywheel();
+  }
 
   // Returns true when the command should end.
   @Override

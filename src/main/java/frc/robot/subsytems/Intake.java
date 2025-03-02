@@ -74,7 +74,6 @@ public class Intake extends SubsystemBase {
   }
 
   public void goToSetpoint(double setpoint) {
-    System.out.println(setpoint);
     intakePIDMotor.setControl(m_MagicRequest.withPosition(setpoint));
   }
 
@@ -92,5 +91,9 @@ public class Intake extends SubsystemBase {
 
   public void manualIntakePivot(double voltage) {
     intakePIDMotor.setControl(m_VoltageOut.withOutput(voltage));
+  }
+
+  public double getAmp() {
+    return intakeMotor.getSupplyCurrent().getValueAsDouble();
   }
 }

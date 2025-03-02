@@ -50,7 +50,6 @@ public class runElevator extends Command {
     if (state == 0) {
       manipulator.runManip(0);
       s_Elevator.goToSetPoint(Setpoint);
-      Timer.delay(0.1);
       state = 1;
     }
 

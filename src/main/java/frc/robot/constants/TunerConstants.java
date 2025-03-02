@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.*;
 import com.ctre.phoenix6.swerve.*;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
+import data.Length;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -186,6 +187,8 @@ public class TunerConstants {
 
   private static final Distance kBackRightXPos = Inches.of(-12);
   private static final Distance kBackRightYPos = Inches.of(-11.5);
+
+  public static final Length TRACK_WIDTH = Length.fromInches(20.0);
 
   public static final SwerveModuleConstants<
           TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>

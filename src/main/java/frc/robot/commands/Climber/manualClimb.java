@@ -5,7 +5,6 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
 import java.util.function.DoubleSupplier;
 
@@ -26,13 +25,13 @@ public class manualClimb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Controls.eSwitch().getAsBoolean() == true) {
-      double percent = 0;
-      if (joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4) {
-        percent = joy.getAsDouble() * 0.8;
-      }
-      s_Climber.manualClimb(percent);
-    }
+    // if (Controls.eSwitch().getAsBoolean() == true) {
+    //  double percent = 0;
+    //  if (joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4) {
+    //    percent = joy.getAsDouble() * 0.8;
+    //  }
+    //  s_Climber.manualClimb(percent);
+    // }
   }
 
   // Called once the command ends or is interrupted.

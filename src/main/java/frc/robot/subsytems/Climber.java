@@ -28,12 +28,12 @@ public class Climber extends SubsystemBase {
   // Configuration For The Motors
   TalonFXConfiguration climberConfig = new TalonFXConfiguration();
   MotionMagicConfigs climberMagic = new MotionMagicConfigs();
-  MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
+  MotionMagicVoltage magicRequest = new MotionMagicVoltage(0);
   VoltageOut m_requst = new VoltageOut(0);
   Slot0Configs slot0Configs = new Slot0Configs();
 
   public Climber() {
-    climberMaster.getConfigurator().apply(new TalonFXConfiguration());
+    // climberMaster.getConfigurator().apply(new TalonFXConfiguration());
 
     climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     climberConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
@@ -54,14 +54,14 @@ public class Climber extends SubsystemBase {
     climberMagic.MotionMagicAcceleration = ClimberConstants.kMagicAcceleration;
     climberMagic.MotionMagicCruiseVelocity = ClimberConstants.kMagicVelocity;
 
-    climberMaster.getConfigurator().apply(climberConfig);
-
-    climberMaster.getConfigurator().apply(slot0Configs);
     climberMaster.getConfigurator().apply(climberMagic);
+    climberMaster.getConfigurator().apply(slot0Configs);
+    // climberMaster.getConfigurator().apply(climberConfig);
   }
 
   public void goToSetPoint(double setpoint) {
     climberMaster.setControl(magicRequest.withPosition(setpoint));
+    System.out.println("Climber going to " + setpoint);
   }
 
   public boolean isAtSetPoint(double setpoint) {

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.5731050531881365,
-        "y": 4.083344414898445
+        "x": 5.1675,
+        "y": 2.855
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.211369680855712,
-        "y": 3.6515957446833043
+        "x": 5.416485126586217,
+        "y": 2.832496517184098
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "C1"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 2.855
       },
       "prevControl": {
-        "x": 5.956306933052289,
-        "y": 2.4435651110227745
+        "x": 4.8885066666520895,
+        "y": 2.8804014192834027
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Center Auto Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }

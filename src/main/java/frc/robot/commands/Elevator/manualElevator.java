@@ -5,7 +5,6 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.controls.Controls;
 import frc.robot.subsytems.Elevator;
 import java.util.function.DoubleSupplier;
 
@@ -31,13 +30,13 @@ public class manualElevator extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Controls.eSwitch().getAsBoolean() == false) {
-      double percent = 0;
-      if (joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4) {
-        percent = joy.getAsDouble() * 0.8;
-      }
-      s_Elevator.manualElevatorMotor(percent);
-    }
+    // if (Controls.eSwitch().getAsBoolean() == false) {
+    //  double percent = 0;
+    //  if (joy.getAsDouble() > 0.4 || joy.getAsDouble() < -0.4) {
+    //    percent = joy.getAsDouble() * 0.8;
+    //  }
+    //  s_Elevator.manualElevatorMotor(percent);
+    // }
   }
 
   // Called once the command ends or is interrupted.

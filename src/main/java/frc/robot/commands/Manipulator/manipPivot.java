@@ -11,11 +11,13 @@ import frc.robot.subsytems.Manipulator;
 public class manipPivot extends Command {
   Manipulator s_Manipulator;
   double setpoint;
+  boolean holdManip = false;
 
   /** Creates a new manipulatorPivot. */
-  public manipPivot(Manipulator manipulator, double Setpoint) {
+  public manipPivot(Manipulator manipulator, double Setpoint, boolean hold) {
     s_Manipulator = manipulator;
     setpoint = Setpoint;
+    holdManip = hold;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Manipulator);
   }
@@ -39,6 +41,6 @@ public class manipPivot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Manipulator.atSetpoint(setpoint);
+    return s_Manipulator.atSetpoint(setpoint) && !holdManip;
   }
 }

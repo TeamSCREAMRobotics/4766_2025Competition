@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -14,8 +12,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipOuttake;
+import frc.robot.commands.Manipulator.manipPivot;
 import frc.robot.constants.TunerConstants;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
@@ -30,52 +28,32 @@ public class RobotContainer {
   private Intake s_Intake = new Intake();
   private Manipulator s_Manipulator = new Manipulator();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
-  private double MaxSpeed =
-      TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  private double MaxAngularRate =
-      RotationsPerSecond.of(0.75)
-          .in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-  private final Telemetry logger = new Telemetry(MaxSpeed);
-
-  double Vel;
-  double Rot;
+  private Controls controls = new Controls();
 
   private final SendableChooser<Command> auto;
 
   /* Setting up bindings for necessary control of the swerve drive platform */
 
   public RobotContainer() {
-    if (Controls.driverCon.getRightTriggerAxis() > 0.5) {
-      Vel = 0.9;
-      Rot = 0.99;
-    } else {
-      Vel = MaxSpeed;
-      Rot = MaxAngularRate;
-    }
-
-    Controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain, Vel, Rot);
-    Controls.opControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+    controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+    controls.opControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
 
     drivetrain.configureAutoBuilder();
-
-    System.out.println(MaxSpeed);
 
     // Setting the Trough to work with Auto
 
     // Setting the Elevator to work with Autos
 
     // Setting the Manip Commands to work with Autos
-    NamedCommands.registerCommand("ManipIntake", new manipIntake(s_Manipulator));
     NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
+    NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
+    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
 
     auto = AutoBuilder.buildAutoChooser();
 
     auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
 
     SmartDashboard.putData(auto);
-
-    drivetrain.registerTelemetry(logger::telemeterize);
 
     // Log Posistion For Climber, Elevator, Intake, and Manipulator
     DogLog.log("ClimberPos", s_Climber.getPose());
@@ -94,10 +72,14 @@ public class RobotContainer {
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPose());
     SmartDashboard.putNumber("Intake Pose", s_Intake.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPose());
+    SmartDashboard.putNumber("Intake AMP", s_Intake.getAmp());
   }
 
   public void zeros() {
     s_Intake.zeroIntakePivot();
+    // s_Climber.zeroClimber();
+    s_Elevator.setElevatorZero();
+    s_Manipulator.zeroManip();
     ;
   }
 

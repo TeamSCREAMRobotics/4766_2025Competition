@@ -14,7 +14,7 @@ public class runClimber extends Command {
   /** Creates a new runClimber. */
   public runClimber(Climber climber, double Setpoint) {
     s_Climber = climber;
-    Setpoint = setpoint;
+    setpoint = Setpoint;
 
     addRequirements(climber);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,6 +24,7 @@ public class runClimber extends Command {
   @Override
   public void execute() {
     s_Climber.goToSetPoint(setpoint);
+    System.out.println("Climber Running");
   }
 
   // Returns true when the command should end.
