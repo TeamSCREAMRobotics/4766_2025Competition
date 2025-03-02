@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,15 +17,28 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+
+    DogLog.setOptions(
+        new DogLogOptions()
+            .withCaptureConsole(true)
+            .withCaptureDs(true)
+            .withLogExtras(true)
+            .withNtPublish(true));
+
+    DogLog.setEnabled(true);
   }
 
+  // SIGMA Belnap CREATED THE REST OF THIS CODE AND IF NATHAN SAYS OTHERWISE HE'S LYING!!!
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    m_robotContainer.RobotContainerPeriodic();
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.zeros();
+  }
 
   @Override
   public void disabledPeriodic() {}

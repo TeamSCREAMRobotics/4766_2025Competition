@@ -4,17 +4,97 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import dev.doglog.DogLog;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.commands.Elevator.autoElevator;
+import frc.robot.commands.Intake.runIntakeTrough;
+import frc.robot.commands.Manipulator.autoManipIntake;
+import frc.robot.commands.Manipulator.manipOuttake;
+import frc.robot.commands.Manipulator.manipPivot;
+import frc.robot.constants.Constants.ElevatorConstants;
+import frc.robot.constants.TunerConstants;
+import frc.robot.controls.Controls;
+import frc.robot.subsytems.Climber;
+import frc.robot.subsytems.CommandSwerveDrivetrain;
+import frc.robot.subsytems.Elevator;
+import frc.robot.subsytems.Intake;
+import frc.robot.subsytems.Manipulator;
 
 public class RobotContainer {
+  private Climber s_Climber = new Climber();
+  private Elevator s_Elevator = new Elevator();
+  private Intake s_Intake = new Intake();
+  private Manipulator s_Manipulator = new Manipulator();
+  private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+  private Controls controls = new Controls();
+
+  private final SendableChooser<Command> auto;
+
+  /* Setting up bindings for necessary control of the swerve drive platform */
+
   public RobotContainer() {
-    configureBindings();
+    controls.driverControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+    controls.opControls(s_Intake, s_Climber, s_Elevator, s_Manipulator, drivetrain);
+
+    drivetrain.configureAutoBuilder();
+
+    // Setting the Trough to work with Auto
+
+    // Setting the Elevator to work with Autos
+
+    // Setting the Manip Commands to work with Autos
+    NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
+    NamedCommands.registerCommand("intakeManip", new autoManipIntake(s_Manipulator));
+    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
+    NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -1.5));
+    NamedCommands.registerCommand("L2", new manipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand(
+        "L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
+
+    auto = AutoBuilder.buildAutoChooser();
+
+    auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
+
+    SmartDashboard.putData(auto);
+
+    // Log Posistion For Climber, Elevator, Intake, and Manipulator
+    DogLog.log("ClimberPos", s_Climber.getPose());
+    DogLog.log("Elevator Pos", s_Elevator.getPose());
+    DogLog.log("Intake Pos", s_Intake.getPosition());
+    DogLog.log("Manipulator Pos", s_Manipulator.getPose());
+
+    DogLog.log("Elevator State", s_Elevator.elevatorState);
+
+    // Log Swerve
+    DogLog.log("Swerve Lin", drivetrain.getLinearVelocity());
+    DogLog.log("Swerve Rot", drivetrain.getOperatorForwardDirection());
   }
 
-  private void configureBindings() {}
+  public void RobotContainerPeriodic() {
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPose());
+    SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPose());
+    SmartDashboard.putNumber("Intake Pose", s_Intake.getPosition());
+    SmartDashboard.putNumber("Climber Pose", s_Climber.getPose());
+    SmartDashboard.putNumber("Intake AMP", s_Intake.getAmp());
+  }
+
+  public void zeros() {
+    s_Intake.zeroIntakePivot();
+    s_Climber.zeroClimber();
+    s_Elevator.setElevatorZero();
+    s_Manipulator.zeroManip();
+    ;
+  }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return auto.getSelected();
   }
 }

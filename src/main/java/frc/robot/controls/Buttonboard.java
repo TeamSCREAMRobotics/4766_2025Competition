@@ -40,9 +40,8 @@ public class Buttonboard {
   private int joystickYAxis;
   private final int joystickIndex = 1; // the driverstation port that the joystick is on.
 
-  public Buttonboard(int portA) {
-    usbDevices[0] = new Joystick(portA);
-    portA = 0;
+  public Buttonboard(int port) {
+    usbDevices[0] = new Joystick(port);
 
     /* Buttons on the button board going left to right */
     buttonMap.put(1, new ButtonboardPort(0, 1));
