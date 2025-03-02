@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 
     DogLog.setEnabled(true);
   }
-
+//SIGMA Belnap CREATED THE REST OF THIS CODE AND IF NATHAN SAYS OTHERWISE HE'S LYING!!!
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();

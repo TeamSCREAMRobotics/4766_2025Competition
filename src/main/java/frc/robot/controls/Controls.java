@@ -17,6 +17,7 @@ import frc.robot.commands.Intake.runIntakeTrough;
 import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipPivot;
 import frc.robot.commands.drivetrain.ReefAlign;
+import frc.robot.commands.drivetrain.reefAlignForAlgae;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ElevatorConstants;
 import frc.robot.constants.Constants.ManipulatorConstants;
@@ -254,14 +255,14 @@ public class Controls {
         .povUp()
         .onTrue(
             new runElevator(
-                Elevator, ElevatorConstants.L3Setpoint, Manipulator, driverCon.rightTrigger(0.5)));
+                Elevator, ElevatorConstants.L3Setpoint, Manipulator, driverCon.rightTrigger(0.5).getAsBoolean()));
 
     opCon
         .povLeft()
         .whileTrue(new manipPivot(Manipulator, 5, true))
         .whileFalse(new manipPivot(Manipulator, 0, false));
 
-    opCon.povRight().onTrue(new runElevator(Elevator, 20, Manipulator, driverCon.rightTrigger()));
+    opCon.povRight().onTrue(new runElevator(Elevator, 20, Manipulator, driverCon.rightTrigger().getAsBoolean()));
 
     opCon
         .povDown()
@@ -277,6 +278,7 @@ public class Controls {
     opCon.b().whileTrue(Commands.runOnce(() -> Elevator.setElevatorZero()));
     opCon.leftTrigger().whileTrue(Commands.runOnce(() -> Intake.zeroIntakePivot()));
     // opCon.rightBumper().whileTrue(Commands.runOnce(() -> Manipulator.zeroManip()));
+  //  opCon.leftBumper().onTrue(new reefAlignForAlgae(Drivetrain, false, Elevator, Manipulator));
 
     opCon
         .rightTrigger(0.5)

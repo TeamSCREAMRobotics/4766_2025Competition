@@ -161,6 +161,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       startSimThread();
     }
     configureAutoBuilder();
+    helper =
+    new PhoenixSwerveHelper(
+        this::getPose,
+        DrivetrainConstants.MAX_SPEED,
+        DrivetrainConstants.HEADING_CORRECTION_CONSTANTS,
+        DrivetrainConstants.HEADING_CORRECTION_CONSTANTS);
   }
 
   /**

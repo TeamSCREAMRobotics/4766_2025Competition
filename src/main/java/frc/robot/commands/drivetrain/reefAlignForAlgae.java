@@ -38,7 +38,7 @@ public class reefAlignForAlgae extends Command {
     this.elevator = elevator;
     l3True = L3True;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
+    addRequirements(drivetrain, manipulator, elevator);
   }
 
   // Called when the command is initially scheduled.

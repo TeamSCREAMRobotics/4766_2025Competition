@@ -18,11 +18,11 @@ public class runElevator extends Command {
   private final Manipulator manipulator;
   private double manipSetpoint = ManipulatorConstants.manipSetpoint;
   int state;
-  BooleanSupplier trigger;
+  boolean trigger;
 
   /** Creates a new runElevator. */
   public runElevator(
-      Elevator elevator, double setpoint, Manipulator manipulator, BooleanSupplier triggSupplier) {
+      Elevator elevator, double setpoint, Manipulator manipulator, boolean triggSupplier) {
     s_Elevator = elevator;
     Setpoint = setpoint;
     this.manipulator = manipulator;
@@ -41,7 +41,7 @@ public class runElevator extends Command {
   @Override
   public void execute() {
     System.out.println(state);
-    System.out.println(trigger.getAsBoolean());
+    System.out.println(trigger);
 
     if (!manipulator.laserPassed() && state == 0) {
       state = 3;
@@ -58,7 +58,7 @@ public class runElevator extends Command {
       s_Elevator.goToSetPoint(Setpoint);
     }
 
-    if (state == 1 && trigger.getAsBoolean() == true) {
+    if (state == 1 && trigger == true) {
       state = 2;
       Timer.delay(0.1);
       manipulator.runManip(0);

@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.Elevator.runElevator;
+import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipOuttake;
 import frc.robot.commands.Manipulator.manipPivot;
 import frc.robot.constants.TunerConstants;
+import frc.robot.constants.Constants.ElevatorConstants;
 import frc.robot.controls.Controls;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.CommandSwerveDrivetrain;
@@ -48,6 +51,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
     NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
     NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand("intakeManip", new manipIntake(s_Manipulator, false));
+    NamedCommands.registerCommand("L2", new manipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand("L3", new runElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator, false));
+    NamedCommands.registerCommand("resetElevator", new runElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator, true));
 
     auto = AutoBuilder.buildAutoChooser();
 
