@@ -26,9 +26,10 @@ public class Robot extends TimedRobot {
             .withNtPublish(true));
 
     DogLog.setEnabled(true);
+
+    m_robotContainer.zeros();
   }
 
-  // SIGMA Belnap CREATED THE REST OF THIS CODE AND IF NATHAN SAYS OTHERWISE HE'S LYING!!!
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
@@ -36,9 +37,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-    m_robotContainer.zeros();
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
@@ -84,4 +83,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+  // Mackenzie
 }

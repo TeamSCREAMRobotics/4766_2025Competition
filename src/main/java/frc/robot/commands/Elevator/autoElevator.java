@@ -16,7 +16,7 @@ public class autoElevator extends Command {
   double Setpoint;
   private final Manipulator manipulator;
   private double manipSetpoint = ManipulatorConstants.manipSetpoint;
-  int state = s_Elevator.elevatorState;
+  int state = 0;
 
   /** Creates a new runElevator. */
   public autoElevator(Elevator elevator, double setpoint, Manipulator manipulator) {

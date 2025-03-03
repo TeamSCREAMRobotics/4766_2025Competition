@@ -16,17 +16,19 @@ public class runElevator extends Command {
   Elevator s_Elevator;
   double Setpoint;
   private final Manipulator manipulator;
-  private double manipSetpoint = ManipulatorConstants.manipSetpoint;
-  int state = s_Elevator.elevatorState;
+  private double manipSetpoint;
+  int state = 0;
   BooleanSupplier trigger;
 
   /** Creates a new runElevator. */
   public runElevator(
-      Elevator elevator, double setpoint, Manipulator manipulator, BooleanSupplier triggSupplier) {
+      Elevator elevator, double setpoint, Manipulator manipulator, double manipSetpoint, BooleanSupplier triggSupplier) {
     s_Elevator = elevator;
     Setpoint = setpoint;
     this.manipulator = manipulator;
+    this.manipSetpoint = manipSetpoint;
     trigger = triggSupplier;
+    state = s_Elevator.elevatorState;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Elevator);
   }
@@ -40,8 +42,10 @@ public class runElevator extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("ze state is " + state);
+    System.out.println("ze trigger is " + trigger.getAsBoolean());
     if (!manipulator.laserPassed() && state == 0) {
-      state = 3;
+      state = 2;
     }
 
     if (state == 0) {
@@ -56,17 +60,16 @@ public class runElevator extends Command {
     }
 
     if (state == 1 && trigger.getAsBoolean() == true) {
-      state = 2;
       Timer.delay(0.1);
       manipulator.runManip(0);
       s_Elevator.goToSetPoint(Setpoint);
-      state = 3;
+      state = 2;
     }
 
-    if (state == 3) {
+    if (state == 2) {
       s_Elevator.goToSetPoint(0);
       manipulator.runManip(0);
-      state = 4;
+      state = 3;
     }
   }
 
@@ -80,6 +83,6 @@ public class runElevator extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Elevator.atSetpoint(0.0) && state == 4;
+    return s_Elevator.atSetpoint(0.0) && state == 3;
   }
 }
