@@ -159,7 +159,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    *     0 Hz, this is 250 Hz on CAN FD, and 100 Hz on CAN 2.0.
    * @param modules Constants for each specific module
    */
-  /* 
+  /*
   public CommandSwerveDrivetrain(
     SwerveDrivetrainConstants drivetrainConstants,
     double odometryUpdateFrequency,
@@ -178,7 +178,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
             */
 
-
   /**
    * Constructs a CTRE SwerveDrivetrain using the specified constants.
    *
@@ -194,7 +193,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    *     theta]ᵀ, with units in meters and radians
    * @param modules Constants for each specific module
    */
-  /* 
+  /*
   public CommandSwerveDrivetrain(
       SwerveDrivetrainConstants drivetrainConstants,
       double odometryUpdateFrequency,

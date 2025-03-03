@@ -94,7 +94,7 @@ public class RobotContainer {
     SmartDashboard.putData(auto);
   }
 
-  public void driverControls(){
+  public void driverControls() {
     drivetrain.registerTelemetry(logger::telemeterize);
 
     final SwerveRequest.FieldCentric drive =
@@ -193,21 +193,26 @@ public class RobotContainer {
         .povUp()
         .onTrue(
             new runElevator(
-                s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator, 5.4, driverCon.rightBumper()));
+                s_Elevator,
+                ElevatorConstants.L3Setpoint,
+                s_Manipulator,
+                5.4,
+                driverCon.rightBumper()));
 
     opCon
         .povLeft()
         .whileTrue(new manipPivot(s_Manipulator, 5, true))
         .whileFalse(new manipPivot(s_Manipulator, 0, false));
 
-    opCon.povRight().onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
+    opCon
+        .povRight()
+        .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
+
+    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false));
 
     opCon
         .povDown()
-        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false));
-
-    opCon
-        .povDown().and(opCon.start())
+        .and(opCon.start())
         .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, true));
 
     /* With eSwitch */
@@ -217,7 +222,8 @@ public class RobotContainer {
     opCon.b().whileTrue(Commands.runOnce(() -> s_Elevator.setElevatorZero()));
     opCon.leftTrigger().whileTrue(Commands.runOnce(() -> s_Intake.zeroIntakePivot()));
     // opCon.rightBumper().whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
-    //  opCon.leftBumper().onTrue(new reefAlignForAlgae(drivetrain, false, Elevator, s_Manipulator));
+    //  opCon.leftBumper().onTrue(new reefAlignForAlgae(drivetrain, false, Elevator,
+    // s_Manipulator));
 
     opCon
         .rightTrigger(0.5)
@@ -248,10 +254,9 @@ public class RobotContainer {
 
   public void zeros() {
     s_Intake.zeroIntakePivot();
-   // s_Climber.zeroClimber();
+    // s_Climber.zeroClimber();
     s_Elevator.setElevatorZero();
     s_Manipulator.zeroManip();
-    
   }
 
   public Command getAutonomousCommand() {

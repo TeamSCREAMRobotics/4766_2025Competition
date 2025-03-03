@@ -12,7 +12,7 @@ public class autoManipIntake extends Command {
   /** Creates a new autoManipIntake. */
   private Manipulator manipulator;
 
-  private boolean laser= false;
+  private boolean laser = false;
   private boolean end = false;
 
   public autoManipIntake(Manipulator manipulator) {

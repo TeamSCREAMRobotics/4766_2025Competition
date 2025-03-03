@@ -6,7 +6,6 @@ package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 import java.util.function.BooleanSupplier;
@@ -22,7 +21,11 @@ public class runElevator extends Command {
 
   /** Creates a new runElevator. */
   public runElevator(
-      Elevator elevator, double setpoint, Manipulator manipulator, double manipSetpoint, BooleanSupplier triggSupplier) {
+      Elevator elevator,
+      double setpoint,
+      Manipulator manipulator,
+      double manipSetpoint,
+      BooleanSupplier triggSupplier) {
     s_Elevator = elevator;
     Setpoint = setpoint;
     this.manipulator = manipulator;

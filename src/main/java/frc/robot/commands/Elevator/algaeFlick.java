@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Elevator;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
@@ -14,6 +13,7 @@ import frc.robot.subsytems.Manipulator;
 public class algaeFlick extends Command {
   /** Creates a new algaeFlick. */
   private Elevator elevator;
+
   private Manipulator manipulator;
   private Intake intake;
   private boolean L3True = true;
@@ -29,26 +29,24 @@ public class algaeFlick extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {if(L3True) {
-    manipulator.runManip(5.5);
-    //Timer.delay(.5);
-    elevator.goToSetPoint(17.5);
-  } else {
-    manipulator.runManip(5.5);
-    intake.runFlywheel(1);
-    intake.goToSetpoint(-0.2);
-
+  public void initialize() {
+    if (L3True) {
+      manipulator.runManip(5.5);
+      // Timer.delay(.5);
+      elevator.goToSetPoint(17.5);
+    } else {
+      manipulator.runManip(5.5);
+      intake.runFlywheel(1);
+      intake.goToSetpoint(-0.2);
+    }
   }
-  }
-
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     manipulator.runManip(0);
-    if(manipulator.getPose() <= 2.5){
-    elevator.goToSetPoint(0);
-
+    if (manipulator.getPose() <= 2.5) {
+      elevator.goToSetPoint(0);
     }
   }
 
