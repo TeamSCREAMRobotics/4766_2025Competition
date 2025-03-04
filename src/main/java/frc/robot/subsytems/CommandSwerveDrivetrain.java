@@ -23,7 +23,6 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
@@ -323,9 +322,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
               Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
               Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
               9999999));
-              System.out.println("Limelight: I am updating pose!");
+      System.out.println("Limelight: I am updating pose!");
     }
-
   }
 
   private void startSimThread() {
@@ -387,7 +385,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return getPose().getRotation();
   }
 
-  public void addVision(){
+  public void addVision() {
     if (LimelightHelpers.getTV("limelight-front")) {
       if (m_PoseEstimate == null
           || m_PoseEstimate.tagCount == 0
@@ -403,9 +401,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
               Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
               Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
               9999999));
-              System.out.println("Limelight: I am updating pose!");
+      System.out.println("Limelight: I am updating pose!");
+    }
   }
-}
 
   /*
       public void resetPigeonYaw(){

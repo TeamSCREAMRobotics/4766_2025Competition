@@ -71,7 +71,7 @@ public class RobotContainer {
     driverControls();
     opControls();
 
-    //LimelightHelpers.SetRobotOrientation("limelight-front", -160, 0.0, 20.0, 0.0, 0.0, 0.0);
+    // LimelightHelpers.SetRobotOrientation("limelight-front", -160, 0.0, 20.0, 0.0, 0.0, 0.0);
     drivetrain.configureAutoBuilder();
 
     // Setting the Trough to work with Auto
@@ -107,25 +107,27 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
         // drivetrain will execute this command periodically
-        drivetrain.applyRequest(
-            () ->
-                drive
-                    .withVelocityX(
-                        -driverCon.getLeftY()
-                            * MaxSpeed
-                            * (driverCon.getRightTriggerAxis() > 0.5
-                                ? 0.5
-                                : 1)) // Drive forward with negative Y (forward)
-                    .withVelocityY(
-                        -driverCon.getLeftX()
-                            * MaxSpeed
-                            * (driverCon.getRightTriggerAxis() > 0.5
-                                ? 0.5
-                                : 1)) // Drive left with negative X (left)
-                    .withRotationalRate(
-                        -driverCon.getRightX()
-                            * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            ).alongWith(Commands.run(()-> drivetrain.addVision())));
+        drivetrain
+            .applyRequest(
+                () ->
+                    drive
+                        .withVelocityX(
+                            -driverCon.getLeftY()
+                                * MaxSpeed
+                                * (driverCon.getRightTriggerAxis() > 0.5
+                                    ? 0.5
+                                    : 1)) // Drive forward with negative Y (forward)
+                        .withVelocityY(
+                            -driverCon.getLeftX()
+                                * MaxSpeed
+                                * (driverCon.getRightTriggerAxis() > 0.5
+                                    ? 0.5
+                                    : 1)) // Drive left with negative X (left)
+                        .withRotationalRate(
+                            -driverCon.getRightX()
+                                * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                )
+            .alongWith(Commands.run(() -> drivetrain.addVision())));
 
     driverCon.back().and(driverCon.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
     driverCon.back().and(driverCon.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
@@ -209,7 +211,9 @@ public class RobotContainer {
         .povRight()
         .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
 
-    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false, opCon.povDown()));
+    opCon
+        .povDown()
+        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false, opCon.povDown()));
 
     opCon
         .povDown()

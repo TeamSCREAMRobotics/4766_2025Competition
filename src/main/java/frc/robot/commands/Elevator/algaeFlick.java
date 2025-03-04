@@ -4,13 +4,12 @@
 
 package frc.robot.commands.Elevator;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
 import frc.robot.subsytems.Manipulator;
+import java.util.function.BooleanSupplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class algaeFlick extends Command {
@@ -24,7 +23,12 @@ public class algaeFlick extends Command {
   private BooleanSupplier trigger;
   private int state = 0;
 
-  public algaeFlick(Elevator elevator, Manipulator manipulator, Intake intake, boolean L3True, BooleanSupplier trigger) {
+  public algaeFlick(
+      Elevator elevator,
+      Manipulator manipulator,
+      Intake intake,
+      boolean L3True,
+      BooleanSupplier trigger) {
     this.elevator = elevator;
     this.manipulator = manipulator;
     this.intake = intake;
@@ -37,8 +41,8 @@ public class algaeFlick extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (state == 0){
-      if(L3True) {
+    if (state == 0) {
+      if (L3True) {
         manipulator.runManip(5.5);
         elevator.goToSetPoint(17.5);
         state = 1;
