@@ -71,7 +71,6 @@ public class FieldConstants {
   private static Pair<Integer, Pose2d> getTagPair(int id) {
     return Pair.of(
         id,
-        // TODO: make sure that this doesn't need to be welded
         AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded)
             .getTagPose(id)
             .get()
@@ -87,7 +86,7 @@ public class FieldConstants {
   // Half of center of robot + bumpers to the edge of the reef
   // TODO: Find this value!
   public static final Translation2d BRANCH_TO_ROBOT =
-      new Translation2d(Units.inchesToMeters(18.647 + BRANCH_TO_REEF_EDGE.getInches() + .5), 0);
+      new Translation2d(Units.inchesToMeters(14.647 + BRANCH_TO_REEF_EDGE.getInches() + .5), 0);
 
   public static final Translation2d SCORE_LOCATION_1 =
       REEF_CENTER_TO_TOP_BRANCH.plus(BRANCH_TO_ROBOT);
@@ -98,8 +97,8 @@ public class FieldConstants {
   static {
     for (int i = 0; i < 6; i++) {
       Rotation2d rotation = Rotation2d.fromDegrees(i * 60);
-      Rotation2d blueRotation = Rotation2d.fromDegrees(-180 + (i * 60));
-      Rotation2d redRotation = Rotation2d.fromDegrees(-180 + (i * 60));
+      Rotation2d blueRotation = Rotation2d.fromDegrees((i * 60));
+      Rotation2d redRotation = Rotation2d.fromDegrees((i * 60));
 
       BLUE_REEF_LOCATIONS.put(
           i,

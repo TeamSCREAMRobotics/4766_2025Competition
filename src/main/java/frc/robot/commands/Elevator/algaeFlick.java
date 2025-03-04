@@ -4,6 +4,9 @@
 
 package frc.robot.commands.Elevator;
 
+import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Intake;
@@ -17,12 +20,16 @@ public class algaeFlick extends Command {
   private Manipulator manipulator;
   private Intake intake;
   private boolean L3True = true;
+  private boolean readyToEnd = false;
+  private BooleanSupplier trigger;
+  private int state = 0;
 
-  public algaeFlick(Elevator elevator, Manipulator manipulator, Intake intake, boolean L3True) {
+  public algaeFlick(Elevator elevator, Manipulator manipulator, Intake intake, boolean L3True, BooleanSupplier trigger) {
     this.elevator = elevator;
     this.manipulator = manipulator;
     this.intake = intake;
     this.L3True = L3True;
+    this.trigger = trigger;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator, manipulator, intake);
   }
@@ -30,29 +37,47 @@ public class algaeFlick extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (L3True) {
-      manipulator.runManip(5.5);
-      // Timer.delay(.5);
-      elevator.goToSetPoint(17.5);
-    } else {
-      manipulator.runManip(5.5);
-      intake.runFlywheel(1);
-      intake.goToSetpoint(-0.2);
+    if (state == 0){
+      if(L3True) {
+        manipulator.runManip(5.5);
+        elevator.goToSetPoint(17.5);
+        state = 1;
+      } else {
+        manipulator.runManip(5.5);
+        state = 1;
+      }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    manipulator.runManip(0);
-    if (manipulator.getPose() <= 2.5) {
+    if (state == 1 && trigger.getAsBoolean() == false) {
+      if (L3True) {
+        elevator.goToSetPoint(18);
+        Timer.delay(.5);
+        state = 2;
+      } else {
+        manipulator.runManip(0);
+        state = 3;
+      }
+    }
+
+    if (state == 2) {
       elevator.goToSetPoint(0);
+      manipulator.runManip(0);
+      state = 3;
+    }
+
+    if (state == 3) {
+      Timer.delay(.5);
+      state = 0;
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return state == 3;
   }
 }

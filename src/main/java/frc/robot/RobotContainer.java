@@ -71,6 +71,7 @@ public class RobotContainer {
     driverControls();
     opControls();
 
+    //LimelightHelpers.SetRobotOrientation("limelight-front", -160, 0.0, 20.0, 0.0, 0.0, 0.0);
     drivetrain.configureAutoBuilder();
 
     // Setting the Trough to work with Auto
@@ -124,7 +125,7 @@ public class RobotContainer {
                     .withRotationalRate(
                         -driverCon.getRightX()
                             * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            ));
+            ).alongWith(Commands.run(()-> drivetrain.addVision())));
 
     driverCon.back().and(driverCon.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
     driverCon.back().and(driverCon.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
@@ -166,7 +167,7 @@ public class RobotContainer {
         .whileTrue(new ReefAlign(drivetrain, true));
 
     driverCon
-        .y()
+        .povRight()
         .and(
             () -> {
               var validTags =
@@ -208,12 +209,12 @@ public class RobotContainer {
         .povRight()
         .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
 
-    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false));
+    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false, opCon.povDown()));
 
     opCon
         .povDown()
         .and(opCon.start())
-        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, true));
+        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, true, opCon.povDown()));
 
     /* With eSwitch */
 
@@ -250,6 +251,9 @@ public class RobotContainer {
 
     // Log Swerve
     DogLog.log("Swerve Rot", drivetrain.getOperatorForwardDirection());
+    DogLog.log("Swerve Rotation3d", drivetrain.getRotation3d());
+    DogLog.log("Swerve States", drivetrain.getModuleStates());
+    DogLog.log("Swerve Speed", drivetrain.getFieldVelocity());
   }
 
   public void zeros() {

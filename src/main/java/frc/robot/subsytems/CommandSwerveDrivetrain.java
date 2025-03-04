@@ -23,6 +23,7 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
@@ -283,7 +284,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   @Override
   public void periodic() {
     LimelightHelpers.SetRobotOrientation(
-        "limelight-front", -getHeading().getDegrees(), 0, 0, 0, 0, 0);
+        "limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     // System.out.println("Pigeon 2 Yaw: " + getPigeon2().getYaw().getValueAsDouble());
     fieldWidget.setRobotPose(getPose());
     SmartDashboard.putData("Field", fieldWidget);
@@ -319,10 +320,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
           LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front").pose,
           LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front").timestampSeconds,
           VecBuilder.fill(
-              Math.pow(0.5, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
-              Math.pow(0.5, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
+              Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
+              Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
               9999999));
+              System.out.println("Limelight: I am updating pose!");
     }
+
   }
 
   private void startSimThread() {
@@ -383,6 +386,26 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   public Rotation2d getHeading() {
     return getPose().getRotation();
   }
+
+  public void addVision(){
+    if (LimelightHelpers.getTV("limelight-front")) {
+      if (m_PoseEstimate == null
+          || m_PoseEstimate.tagCount == 0
+          || !FieldConstants.FIELD_AREA.contains(m_PoseEstimate.pose.getTranslation())
+          || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 540
+          || getLinearVelocity().getNorm() > 3.0) {
+        return;
+      }
+      addVisionMeasurement(
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front").pose,
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front").timestampSeconds,
+          VecBuilder.fill(
+              Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
+              Math.pow(0.2, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
+              9999999));
+              System.out.println("Limelight: I am updating pose!");
+  }
+}
 
   /*
       public void resetPigeonYaw(){
