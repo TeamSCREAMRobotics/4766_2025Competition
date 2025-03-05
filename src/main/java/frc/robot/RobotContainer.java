@@ -26,7 +26,6 @@ import frc.robot.commands.Elevator.algaeFlick;
 import frc.robot.commands.Elevator.autoElevator;
 import frc.robot.commands.Elevator.autoFlick;
 import frc.robot.commands.Elevator.runElevator;
-import frc.robot.commands.Intake.holdIntake;
 import frc.robot.commands.Intake.runIntake;
 import frc.robot.commands.Intake.runIntakeTrough;
 import frc.robot.commands.Manipulator.autoManipIntake;
@@ -36,7 +35,6 @@ import frc.robot.commands.Manipulator.manipPivot;
 import frc.robot.commands.drivetrain.ReefAlign;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ElevatorConstants;
-import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsytems.Climber;
@@ -97,7 +95,7 @@ public class RobotContainer {
     SmartDashboard.putData(auto);
   }
 
-  public void zeroSwerve(){
+  public void zeroSwerve() {
     drivetrain.runOnce(() -> drivetrain.seedFieldCentric());
   }
 
@@ -209,16 +207,16 @@ public class RobotContainer {
                 s_Manipulator,
                 5.4,
                 driverCon.rightBumper()));
-//  L2 no Elevator.
+    //  L2 no Elevator.
     opCon
         .povLeft()
         .whileTrue(new manipPivot(s_Manipulator, 5, true))
         .whileFalse(new manipPivot(s_Manipulator, 0, false));
-/* 
-    opCon
-        .povRight()
-        .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
-*/
+    /*
+        opCon
+            .povRight()
+            .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
+    */
     opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
 
     opCon
@@ -231,19 +229,20 @@ public class RobotContainer {
     // Zero Subsystems When Pushed
     opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
     opCon.b().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Elevator.setElevatorZero()));
-    opCon.leftTrigger().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Intake.zeroIntakePivot()));
+    opCon
+        .leftTrigger()
+        .and(opCon.start())
+        .whileTrue(Commands.runOnce(() -> s_Intake.zeroIntakePivot()));
     // opCon.rightBumper().whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
     //  opCon.leftBumper().onTrue(new reefAlignForAlgae(drivetrain, false, Elevator,
     // s_Manipulator));
-/* 
+    /*
     opCon
         .rightTrigger(0.5)
         .whileTrue(new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint, false))
         .whileFalse(new manipPivot(s_Manipulator, 0, false));
         */
   }
-
-
 
   public void RobotContainerPeriodic() {
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
