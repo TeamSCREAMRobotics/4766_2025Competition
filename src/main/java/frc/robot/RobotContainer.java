@@ -30,6 +30,7 @@ import frc.robot.commands.Intake.runIntake;
 import frc.robot.commands.Intake.runIntakeTrough;
 import frc.robot.commands.Manipulator.autoManipIntake;
 import frc.robot.commands.Manipulator.autoScore;
+import frc.robot.commands.Manipulator.manipIdle;
 import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipPivot;
 import frc.robot.commands.drivetrain.ReefAlign;
@@ -143,13 +144,15 @@ public class RobotContainer {
     /* Other Subsystems Declairations */
 
     // Buttons to make Manip work
-    s_Manipulator.setDefaultCommand(new manipIntake(s_Manipulator, driverCon.rightBumper(), opCon.povDown()));
+    driverCon.rightBumper().whileTrue(new manipIntake(s_Manipulator));
 
     // Trough Shot Button
     driverCon.a().whileTrue(new runIntakeTrough(s_Intake, -2));
 
     // Command to run the intake const and make it work
     s_Intake.setDefaultCommand(new runIntake(s_Intake, driverCon.leftBumper(), 4.0));
+
+    s_Manipulator.setDefaultCommand(new manipIdle(s_Manipulator));
 
     driverCon
         .povLeft()
@@ -210,14 +213,14 @@ public class RobotContainer {
     //  L2 no Elevator.
     opCon
         .povLeft()
-        .whileTrue(new manipPivot(s_Manipulator, 5, true))
+        .whileTrue(new manipPivot(s_Manipulator, 4.75, true))
         .whileFalse(new manipPivot(s_Manipulator, 0, false));
-/* 
+    /*
         opCon
             .povRight()
             .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
     */
-    // opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
+    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
 
     opCon
         .povDown()

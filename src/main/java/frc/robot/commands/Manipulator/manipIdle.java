@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manipIntake extends Command {
+public class manipIdle extends Command {
   Manipulator s_Manipulator;
   private boolean trigger;
   private Timer timer = new Timer();
 
   /** Creates a new manip. */
-  public manipIntake(Manipulator manipulator) {
+  public manipIdle(Manipulator manipulator) {
     s_Manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Manipulator);
@@ -24,37 +24,24 @@ public class manipIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    trigger = s_Manipulator.laserPassed();
-    if (trigger) {
-      s_Manipulator.runFeedMotor(-7);
-      timer.reset();
-    } else {
-      s_Manipulator.runFeedMotor(7);
-    }
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (trigger) {
-      timer.start();
-    }
+    s_Manipulator.runFeedMotor(0.7);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    s_Manipulator.stopFeed();
-    trigger = false;
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (trigger == true) {
-      return timer.hasElapsed(0.5);
-    } else {
-      return s_Manipulator.laserPassed();
-    }
+    return false;
   }
 }
