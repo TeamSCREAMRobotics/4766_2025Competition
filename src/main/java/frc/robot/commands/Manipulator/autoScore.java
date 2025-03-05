@@ -34,7 +34,7 @@ public class autoScore extends Command {
       state = 2;
     }
 
-    if (state == 2){
+    if (state == 2 && manipulator.atSetpoint(5)){
       manipulator.runFeedMotor(-7);
       state = 3;
     }
@@ -48,7 +48,7 @@ public class autoScore extends Command {
     state = 0;
     if(state == 0){
       manipulator.stopFeed();
-      
+
       manipulator.goToSetpoint(0);
       manipulator.stopManip();
     }

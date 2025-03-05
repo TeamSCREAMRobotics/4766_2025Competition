@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.Climber.runClimber;
 import frc.robot.commands.Elevator.algaeFlick;
 import frc.robot.commands.Elevator.autoElevator;
+import frc.robot.commands.Elevator.autoFlick;
 import frc.robot.commands.Elevator.runElevator;
 import frc.robot.commands.Intake.runIntake;
 import frc.robot.commands.Intake.runIntakeTrough;
@@ -81,8 +82,10 @@ public class RobotContainer {
 
     // Setting the Manip Commands to work with Autos
     NamedCommands.registerCommand("intakeManip", new autoManipIntake(s_Manipulator));
-    NamedCommands.registerCommand("AlgaeFlick", new manipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
+    NamedCommands.registerCommand("AlgaeFlickL2", new autoFlick(s_Elevator, s_Manipulator, false));
+    NamedCommands.registerCommand("AlgaeFlickL3", new autoFlick(s_Elevator, s_Manipulator, true));
+
+    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 5.5, false));
     NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -1.5));
     NamedCommands.registerCommand("L2", new autoScore(s_Manipulator));
     NamedCommands.registerCommand("L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
@@ -213,12 +216,12 @@ public class RobotContainer {
 
     opCon
         .povDown()
-        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, false, opCon.povDown()));
+        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
 
     opCon
         .povDown()
         .and(opCon.start())
-        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, s_Intake, true, opCon.povDown()));
+        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, true, opCon.povDown()));
 
     /* With eSwitch */
 

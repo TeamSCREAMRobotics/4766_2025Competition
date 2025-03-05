@@ -27,6 +27,11 @@ public class runClimber extends Command {
     System.out.println("Climber Running");
   }
 
+  @Override
+  public void end(boolean interrupted){
+    s_Climber.resetManualClimb();
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

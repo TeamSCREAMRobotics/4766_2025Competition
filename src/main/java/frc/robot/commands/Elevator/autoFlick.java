@@ -7,33 +7,28 @@ package frc.robot.commands.Elevator;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.Intake;
 import frc.robot.subsytems.Manipulator;
-import java.util.function.BooleanSupplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class algaeFlick extends Command {
+public class autoFlick extends Command {
   /** Creates a new algaeFlick. */
   private Elevator elevator;
-
   private Manipulator manipulator;
   private boolean L3True = true;
-  private boolean readyToEnd = false;
-  private BooleanSupplier trigger;
   private int state = 0;
 
-  public algaeFlick(
+  public autoFlick(
       Elevator elevator,
       Manipulator manipulator,
-      boolean L3True,
-      BooleanSupplier trigger) {
+      boolean L3True) {
     this.elevator = elevator;
     this.manipulator = manipulator;
     this.L3True = L3True;
-    this.trigger = trigger;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator, manipulator);
   }
+
+  
 
   // Called when the command is initially scheduled.
   @Override
@@ -54,7 +49,7 @@ public class algaeFlick extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (state == 1 && trigger.getAsBoolean() == false) {
+    if (state == 1 && elevator.atSetpoint(13.0)) {
       if (L3True) {
         if (manipulator.laserPassed()) {
           elevator.goToSetPoint(13.8);

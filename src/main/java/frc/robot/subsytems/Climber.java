@@ -65,7 +65,8 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean isAtSetPoint(double setpoint) {
-    return climberMaster.getPosition().getValue().in(Units.Rotations) == setpoint;
+    return climberMaster.getPosition().getValueAsDouble() >= setpoint - 0.3
+    && climberMaster.getPosition().getValueAsDouble() <= setpoint + 0.3;
   }
 
   public double getPose() {
