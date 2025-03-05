@@ -285,7 +285,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   @Override
   public void periodic() {
-    addVision();
+    if(!DriverStation.isAutonomous()) addVision();
+   
     fieldWidget.setRobotPose(getPose());
 
     LimelightHelpers.SetRobotOrientation(
