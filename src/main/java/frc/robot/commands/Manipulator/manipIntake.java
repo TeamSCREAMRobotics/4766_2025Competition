@@ -36,7 +36,6 @@ public class manipIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(s_Manipulator.laserPassed());
     if (trigger) {
       timer.start();
     }
@@ -46,7 +45,6 @@ public class manipIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     s_Manipulator.stopFeed();
-    System.out.println("The manipulator has been stopped");
     trigger = false;
   }
 

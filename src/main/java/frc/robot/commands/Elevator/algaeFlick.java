@@ -7,7 +7,6 @@ package frc.robot.commands.Elevator;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.Intake;
 import frc.robot.subsytems.Manipulator;
 import java.util.function.BooleanSupplier;
 
@@ -23,10 +22,7 @@ public class algaeFlick extends Command {
   private int state = 0;
 
   public algaeFlick(
-      Elevator elevator,
-      Manipulator manipulator,
-      boolean L3True,
-      BooleanSupplier trigger) {
+      Elevator elevator, Manipulator manipulator, boolean L3True, BooleanSupplier trigger) {
     this.elevator = elevator;
     this.manipulator = manipulator;
     this.L3True = L3True;

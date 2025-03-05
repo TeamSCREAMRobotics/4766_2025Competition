@@ -78,7 +78,6 @@ public class Elevator extends SubsystemBase {
   public void setElevatorZero() {
     elevatorMaster.setPosition(0);
     elevatorFollower.setPosition(0);
-    System.out.print("Zeroed Elevator");
   }
 
   public boolean atSetpoint(double setpoint) {

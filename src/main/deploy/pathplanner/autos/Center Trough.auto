@@ -5,27 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "moveAlgaeUp"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "CT1"
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Trough"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CT2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Trough"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              }
+            ]
           }
         }
       ]

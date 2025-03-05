@@ -45,8 +45,6 @@ public class runElevator extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("ze state is " + state);
-    System.out.println("ze trigger is " + trigger.getAsBoolean());
     if (!manipulator.laserPassed() && state == 0) {
       state = 2;
     }

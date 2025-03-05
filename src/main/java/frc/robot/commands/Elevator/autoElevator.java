@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Elevator;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.subsytems.Elevator;
@@ -47,7 +46,6 @@ public class autoElevator extends Command {
       manipulator.runFeedMotor(-7);
       state = 3;
     }
-
   }
 
   // Called once the command ends or is interrupted.
@@ -55,14 +53,13 @@ public class autoElevator extends Command {
   public void end(boolean interrupted) {
     state = 0;
 
-    if (state == 0){
+    if (state == 0) {
       manipulator.goToSetpoint(0);
       elevator.goToSetPoint(0);
 
       manipulator.stopManip();
       elevator.stopElevatorMotor();
-      
-    }    
+    }
   }
 
   // Returns true when the command should end.

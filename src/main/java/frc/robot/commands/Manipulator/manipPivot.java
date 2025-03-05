@@ -9,23 +9,23 @@ import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class manipPivot extends Command {
-  Manipulator s_Manipulator;
+  private Manipulator manipulator;
   double setpoint;
   boolean holdManip = false;
 
   /** Creates a new manipulatorPivot. */
   public manipPivot(Manipulator manipulator, double Setpoint, boolean hold) {
-    s_Manipulator = manipulator;
+    this.manipulator = manipulator;
     setpoint = Setpoint;
     holdManip = hold;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Manipulator);
+    addRequirements(manipulator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_Manipulator.goToSetpoint(setpoint);
+    manipulator.goToSetpoint(setpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,12 +35,12 @@ public class manipPivot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    s_Manipulator.stopManip();
+    manipulator.stopManip();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Manipulator.atSetpoint(setpoint) && !holdManip;
+    return manipulator.atSetpoint(setpoint) && !holdManip;
   }
 }

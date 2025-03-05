@@ -52,6 +52,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   @Getter private PhoenixSwerveHelper helper;
   private Field2d fieldWidget = new Field2d();
   boolean doRejectVisionUpdate = false;
+  public boolean UpdatingPose = false;
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -146,6 +147,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             DrivetrainConstants.MAX_SPEED,
             DrivetrainConstants.HEADING_CORRECTION_CONSTANTS,
             DrivetrainConstants.HEADING_CORRECTION_CONSTANTS);
+
+    SmartDashboard.putData("Field", fieldWidget);
   }
 
   /**
@@ -282,12 +285,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   @Override
   public void periodic() {
-    LimelightHelpers.SetRobotOrientation(
-        "limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     addVision();
-    // System.out.println("Pigeon 2 Yaw: " + getPigeon2().getYaw().getValueAsDouble());
     fieldWidget.setRobotPose(getPose());
-    SmartDashboard.putData("Field", fieldWidget);
+
+    LimelightHelpers.SetRobotOrientation(
+      "limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
 
     /*
      * Periodically try to apply the operator perspective.
@@ -386,8 +388,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
               Math.pow(0.2, poseEstimate.tagCount) * poseEstimate.avgTagDist * 2,
               Math.pow(0.2, poseEstimate.tagCount) * poseEstimate.avgTagDist * 2,
               9999999));
-      System.out.println("Limelight: I am updating pose!");
+      UpdatingPose = true;
     }
+    
   }
 
   /*

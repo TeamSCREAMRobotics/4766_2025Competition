@@ -48,7 +48,7 @@
   "folder": "Center Trough",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.90521798635493
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

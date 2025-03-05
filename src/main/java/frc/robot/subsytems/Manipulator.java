@@ -78,7 +78,6 @@ public class Manipulator extends SubsystemBase {
 
   public void zeroManip() {
     pivotMotor.setPosition(0);
-    System.out.print("Zeroed Manip");
   }
 
   public void stopFeed() {

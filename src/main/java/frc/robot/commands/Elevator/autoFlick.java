@@ -13,22 +13,18 @@ import frc.robot.subsytems.Manipulator;
 public class autoFlick extends Command {
   /** Creates a new algaeFlick. */
   private Elevator elevator;
+
   private Manipulator manipulator;
   private boolean L3True = true;
   private int state = 0;
 
-  public autoFlick(
-      Elevator elevator,
-      Manipulator manipulator,
-      boolean L3True) {
+  public autoFlick(Elevator elevator, Manipulator manipulator, boolean L3True) {
     this.elevator = elevator;
     this.manipulator = manipulator;
     this.L3True = L3True;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator, manipulator);
   }
-
-  
 
   // Called when the command is initially scheduled.
   @Override

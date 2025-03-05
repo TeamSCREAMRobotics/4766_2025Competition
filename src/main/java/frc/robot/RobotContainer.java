@@ -31,7 +31,6 @@ import frc.robot.commands.Intake.runIntakeTrough;
 import frc.robot.commands.Manipulator.autoManipIntake;
 import frc.robot.commands.Manipulator.autoScore;
 import frc.robot.commands.Manipulator.manipIntake;
-import frc.robot.commands.Manipulator.manipOuttake;
 import frc.robot.commands.Manipulator.manipPivot;
 import frc.robot.commands.drivetrain.ReefAlign;
 import frc.robot.constants.Constants.ClimberConstants;
@@ -84,17 +83,25 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeManip", new autoManipIntake(s_Manipulator));
     NamedCommands.registerCommand("AlgaeFlickL2", new autoFlick(s_Elevator, s_Manipulator, false));
     NamedCommands.registerCommand("AlgaeFlickL3", new autoFlick(s_Elevator, s_Manipulator, true));
-
-    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 5.5, false));
-    NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -1.5));
+    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -2.0));
     NamedCommands.registerCommand("L2", new autoScore(s_Manipulator));
-    NamedCommands.registerCommand("L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
+    NamedCommands.registerCommand(
+        "L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
 
     auto = AutoBuilder.buildAutoChooser();
 
     auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
 
     SmartDashboard.putData(auto);
+  }
+
+  public void zeroSwerve(){
+    drivetrain.runOnce(() -> drivetrain.seedFieldCentric());
+  }
+
+  public void runIntake(){
+    s_Intake.setDefaultCommand(Commands.run(()-> s_Intake.goToSetpoint(-0.2)));
   }
 
   public void driverControls() {
@@ -158,6 +165,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-front")));
 
+    // TODO: FIX: Left and right are flipped on auto align.
     driverCon
         .povLeft()
         .and(
@@ -167,7 +175,7 @@ public class RobotContainer {
                       FieldConstants.BLUE_VALID_REEF_TAGS, FieldConstants.RED_VALID_REEF_TAGS);
               return validTags.contains((int) lastTagID);
             })
-        .whileTrue(new ReefAlign(drivetrain, true));
+        .whileTrue(new ReefAlign(drivetrain, false));
 
     driverCon
         .povRight()
@@ -178,7 +186,7 @@ public class RobotContainer {
                       FieldConstants.BLUE_VALID_REEF_TAGS, FieldConstants.RED_VALID_REEF_TAGS);
               return validTags.contains((int) lastTagID);
             })
-        .whileTrue(new ReefAlign(drivetrain, false));
+        .whileTrue(new ReefAlign(drivetrain, true));
 
     driverCon.start().whileTrue(new autoElevator(s_Elevator, 17.5, s_Manipulator));
   }
@@ -214,9 +222,7 @@ public class RobotContainer {
         .povRight()
         .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
 
-    opCon
-        .povDown()
-        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
+    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
 
     opCon
         .povDown()
@@ -245,8 +251,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPose());
     SmartDashboard.putNumber("Intake Pose", s_Intake.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPose());
-    SmartDashboard.putNumber("Intake AMP", s_Intake.getAmp());
-    SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
     DogLog.log("ClimberPos", s_Climber.getPose());
@@ -267,7 +271,7 @@ public class RobotContainer {
     s_Intake.zeroIntakePivot();
     // s_Climber.zeroClimber();
     s_Elevator.setElevatorZero();
-    s_Manipulator.zeroManip();
+    // s_Manipulator.zeroManip();
   }
 
   public Command getAutonomousCommand() {

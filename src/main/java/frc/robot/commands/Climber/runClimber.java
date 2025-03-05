@@ -24,11 +24,10 @@ public class runClimber extends Command {
   @Override
   public void execute() {
     s_Climber.goToSetPoint(setpoint);
-    System.out.println("Climber Running");
   }
 
   @Override
-  public void end(boolean interrupted){
+  public void end(boolean interrupted) {
     s_Climber.resetManualClimb();
   }
 

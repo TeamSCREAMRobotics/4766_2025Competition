@@ -23,15 +23,14 @@ public class runIntakeTrough extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    timer.start();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     s_Intake.runFlywheel(volts);
     timer.start();
+    System.out.println("running");
   }
 
   // Called once the command ends or is interrupted.
@@ -39,11 +38,12 @@ public class runIntakeTrough extends Command {
   public void end(boolean interrupted) {
     s_Intake.resetFlywheel();
     timer.reset();
+    System.out.println("ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(0.5);
+    return timer.hasElapsed(5);
   }
 }
