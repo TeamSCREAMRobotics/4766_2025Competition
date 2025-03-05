@@ -63,7 +63,7 @@ public class Manipulator extends SubsystemBase {
     return pivotMotor.getPosition().getValueAsDouble();
   }
 
-  public void runManip(double setpoint) {
+  public void goToSetpoint(double setpoint) {
     pivotMotor.setControl(magicRequest.withPosition(setpoint));
   }
 

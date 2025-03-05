@@ -5,42 +5,60 @@
 package frc.robot.commands.Manipulator;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants.ManipulatorConstants;
+import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manipPivot extends Command {
-  Manipulator s_Manipulator;
-  double setpoint;
-  boolean holdManip = false;
-
-  /** Creates a new manipulatorPivot. */
-  public manipPivot(Manipulator manipulator, double Setpoint, boolean hold) {
-    s_Manipulator = manipulator;
-    setpoint = Setpoint;
-    holdManip = hold;
+public class autoScore extends Command {
+   private Manipulator manipulator;
+   private int state = 0;
+  /** Creates a new autoScore. */
+  public autoScore( Manipulator manipulator) {
+    this.manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Manipulator);
+    addRequirements(manipulator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_Manipulator.goToSetpoint(setpoint);
+    state = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (state == 1){
+      manipulator.goToSetpoint(5);
+      state = 2;
+    }
+
+    if (state == 2){
+      manipulator.runFeedMotor(-7);
+      state = 3;
+    }
+
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    s_Manipulator.stopManip();
+    state = 0;
+    if(state == 0){
+      manipulator.stopFeed();
+      
+      manipulator.goToSetpoint(0);
+      manipulator.stopManip();
+    }
+    
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Manipulator.atSetpoint(setpoint) && !holdManip;
+    return state == 3 && !manipulator.laserPassed();
   }
 }

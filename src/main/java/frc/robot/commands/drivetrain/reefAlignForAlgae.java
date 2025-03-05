@@ -56,16 +56,16 @@ public class reefAlignForAlgae extends Command {
   @Override
   public void execute() {
     if (l3True) {
-      manipulator.runManip(5.5);
+      manipulator.goToSetpoint(5.5);
       elevator.goToSetPoint(16);
-    } else manipulator.runManip(5.5);
+    } else manipulator.goToSetpoint(5.5);
     command.execute();
     if (drivetrain.getPose().getX() < xCord
         && drivetrain.getPose().getY() <= yCord
         && drivetrain.getHeading().getDegrees() == rotVal) atReefPose = true;
 
     if (atReefPose) {
-      manipulator.runManip(0);
+      manipulator.goToSetpoint(0);
       if (l3True) {
         elevator.goToSetPoint(0);
       }
@@ -76,7 +76,7 @@ public class reefAlignForAlgae extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    manipulator.runManip(0);
+    manipulator.goToSetpoint(0);
   }
 
   // Returns true when the command should end.

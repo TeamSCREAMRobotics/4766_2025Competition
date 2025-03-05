@@ -12,76 +12,62 @@ import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class autoElevator extends Command {
-  Elevator s_Elevator;
-  double Setpoint;
+  Elevator elevator;
+  double setpoint;
   private final Manipulator manipulator;
   private double manipSetpoint = ManipulatorConstants.manipSetpoint;
   int state = 0;
 
   /** Creates a new runElevator. */
   public autoElevator(Elevator elevator, double setpoint, Manipulator manipulator) {
-    s_Elevator = elevator;
-    Setpoint = setpoint;
+    this.elevator = elevator;
+    this.setpoint = setpoint;
     this.manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Elevator);
+    addRequirements(elevator, manipulator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = 0;
+    state = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!manipulator.laserPassed() && state == 0) {
-      state = 5;
-    }
-
-    if (state == 0) {
-      manipulator.runManip(0);
-      s_Elevator.goToSetPoint(Setpoint);
-      state = 1;
-    }
 
     if (state == 1) {
-      manipulator.runManip(manipSetpoint);
-      s_Elevator.goToSetPoint(Setpoint);
+      manipulator.goToSetpoint(manipSetpoint);
+      elevator.goToSetPoint(setpoint);
       state = 2;
     }
 
-    if (state == 2 && s_Elevator.atSetpoint(Setpoint)) {
-      manipulator.runManip(manipSetpoint);
-      Timer.delay(.5);
+    if (state == 2 && elevator.atSetpoint(setpoint)) {
       manipulator.runFeedMotor(-7);
       state = 3;
     }
 
-    if (state == 3) {
-      manipulator.runManip(0);
-      manipulator.runFeedMotor(0);
-      state = 4;
-    }
-
-    if (state == 4) {
-      s_Elevator.goToSetPoint(0);
-      manipulator.runManip(0);
-      state = 5;
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    s_Elevator.stopElevatorMotor();
     state = 0;
+
+    if (state == 0){
+      manipulator.goToSetpoint(0);
+      elevator.goToSetPoint(0);
+
+      manipulator.stopManip();
+      elevator.stopElevatorMotor();
+      
+    }    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Elevator.atSetpoint(0.0) && state == 5;
+    return state == 3 && manipulator.laserPassed();
   }
 }

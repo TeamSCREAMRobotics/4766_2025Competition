@@ -52,26 +52,26 @@ public class runElevator extends Command {
     }
 
     if (state == 0) {
-      manipulator.runManip(0);
+      manipulator.goToSetpoint(0);
       s_Elevator.goToSetPoint(Setpoint);
       state = 1;
     }
 
     if (state == 1) {
-      manipulator.runManip(manipSetpoint);
+      manipulator.goToSetpoint(manipSetpoint);
       s_Elevator.goToSetPoint(Setpoint);
     }
 
     if (state == 1 && trigger.getAsBoolean() == true) {
       Timer.delay(0.1);
-      manipulator.runManip(0);
+      manipulator.goToSetpoint(0);
       s_Elevator.goToSetPoint(Setpoint);
       state = 2;
     }
 
     if (state == 2) {
       s_Elevator.goToSetPoint(0);
-      manipulator.runManip(0);
+      manipulator.goToSetpoint(0);
       state = 3;
     }
   }

@@ -43,12 +43,12 @@ public class algaeFlick extends Command {
   public void initialize() {
     if (state == 0) {
       if (L3True) {
-        manipulator.runManip(5.56);
+        manipulator.goToSetpoint(5.56);
         Timer.delay(.5);
         elevator.goToSetPoint(13.0);
         state = 1;
       } else {
-        manipulator.runManip(5.56);
+        manipulator.goToSetpoint(5.56);
         state = 1;
       }
     }
@@ -65,13 +65,13 @@ public class algaeFlick extends Command {
         elevator.goToSetPoint(13.5);
         state = 2;
       } else {
-        manipulator.runManip(0);
+        manipulator.goToSetpoint(0);
         state = 3;
       }
     }
 
     if (state == 2) {
-      manipulator.runManip(0);
+      manipulator.goToSetpoint(0);
       Timer.delay(.17);
       elevator.goToSetPoint(0);
       state = 3;

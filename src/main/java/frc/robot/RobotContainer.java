@@ -28,6 +28,7 @@ import frc.robot.commands.Elevator.runElevator;
 import frc.robot.commands.Intake.runIntake;
 import frc.robot.commands.Intake.runIntakeTrough;
 import frc.robot.commands.Manipulator.autoManipIntake;
+import frc.robot.commands.Manipulator.autoScore;
 import frc.robot.commands.Manipulator.manipIntake;
 import frc.robot.commands.Manipulator.manipOuttake;
 import frc.robot.commands.Manipulator.manipPivot;
@@ -79,14 +80,12 @@ public class RobotContainer {
     // Setting the Elevator to work with Autos
 
     // Setting the Manip Commands to work with Autos
-    NamedCommands.registerCommand("ManipOuttake", new manipOuttake(s_Manipulator));
     NamedCommands.registerCommand("intakeManip", new autoManipIntake(s_Manipulator));
-    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand("AlgaeFlick", new manipPivot(s_Manipulator, 0, false));
     NamedCommands.registerCommand("moveAlgaeDown", new manipPivot(s_Manipulator, 5.5, false));
     NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -1.5));
-    NamedCommands.registerCommand("L2", new manipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand(
-        "L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
+    NamedCommands.registerCommand("L2", new autoScore(s_Manipulator));
+    NamedCommands.registerCommand("L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
 
     auto = AutoBuilder.buildAutoChooser();
 
