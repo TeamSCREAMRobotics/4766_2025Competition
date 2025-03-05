@@ -96,12 +96,12 @@ public class RobotContainer {
     SmartDashboard.putData(auto);
   }
 
-  public void zeroSwerve(){
+  public void zeroSwerve() {
     drivetrain.runOnce(() -> drivetrain.seedFieldCentric());
   }
 
-  public void runIntake(){
-    s_Intake.setDefaultCommand(Commands.run(()-> s_Intake.goToSetpoint(-0.2)));
+  public void runIntake() {
+    s_Intake.setDefaultCommand(Commands.run(() -> s_Intake.goToSetpoint(-0.2)));
   }
 
   public void driverControls() {

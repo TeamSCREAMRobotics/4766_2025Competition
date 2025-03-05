@@ -289,7 +289,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     fieldWidget.setRobotPose(getPose());
 
     LimelightHelpers.SetRobotOrientation(
-      "limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        "limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
 
     /*
      * Periodically try to apply the operator perspective.
@@ -390,7 +390,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
               9999999));
       UpdatingPose = true;
     }
-    
   }
 
   /*

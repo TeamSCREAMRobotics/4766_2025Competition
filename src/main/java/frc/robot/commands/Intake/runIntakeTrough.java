@@ -13,6 +13,7 @@ public class runIntakeTrough extends Command {
   private Intake s_Intake;
   private double volts;
   private Timer timer = new Timer();
+
   /** Creates a new runIntakeTrough. */
   public runIntakeTrough(Intake intake, double shootingVolts) {
     s_Intake = intake;
