@@ -86,7 +86,7 @@ public class FieldConstants {
   // Half of center of robot + bumpers to the edge of the reef
   // TODO: Find this value!
   public static final Translation2d BRANCH_TO_ROBOT =
-      new Translation2d(Units.inchesToMeters(13.647 + BRANCH_TO_REEF_EDGE.getInches() + .5), 0);
+      new Translation2d(Units.inchesToMeters(11.647 + BRANCH_TO_REEF_EDGE.getInches() + .5), 0);
 
   public static final Translation2d SCORE_LOCATION_1 =
       REEF_CENTER_TO_TOP_BRANCH.plus(BRANCH_TO_ROBOT);

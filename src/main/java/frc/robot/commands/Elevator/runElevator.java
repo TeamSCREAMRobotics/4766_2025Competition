@@ -18,6 +18,7 @@ public class runElevator extends Command {
   private double manipSetpoint;
   int state = 0;
   BooleanSupplier trigger;
+  
 
   /** Creates a new runElevator. */
   public runElevator(

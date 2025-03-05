@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Manipulator;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
@@ -13,10 +15,14 @@ public class manipIntake extends Command {
   Manipulator s_Manipulator;
   private boolean trigger;
   private Timer timer = new Timer();
+  private BooleanSupplier conA;
+  private BooleanSupplier conB;
 
   /** Creates a new manip. */
-  public manipIntake(Manipulator manipulator) {
+  public manipIntake(Manipulator manipulator, BooleanSupplier conA, BooleanSupplier conB) {
     s_Manipulator = manipulator;
+    this.conA = conA;
+    this.conB = conB;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Manipulator);
   }
@@ -25,19 +31,31 @@ public class manipIntake extends Command {
   @Override
   public void initialize() {
     trigger = s_Manipulator.laserPassed();
-    if (trigger) {
-      s_Manipulator.runFeedMotor(-7);
-      timer.reset();
-    } else {
-      s_Manipulator.runFeedMotor(7);
-    }
+    s_Manipulator.runFeedMotor(.7);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (trigger && conA.getAsBoolean() == true) {
+      s_Manipulator.runFeedMotor(-7);
+      timer.reset();
+    } 
+    if (!trigger && conA.getAsBoolean() == true) {
+      s_Manipulator.runFeedMotor(7);
+      Timer.delay(1);
+    }
+    if (!trigger && conA.getAsBoolean() == false) {
+      s_Manipulator.runFeedMotor(.7);
+    }
     if (trigger) {
       timer.start();
+    }
+    if(conB.getAsBoolean()) {
+      s_Manipulator.goToSetpoint(5.4);
+    }
+    if (!conB.getAsBoolean()) {
+      s_Manipulator.goToSetpoint(0);
     }
   }
 

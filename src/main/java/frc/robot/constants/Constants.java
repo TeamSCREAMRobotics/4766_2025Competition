@@ -76,7 +76,7 @@ public class Constants {
     public static final double intakeSetpoint = 1.26;
 
     // AMPS for Intake spike once algae is grabbed.
-    public static final double kAmps = 23.9;
+    public static final double kAmps = 30;
   }
 
   // Constants for the Manipulator Subsystem

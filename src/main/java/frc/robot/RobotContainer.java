@@ -143,7 +143,7 @@ public class RobotContainer {
     /* Other Subsystems Declairations */
 
     // Buttons to make Manip work
-    driverCon.rightBumper().whileTrue(new manipIntake(s_Manipulator));
+    s_Manipulator.setDefaultCommand(new manipIntake(s_Manipulator, driverCon.rightBumper(), opCon.povDown()));
 
     // Trough Shot Button
     driverCon.a().whileTrue(new runIntakeTrough(s_Intake, -2));
@@ -212,12 +212,12 @@ public class RobotContainer {
         .povLeft()
         .whileTrue(new manipPivot(s_Manipulator, 5, true))
         .whileFalse(new manipPivot(s_Manipulator, 0, false));
-    /*
+/* 
         opCon
             .povRight()
             .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
     */
-    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
+    // opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
 
     opCon
         .povDown()
