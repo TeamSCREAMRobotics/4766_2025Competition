@@ -52,7 +52,7 @@ public class autoElevator extends Command {
       state = 2;
     }
 
-    if (state == 2) {
+    if (state == 2 && s_Elevator.atSetpoint(Setpoint)) {
       manipulator.runManip(manipSetpoint);
       Timer.delay(.5);
       manipulator.runFeedMotor(-7);
@@ -60,16 +60,15 @@ public class autoElevator extends Command {
     }
 
     if (state == 3) {
-      Timer.delay(0.1);
       manipulator.runManip(0);
-      s_Elevator.goToSetPoint(Setpoint);
+      manipulator.runFeedMotor(0);
       state = 4;
     }
 
-    if (state == 5) {
+    if (state == 4) {
       s_Elevator.goToSetPoint(0);
       manipulator.runManip(0);
-      state = 6;
+      state = 5;
     }
   }
 
@@ -83,6 +82,6 @@ public class autoElevator extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Elevator.atSetpoint(0.0) && state == 6;
+    return s_Elevator.atSetpoint(0.0) && state == 5;
   }
 }

@@ -40,7 +40,7 @@ public class runIntake extends Command {
   @Override
   public void execute() {
 
-    intake.goToSetpoint(-0.133);
+    intake.goToSetpoint(-0.233);
 
     if (intake.getAmp() >= currentThreshold) {
       hasAlgae = true;

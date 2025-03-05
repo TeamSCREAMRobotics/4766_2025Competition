@@ -4,12 +4,13 @@
   "holonomicMode": true,
   "pathFolders": [
     "C2L",
+    "C2R",
     "Center Auto Paths",
-    "C2R"
+    "Center Trough"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 7.0,
-  "defaultMaxAccel": 7.0,
+  "defaultMaxVel": 5.6,
+  "defaultMaxAccel": 5.6,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,

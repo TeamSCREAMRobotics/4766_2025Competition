@@ -43,11 +43,12 @@ public class algaeFlick extends Command {
   public void initialize() {
     if (state == 0) {
       if (L3True) {
-        manipulator.runManip(5.5);
-        elevator.goToSetPoint(17.5);
+        manipulator.runManip(5.56);
+        Timer.delay(.5);
+        elevator.goToSetPoint(13.0);
         state = 1;
       } else {
-        manipulator.runManip(5.5);
+        manipulator.runManip(5.56);
         state = 1;
       }
     }
@@ -58,8 +59,10 @@ public class algaeFlick extends Command {
   public void end(boolean interrupted) {
     if (state == 1 && trigger.getAsBoolean() == false) {
       if (L3True) {
-        elevator.goToSetPoint(18);
-        Timer.delay(.5);
+        if (manipulator.laserPassed()) {
+          elevator.goToSetPoint(13.8);
+        }
+        elevator.goToSetPoint(13.5);
         state = 2;
       } else {
         manipulator.runManip(0);
@@ -68,8 +71,9 @@ public class algaeFlick extends Command {
     }
 
     if (state == 2) {
-      elevator.goToSetPoint(0);
       manipulator.runManip(0);
+      Timer.delay(.17);
+      elevator.goToSetPoint(0);
       state = 3;
     }
 
