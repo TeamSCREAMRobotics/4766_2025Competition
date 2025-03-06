@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.8,
-        "y": 4.04298155737705
+        "x": 7.204610655737704,
+        "y": 4.026
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.704508237875169,
-        "y": 4.274025543159616
+        "x": 7.644623744405078,
+        "y": 4.012780975049622
       },
       "isLocked": false,
-      "linkedName": "C1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.8,
-        "y": 4.180995056175687
+        "x": 5.670184426229508,
+        "y": 4.026
       },
       "prevControl": {
-        "x": 5.9104263685510645,
-        "y": 3.9324783243424015
+        "x": 5.420184559620044,
+        "y": 4.0262582542367005
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C2"
+      "linkedName": "CT1"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.6,
-    "maxAcceleration": 5.6,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Center Auto Paths",
+  "folder": "Center Trough",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

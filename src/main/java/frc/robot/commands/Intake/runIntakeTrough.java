@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Intake;
 
@@ -11,6 +12,7 @@ import frc.robot.subsytems.Intake;
 public class runIntakeTrough extends Command {
   private Intake s_Intake;
   private double volts;
+  private Timer timer = new Timer();
 
   /** Creates a new runIntakeTrough. */
   public runIntakeTrough(Intake intake, double shootingVolts) {
@@ -22,19 +24,17 @@ public class runIntakeTrough extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    s_Intake.runFlywheel(volts);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    s_Intake.runFlywheel(volts);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    s_Intake.resetFlywheel();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

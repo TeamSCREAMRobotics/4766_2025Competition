@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C1"
+            "pathName": "C2L1"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C2"
+            "pathName": "C2L2"
           }
         },
         {
@@ -35,7 +35,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "C3"
+                  "pathName": "C2L3"
                 }
               },
               {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C4"
+            "pathName": "C2L4"
           }
         },
         {
@@ -66,7 +66,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "C5"
+                  "pathName": "C2L5"
                 }
               },
               {
@@ -81,7 +81,69 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C6"
+            "pathName": "C2L9"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Trough"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "C2L5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeManip"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2L6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L2"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "C2L7"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeManip"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2L8"
           }
         },
         {

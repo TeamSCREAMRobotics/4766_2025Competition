@@ -8,16 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manipPivot extends Command {
+public class autoScore extends Command {
   private Manipulator manipulator;
-  double setpoint;
-  boolean holdManip = false;
+  private int state = 0;
 
-  /** Creates a new manipulatorPivot. */
-  public manipPivot(Manipulator manipulator, double Setpoint, boolean hold) {
+  /** Creates a new autoScore. */
+  public autoScore(Manipulator manipulator) {
     this.manipulator = manipulator;
-    setpoint = Setpoint;
-    holdManip = hold;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(manipulator);
   }
@@ -25,22 +22,38 @@ public class manipPivot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    manipulator.goToSetpoint(setpoint);
+    state = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (state == 1) {
+      manipulator.goToSetpoint(5);
+      state = 2;
+    }
+
+    if (state == 2 && manipulator.atSetpoint(5)) {
+      manipulator.runFeedMotor(-7);
+      state = 3;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    manipulator.stopManip();
+    state = 0;
+    if (state == 0) {
+      manipulator.stopFeed();
+
+      manipulator.goToSetpoint(0);
+      manipulator.stopManip();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return manipulator.atSetpoint(setpoint) && !holdManip;
+    return state == 3 && !manipulator.laserPassed();
   }
 }

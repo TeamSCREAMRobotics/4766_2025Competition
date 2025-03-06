@@ -12,7 +12,7 @@ public class autoManipIntake extends Command {
   /** Creates a new autoManipIntake. */
   private Manipulator manipulator;
 
-  private boolean laser = manipulator.laserPassed();
+  private boolean laser = false;
   private boolean end = false;
 
   public autoManipIntake(Manipulator manipulator) {
@@ -23,7 +23,9 @@ public class autoManipIntake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    laser = manipulator.laserPassed();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

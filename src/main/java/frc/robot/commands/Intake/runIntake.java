@@ -40,7 +40,7 @@ public class runIntake extends Command {
   @Override
   public void execute() {
 
-    intake.goToSetpoint(-0.133);
+    intake.goToSetpoint(-0.233);
 
     if (intake.getAmp() >= currentThreshold) {
       hasAlgae = true;
@@ -63,7 +63,7 @@ public class runIntake extends Command {
         intake.goToSetpoint(intakeAlgaeSetpoint);
         intake.runFlywheel(-intakeIn);
       } else if (hasAlgae == true && readyToFire) {
-        intake.runFlywheel(7);
+        intake.runFlywheel(6);
         Timer.delay(1);
         intake.resetFlywheel();
         hasAlgae = false;

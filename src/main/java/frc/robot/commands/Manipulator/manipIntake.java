@@ -15,9 +15,8 @@ public class manipIntake extends Command {
   private Timer timer = new Timer();
 
   /** Creates a new manip. */
-  public manipIntake(Manipulator manipulator, boolean trigger) {
+  public manipIntake(Manipulator manipulator) {
     s_Manipulator = manipulator;
-    this.trigger = trigger;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Manipulator);
   }
@@ -25,19 +24,19 @@ public class manipIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (trigger == true) {
+    trigger = s_Manipulator.laserPassed();
+    if (trigger) {
       s_Manipulator.runFeedMotor(-7);
       timer.reset();
     } else {
-      s_Manipulator.runFeedMotor(5);
+      s_Manipulator.runFeedMotor(7);
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(s_Manipulator.laserPassed());
-    if (trigger == true) {
+    if (trigger) {
       timer.start();
     }
   }
@@ -46,7 +45,6 @@ public class manipIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     s_Manipulator.stopFeed();
-    System.out.println("The manipulator has been stopped");
     trigger = false;
   }
 

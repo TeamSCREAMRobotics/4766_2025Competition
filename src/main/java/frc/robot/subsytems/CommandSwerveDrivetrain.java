@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.constants.DrivetrainConstants;
@@ -49,10 +50,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   private Notifier m_simNotifier = null;
   private double m_lastSimTime;
   @Getter private PhoenixSwerveHelper helper;
-  PoseEstimate m_PoseEstimate =
-      LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
   private Field2d fieldWidget = new Field2d();
   boolean doRejectVisionUpdate = false;
+  public boolean UpdatingPose = false;
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -139,6 +139,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     if (Utils.isSimulation()) {
       startSimThread();
     }
+    CommandScheduler.getInstance().registerSubsystem(this);
+    // configureAutoBuilder();
+    helper =
+        new PhoenixSwerveHelper(
+            this::getPose,
+            DrivetrainConstants.MAX_SPEED,
+            DrivetrainConstants.HEADING_CORRECTION_CONSTANTS,
+            DrivetrainConstants.HEADING_CORRECTION_CONSTANTS);
+
+    SmartDashboard.putData("Field", fieldWidget);
   }
 
   /**
@@ -152,10 +162,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    *     0 Hz, this is 250 Hz on CAN FD, and 100 Hz on CAN 2.0.
    * @param modules Constants for each specific module
    */
+  /*
   public CommandSwerveDrivetrain(
-      SwerveDrivetrainConstants drivetrainConstants,
-      double odometryUpdateFrequency,
-      SwerveModuleConstants<?, ?, ?>... modules) {
+    SwerveDrivetrainConstants drivetrainConstants,
+    double odometryUpdateFrequency,
+    SwerveModuleConstants<?, ?, ?>... modules) {
     super(drivetrainConstants, odometryUpdateFrequency, modules);
     if (Utils.isSimulation()) {
       startSimThread();
@@ -168,6 +179,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             DrivetrainConstants.HEADING_CORRECTION_CONSTANTS,
             DrivetrainConstants.HEADING_CORRECTION_CONSTANTS);
   }
+            */
 
   /**
    * Constructs a CTRE SwerveDrivetrain using the specified constants.
@@ -184,6 +196,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    *     theta]ᵀ, with units in meters and radians
    * @param modules Constants for each specific module
    */
+  /*
   public CommandSwerveDrivetrain(
       SwerveDrivetrainConstants drivetrainConstants,
       double odometryUpdateFrequency,
@@ -206,6 +219,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             DrivetrainConstants.HEADING_CORRECTION_CONSTANTS,
             DrivetrainConstants.HEADING_CORRECTION_CONSTANTS);
   }
+  */
 
   public void configureAutoBuilder() {
     try {
@@ -271,11 +285,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   @Override
   public void periodic() {
-    LimelightHelpers.SetRobotOrientation(
-        "limelight-front", getHeading().getDegrees(), 0, 0, 0, 0, 0);
-    // System.out.println("Pigeon 2 Yaw: " + getPigeon2().getYaw().getValueAsDouble());
+    if (!DriverStation.isAutonomous()) addVision();
+
     fieldWidget.setRobotPose(getPose());
-    SmartDashboard.putData("Field", fieldWidget);
+
+    LimelightHelpers.SetRobotOrientation(
+        "limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
 
     /*
      * Periodically try to apply the operator perspective.
@@ -294,23 +309,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                         : kBlueAlliancePerspectiveRotation);
                 m_hasAppliedOperatorPerspective = true;
               });
-    }
-
-    if (LimelightHelpers.getTV("limelight-front")) {
-      if (m_PoseEstimate == null
-          || m_PoseEstimate.tagCount == 0
-          || !FieldConstants.FIELD_AREA.contains(m_PoseEstimate.pose.getTranslation())
-          || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 540
-          || getLinearVelocity().getNorm() > 3.0) {
-        return;
-      }
-      addVisionMeasurement(
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front").pose,
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front").timestampSeconds,
-          VecBuilder.fill(
-              Math.pow(0.5, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
-              Math.pow(0.5, m_PoseEstimate.tagCount) * m_PoseEstimate.avgTagDist * 2,
-              9999999));
     }
   }
 
@@ -371,6 +369,28 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   public Rotation2d getHeading() {
     return getPose().getRotation();
+  }
+
+  public void addVision() {
+    if (LimelightHelpers.getTV("limelight-front")) {
+      PoseEstimate poseEstimate =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+      if (poseEstimate == null
+          || poseEstimate.tagCount == 0
+          || !FieldConstants.FIELD_AREA.contains(poseEstimate.pose.getTranslation())
+          || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 540
+          || getLinearVelocity().getNorm() > 3.0) {
+        return;
+      }
+      addVisionMeasurement(
+          poseEstimate.pose,
+          poseEstimate.timestampSeconds,
+          VecBuilder.fill(
+              Math.pow(0.2, poseEstimate.tagCount) * poseEstimate.avgTagDist * 2,
+              Math.pow(0.2, poseEstimate.tagCount) * poseEstimate.avgTagDist * 2,
+              9999999));
+      UpdatingPose = true;
+    }
   }
 
   /*

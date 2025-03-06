@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "moveAlgaeUp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CT1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Trough"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

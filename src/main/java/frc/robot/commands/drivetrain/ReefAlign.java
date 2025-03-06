@@ -56,7 +56,7 @@ public class ReefAlign extends Command {
   @Override
   public void execute() {
     command.execute();
-    atReefPose = s_drivetrain.comparePose2d(TargetPose, 0.1, 0.1, 5);
+    atReefPose = s_drivetrain.comparePose2d(TargetPose, 0.02, 0.02, 5);
     Logger.log("TargetPose", TargetPose);
   }
 

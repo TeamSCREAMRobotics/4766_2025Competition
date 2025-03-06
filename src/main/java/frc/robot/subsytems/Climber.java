@@ -13,7 +13,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.ClimberConstants;
 
@@ -61,11 +60,11 @@ public class Climber extends SubsystemBase {
 
   public void goToSetPoint(double setpoint) {
     climberMaster.setControl(magicRequest.withPosition(setpoint));
-    System.out.println("Climber going to " + setpoint);
   }
 
   public boolean isAtSetPoint(double setpoint) {
-    return climberMaster.getPosition().getValue().in(Units.Rotations) == setpoint;
+    return climberMaster.getPosition().getValueAsDouble() >= setpoint - 0.3
+        && climberMaster.getPosition().getValueAsDouble() <= setpoint + 0.3;
   }
 
   public double getPose() {

@@ -63,7 +63,7 @@ public class Manipulator extends SubsystemBase {
     return pivotMotor.getPosition().getValueAsDouble();
   }
 
-  public void runManip(double setpoint) {
+  public void goToSetpoint(double setpoint) {
     pivotMotor.setControl(magicRequest.withPosition(setpoint));
   }
 
@@ -78,7 +78,6 @@ public class Manipulator extends SubsystemBase {
 
   public void zeroManip() {
     pivotMotor.setPosition(0);
-    System.out.print("Zeroed Manip");
   }
 
   public void stopFeed() {

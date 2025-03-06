@@ -22,7 +22,7 @@ public class Constants {
     public static final double kMagicAcceleration = 250.0;
 
     // Climbing setpoint
-    public static final double setpointForClimb = 445;
+    public static final double setpointForClimb = 475;
   }
 
   // Constants for the Elevator Subsystem
@@ -76,7 +76,7 @@ public class Constants {
     public static final double intakeSetpoint = 1.26;
 
     // AMPS for Intake spike once algae is grabbed.
-    public static final double kAmps = 23.9;
+    public static final double kAmps = 30;
   }
 
   // Constants for the Manipulator Subsystem
@@ -93,7 +93,7 @@ public class Constants {
     // PID for Manipulator.
     public static final double kG = 0.5;
     public static final double kV = 0.0;
-    public static final double kP = 7;
+    public static final double kP = 8;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 

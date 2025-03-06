@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  // private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
   private final RobotContainer m_robotContainer;
 
   public Robot() {
@@ -26,9 +28,10 @@ public class Robot extends TimedRobot {
             .withNtPublish(true));
 
     DogLog.setEnabled(true);
+    DogLog.setOptions(new DogLogOptions().withLogEntryQueueCapacity(1000));
+    m_robotContainer.zeros();
   }
 
-  // SIGMA Belnap CREATED THE REST OF THIS CODE AND IF NATHAN SAYS OTHERWISE HE'S LYING!!!
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
@@ -36,9 +39,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-    m_robotContainer.zeros();
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
@@ -53,6 +54,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    m_robotContainer.zeroSwerve();
+    // m_robotContainer.runIntake();
   }
 
   @Override
@@ -84,4 +88,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+  // Mackenzie
 }
