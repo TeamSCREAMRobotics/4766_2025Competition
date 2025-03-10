@@ -99,4 +99,8 @@ public class Manipulator extends SubsystemBase {
   public void manualManip(double voltage) {
     pivotMotor.setControl(m_request.withOutput(voltage));
   }
+
+  public double minipVoltage() {
+    return feederMotor.getMotorVoltage().getValueAsDouble();
+  }
 }

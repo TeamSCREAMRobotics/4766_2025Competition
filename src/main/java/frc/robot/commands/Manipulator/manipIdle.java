@@ -4,15 +4,12 @@
 
 package frc.robot.commands.Manipulator;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class manipIdle extends Command {
   Manipulator s_Manipulator;
-  private boolean trigger;
-  private Timer timer = new Timer();
 
   /** Creates a new manip. */
   public manipIdle(Manipulator manipulator) {

@@ -17,7 +17,6 @@ public class algaeFlick extends Command {
 
   private Manipulator manipulator;
   private boolean L3True = true;
-  private boolean readyToEnd = false;
   private BooleanSupplier trigger;
   private int state = 0;
 
@@ -38,10 +37,10 @@ public class algaeFlick extends Command {
       if (L3True) {
         manipulator.goToSetpoint(5.56);
         Timer.delay(.5);
-        elevator.goToSetPoint(13.0);
+        elevator.goToSetPoint(15.7);
         state = 1;
       } else {
-        manipulator.goToSetpoint(5.56);
+        manipulator.goToSetpoint(5.45);
         state = 1;
       }
     }
@@ -53,9 +52,9 @@ public class algaeFlick extends Command {
     if (state == 1 && trigger.getAsBoolean() == false) {
       if (L3True) {
         if (manipulator.laserPassed()) {
-          elevator.goToSetPoint(13.8);
-        }
-        elevator.goToSetPoint(13.5);
+          elevator.goToSetPoint(16.8);
+        } else elevator.goToSetPoint(16.5);
+
         state = 2;
       } else {
         manipulator.goToSetpoint(0);
@@ -71,7 +70,6 @@ public class algaeFlick extends Command {
     }
 
     if (state == 3) {
-      Timer.delay(.5);
       state = 0;
     }
   }

@@ -16,7 +16,6 @@ public class runElevator extends Command {
   double Setpoint;
   private final Manipulator manipulator;
   private double manipSetpoint;
-  int state = 0;
   BooleanSupplier trigger;
 
   /** Creates a new runElevator. */
@@ -31,7 +30,7 @@ public class runElevator extends Command {
     this.manipulator = manipulator;
     this.manipSetpoint = manipSetpoint;
     trigger = triggSupplier;
-    state = s_Elevator.elevatorState;
+    s_Elevator.elevatorState = s_Elevator.elevatorState;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Elevator);
   }
@@ -39,38 +38,38 @@ public class runElevator extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = 0;
+    s_Elevator.elevatorState = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!manipulator.laserPassed() && state == 0) {
-      state = 2;
+    if (!manipulator.laserPassed() && s_Elevator.elevatorState == 0) {
+      s_Elevator.elevatorState = 2;
     }
 
-    if (state == 0) {
+    if (s_Elevator.elevatorState == 0) {
       manipulator.goToSetpoint(0);
       s_Elevator.goToSetPoint(Setpoint);
-      state = 1;
+      s_Elevator.elevatorState = 1;
     }
 
-    if (state == 1) {
+    if (s_Elevator.elevatorState == 1) {
       manipulator.goToSetpoint(manipSetpoint);
       s_Elevator.goToSetPoint(Setpoint);
     }
 
-    if (state == 1 && trigger.getAsBoolean() == true) {
+    if (s_Elevator.elevatorState == 1 && trigger.getAsBoolean() == true) {
       Timer.delay(0.1);
       manipulator.goToSetpoint(0);
       s_Elevator.goToSetPoint(Setpoint);
-      state = 2;
+      s_Elevator.elevatorState = 2;
     }
 
-    if (state == 2) {
+    if (s_Elevator.elevatorState == 2) {
       s_Elevator.goToSetPoint(0);
       manipulator.goToSetpoint(0);
-      state = 3;
+      s_Elevator.elevatorState = 3;
     }
   }
 
@@ -78,12 +77,12 @@ public class runElevator extends Command {
   @Override
   public void end(boolean interrupted) {
     s_Elevator.stopElevatorMotor();
-    state = 0;
+    s_Elevator.elevatorState = 0;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Elevator.atSetpoint(0.0) && state == 3;
+    return s_Elevator.atSetpoint(0.0) && s_Elevator.elevatorState == 3;
   }
 }

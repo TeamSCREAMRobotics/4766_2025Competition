@@ -6,17 +6,20 @@ package frc.robot.commands.Manipulator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class manipIntake extends Command {
   Manipulator s_Manipulator;
+  private Elevator elevator;
   private boolean trigger;
   private Timer timer = new Timer();
 
   /** Creates a new manip. */
-  public manipIntake(Manipulator manipulator) {
+  public manipIntake(Manipulator manipulator, Elevator elevator) {
     s_Manipulator = manipulator;
+    this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Manipulator);
   }
@@ -26,7 +29,9 @@ public class manipIntake extends Command {
   public void initialize() {
     trigger = s_Manipulator.laserPassed();
     if (trigger) {
-      s_Manipulator.runFeedMotor(-7);
+      if (elevator.elevatorState == 1) {
+        s_Manipulator.runFeedMotor(-4);
+      } else s_Manipulator.runFeedMotor(-5);
       timer.reset();
     } else {
       s_Manipulator.runFeedMotor(7);

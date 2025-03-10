@@ -5,21 +5,35 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "moveAlgaeUp"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CT1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Trough"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "moveAlgaeUp"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CT1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Trough"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

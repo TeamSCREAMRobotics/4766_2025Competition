@@ -26,8 +26,6 @@ import frc.robot.commands.Elevator.algaeFlick;
 import frc.robot.commands.Elevator.autoElevator;
 import frc.robot.commands.Elevator.autoFlick;
 import frc.robot.commands.Elevator.runElevator;
-import frc.robot.commands.Intake.runIntake;
-import frc.robot.commands.Intake.runIntakeTrough;
 import frc.robot.commands.Manipulator.autoManipIntake;
 import frc.robot.commands.Manipulator.autoScore;
 import frc.robot.commands.Manipulator.manipIdle;
@@ -41,7 +39,6 @@ import frc.robot.constants.TunerConstants;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.CommandSwerveDrivetrain;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.Intake;
 import frc.robot.subsytems.Manipulator;
 import util.AllianceFlipUtil;
 import vision.LimelightHelpers;
@@ -49,7 +46,6 @@ import vision.LimelightHelpers;
 public class RobotContainer {
   private Climber s_Climber = new Climber();
   private Elevator s_Elevator = new Elevator();
-  private Intake s_Intake = new Intake();
   private Manipulator s_Manipulator = new Manipulator();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -84,7 +80,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("AlgaeFlickL2", new autoFlick(s_Elevator, s_Manipulator, false));
     NamedCommands.registerCommand("AlgaeFlickL3", new autoFlick(s_Elevator, s_Manipulator, true));
     NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("Trough", new runIntakeTrough(s_Intake, -2.0));
     NamedCommands.registerCommand("L2", new autoScore(s_Manipulator));
     NamedCommands.registerCommand(
         "L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
@@ -105,8 +100,8 @@ public class RobotContainer {
 
     final SwerveRequest.FieldCentric drive =
         new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1)
-            .withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.15)
+            .withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
             .withDriveRequestType(
                 DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
@@ -117,15 +112,15 @@ public class RobotContainer {
                 drive
                     .withVelocityX(
                         -driverCon.getLeftY()
-                            * MaxSpeed
+                            * 1.2
                             * (driverCon.getRightTriggerAxis() > 0.5
-                                ? 0.5
+                                ? MaxSpeed
                                 : 1)) // Drive forward with negative Y (forward)
                     .withVelocityY(
                         -driverCon.getLeftX()
-                            * MaxSpeed
+                            * 1.2
                             * (driverCon.getRightTriggerAxis() > 0.5
-                                ? 0.5
+                                ? MaxSpeed
                                 : 1)) // Drive left with negative X (left)
                     .withRotationalRate(
                         -driverCon.getRightX()
@@ -144,13 +139,11 @@ public class RobotContainer {
     /* Other Subsystems Declairations */
 
     // Buttons to make Manip work
-    driverCon.rightBumper().whileTrue(new manipIntake(s_Manipulator));
+    driverCon.rightBumper().whileTrue(new manipIntake(s_Manipulator, s_Elevator));
 
     // Trough Shot Button
-    driverCon.a().whileTrue(new runIntakeTrough(s_Intake, -2));
 
     // Command to run the intake const and make it work
-    s_Intake.setDefaultCommand(new runIntake(s_Intake, driverCon.leftBumper(), 4.0));
 
     s_Manipulator.setDefaultCommand(new manipIdle(s_Manipulator));
 
@@ -232,10 +225,8 @@ public class RobotContainer {
     // Zero Subsystems When Pushed
     opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
     opCon.b().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Elevator.setElevatorZero()));
-    opCon
-        .leftTrigger()
-        .and(opCon.start())
-        .whileTrue(Commands.runOnce(() -> s_Intake.zeroIntakePivot()));
+    opCon.y().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
+
     // opCon.rightBumper().whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
     //  opCon.leftBumper().onTrue(new reefAlignForAlgae(drivetrain, false, Elevator,
     // s_Manipulator));
@@ -251,13 +242,13 @@ public class RobotContainer {
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPose());
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPose());
-    SmartDashboard.putNumber("Intake Pose", s_Intake.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPose());
+    SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
+    SmartDashboard.putNumber("ManipVotage", s_Manipulator.minipVoltage());
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
     DogLog.log("ClimberPos", s_Climber.getPose());
     DogLog.log("Elevator Pos", s_Elevator.getPose());
-    DogLog.log("Intake Pos", s_Intake.getPosition());
     DogLog.log("s_Manipulator Pos", s_Manipulator.getPose());
 
     DogLog.log("Elevator State", s_Elevator.elevatorState);
@@ -270,7 +261,6 @@ public class RobotContainer {
   }
 
   public void zeros() {
-    s_Intake.zeroIntakePivot();
     // s_Climber.zeroClimber();
     s_Elevator.setElevatorZero();
     // s_Manipulator.zeroManip();

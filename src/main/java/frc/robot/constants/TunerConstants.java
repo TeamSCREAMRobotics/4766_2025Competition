@@ -188,7 +188,7 @@ public class TunerConstants {
   private static final Distance kBackRightXPos = Inches.of(-12);
   private static final Distance kBackRightYPos = Inches.of(-11.5);
 
-  public static final Length TRACK_WIDTH = Length.fromInches(20.0);
+  public static final Length TRACK_WIDTH = Length.fromInches(22.5);
 
   public static final SwerveModuleConstants<
           TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
