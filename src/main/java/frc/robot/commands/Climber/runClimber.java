@@ -7,12 +7,12 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Climber;
 
-public class runClimber extends Command {
+public class RunClimber extends Command {
   Climber s_Climber;
   double setpoint;
 
   /** Creates a new runClimber. */
-  public runClimber(Climber climber, double Setpoint) {
+  public RunClimber(Climber climber, double Setpoint) {
     s_Climber = climber;
     setpoint = Setpoint;
 

@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manipPivot extends Command {
+public class ManipPivot extends Command {
   private Manipulator manipulator;
   double setpoint;
   boolean holdManip = false;
 
   /** Creates a new manipulatorPivot. */
-  public manipPivot(Manipulator manipulator, double Setpoint, boolean hold) {
+  public ManipPivot(Manipulator manipulator, double Setpoint, boolean hold) {
     this.manipulator = manipulator;
     setpoint = Setpoint;
     holdManip = hold;
@@ -41,6 +41,6 @@ public class manipPivot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return manipulator.atSetpoint(setpoint) && !holdManip;
+    return manipulator.atSetpoint(setpoint, 0.3) && !holdManip;
   }
 }

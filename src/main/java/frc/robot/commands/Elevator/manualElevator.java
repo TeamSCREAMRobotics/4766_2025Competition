@@ -9,13 +9,13 @@ import frc.robot.subsytems.Elevator;
 import java.util.function.DoubleSupplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manualElevator extends Command {
+public class ManualElevator extends Command {
   Elevator s_Elevator;
 
   DoubleSupplier joy;
 
   /** Creates a new manualElevator. */
-  public manualElevator(Elevator elevator, DoubleSupplier Joy) {
+  public ManualElevator(Elevator elevator, DoubleSupplier Joy) {
     joy = Joy;
 
     s_Elevator = elevator;

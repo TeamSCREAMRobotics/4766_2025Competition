@@ -10,7 +10,7 @@ import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class autoFlick extends Command {
+public class AutoFlick extends Command {
   /** Creates a new algaeFlick. */
   private Elevator elevator;
 
@@ -18,7 +18,7 @@ public class autoFlick extends Command {
   private boolean L3True = true;
   private int state = 0;
 
-  public autoFlick(Elevator elevator, Manipulator manipulator, boolean L3True) {
+  public AutoFlick(Elevator elevator, Manipulator manipulator, boolean L3True) {
     this.elevator = elevator;
     this.manipulator = manipulator;
     this.L3True = L3True;

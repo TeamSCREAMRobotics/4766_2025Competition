@@ -10,14 +10,14 @@ import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manipIntake extends Command {
+public class ManipIntake extends Command {
   Manipulator s_Manipulator;
   private Elevator elevator;
   private boolean trigger;
   private Timer timer = new Timer();
 
   /** Creates a new manip. */
-  public manipIntake(Manipulator manipulator, Elevator elevator) {
+  public ManipIntake(Manipulator manipulator, Elevator elevator) {
     s_Manipulator = manipulator;
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.

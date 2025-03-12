@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class autoManipIntake extends Command {
+public class AutoManipIntake extends Command {
   /** Creates a new autoManipIntake. */
   private Manipulator manipulator;
 
   private boolean laser = false;
   private boolean end = false;
 
-  public autoManipIntake(Manipulator manipulator) {
+  public AutoManipIntake(Manipulator manipulator) {
     this.manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(manipulator);

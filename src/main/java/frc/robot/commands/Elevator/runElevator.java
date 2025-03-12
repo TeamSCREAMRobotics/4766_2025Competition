@@ -11,7 +11,7 @@ import frc.robot.subsytems.Manipulator;
 import java.util.function.BooleanSupplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class runElevator extends Command {
+public class RunElevator extends Command {
   Elevator s_Elevator;
   double Setpoint;
   private final Manipulator manipulator;
@@ -19,7 +19,7 @@ public class runElevator extends Command {
   BooleanSupplier trigger;
 
   /** Creates a new runElevator. */
-  public runElevator(
+  public RunElevator(
       Elevator elevator,
       double setpoint,
       Manipulator manipulator,

@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class manipIdle extends Command {
+public class ManipIdle extends Command {
   Manipulator s_Manipulator;
 
   /** Creates a new manip. */
-  public manipIdle(Manipulator manipulator) {
+  public ManipIdle(Manipulator manipulator) {
     s_Manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Manipulator);

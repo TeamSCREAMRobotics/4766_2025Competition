@@ -22,7 +22,7 @@ public class Constants {
     public static final double kMagicAcceleration = 250.0;
 
     // Climbing setpoint
-    public static final double setpointForClimb = 475;
+    public static final double setpointForClimb = 297;
   }
 
   // Constants for the Elevator Subsystem

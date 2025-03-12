@@ -11,7 +11,7 @@ import frc.robot.subsytems.Manipulator;
 import java.util.function.BooleanSupplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class algaeFlick extends Command {
+public class AlgaeFlick extends Command {
   /** Creates a new algaeFlick. */
   private Elevator elevator;
 
@@ -20,7 +20,7 @@ public class algaeFlick extends Command {
   private BooleanSupplier trigger;
   private int state = 0;
 
-  public algaeFlick(
+  public AlgaeFlick(
       Elevator elevator, Manipulator manipulator, boolean L3True, BooleanSupplier trigger) {
     this.elevator = elevator;
     this.manipulator = manipulator;

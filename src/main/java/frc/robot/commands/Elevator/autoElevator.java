@@ -10,7 +10,7 @@ import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class autoElevator extends Command {
+public class AutoElevator extends Command {
   Elevator elevator;
   double setpoint;
   private final Manipulator manipulator;
@@ -18,7 +18,7 @@ public class autoElevator extends Command {
   int state = 0;
 
   /** Creates a new runElevator. */
-  public autoElevator(Elevator elevator, double setpoint, Manipulator manipulator) {
+  public AutoElevator(Elevator elevator, double setpoint, Manipulator manipulator) {
     this.elevator = elevator;
     this.setpoint = setpoint;
     this.manipulator = manipulator;

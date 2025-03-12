@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,7 +13,7 @@ import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class reefAlignForAlgae extends Command {
+public class ReefAlignForAlgae extends Command {
   private CommandSwerveDrivetrain drivetrain;
 
   private boolean atReefPose = false;
@@ -28,7 +28,7 @@ public class reefAlignForAlgae extends Command {
   private boolean commandDone = false;
 
   /** Creates a new reefAlignForAlgae. */
-  public reefAlignForAlgae(
+  public ReefAlignForAlgae(
       CommandSwerveDrivetrain drivetrain,
       boolean L3True,
       Elevator elevator,

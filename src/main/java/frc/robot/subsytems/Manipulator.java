@@ -23,12 +23,14 @@ public class Manipulator extends SubsystemBase {
   TalonFX feederMotor = new TalonFX(ManipulatorConstants.feederMotorID);
 
   TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
+  CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
+
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
   MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
+  CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
+
   MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
   VoltageOut m_request = new VoltageOut(0);
-  CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
-  CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
 
   public Manipulator() {
     pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -59,7 +61,7 @@ public class Manipulator extends SubsystemBase {
     pivotMotor.getConfigurator().apply(pivotMagic);
   }
 
-  public double getPose() {
+  public double getPosition() {
     return pivotMotor.getPosition().getValueAsDouble();
   }
 
@@ -67,13 +69,9 @@ public class Manipulator extends SubsystemBase {
     pivotMotor.setControl(magicRequest.withPosition(setpoint));
   }
 
-  public boolean atSetpoint(double setpoint) {
-    return pivotMotor.getPosition().getValueAsDouble() >= setpoint - 0.3
-        && pivotMotor.getPosition().getValueAsDouble() <= setpoint + 0.3;
-  }
-
-  public void resetManip() {
-    pivotMotor.setControl(magicRequest.withPosition(0));
+  public boolean atSetpoint(double setpoint, double deadzone) {
+    return pivotMotor.getPosition().getValueAsDouble() >= setpoint - deadzone
+        && pivotMotor.getPosition().getValueAsDouble() <= setpoint + deadzone;
   }
 
   public void zeroManip() {

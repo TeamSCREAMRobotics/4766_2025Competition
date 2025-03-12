@@ -21,17 +21,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.Climber.runClimber;
-import frc.robot.commands.Elevator.algaeFlick;
-import frc.robot.commands.Elevator.autoElevator;
-import frc.robot.commands.Elevator.autoFlick;
-import frc.robot.commands.Elevator.runElevator;
-import frc.robot.commands.Manipulator.autoManipIntake;
-import frc.robot.commands.Manipulator.autoScore;
-import frc.robot.commands.Manipulator.manipIdle;
-import frc.robot.commands.Manipulator.manipIntake;
-import frc.robot.commands.Manipulator.manipPivot;
-import frc.robot.commands.drivetrain.ReefAlign;
+import frc.robot.commands.Climber.RunClimber;
+import frc.robot.commands.Drivetrain.ReefAlign;
+import frc.robot.commands.Elevator.AlgaeFlick;
+import frc.robot.commands.Elevator.AutoElevator;
+import frc.robot.commands.Elevator.AutoFlick;
+import frc.robot.commands.Elevator.RunElevator;
+import frc.robot.commands.Manipulator.AutoManipIntake;
+import frc.robot.commands.Manipulator.AutoScore;
+import frc.robot.commands.Manipulator.ManipIdle;
+import frc.robot.commands.Manipulator.ManipIntake;
+import frc.robot.commands.Manipulator.ManipPivot;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ElevatorConstants;
 import frc.robot.constants.FieldConstants;
@@ -76,13 +76,13 @@ public class RobotContainer {
     // Setting the Elevator to work with Autos
 
     // Setting the Manip Commands to work with Autos
-    NamedCommands.registerCommand("intakeManip", new autoManipIntake(s_Manipulator));
-    NamedCommands.registerCommand("AlgaeFlickL2", new autoFlick(s_Elevator, s_Manipulator, false));
-    NamedCommands.registerCommand("AlgaeFlickL3", new autoFlick(s_Elevator, s_Manipulator, true));
-    NamedCommands.registerCommand("moveAlgaeUp", new manipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("L2", new autoScore(s_Manipulator));
+    NamedCommands.registerCommand("intakeManip", new AutoManipIntake(s_Manipulator));
+    NamedCommands.registerCommand("AlgaeFlickL2", new AutoFlick(s_Elevator, s_Manipulator, false));
+    NamedCommands.registerCommand("AlgaeFlickL3", new AutoFlick(s_Elevator, s_Manipulator, true));
+    NamedCommands.registerCommand("moveAlgaeUp", new ManipPivot(s_Manipulator, 0, false));
+    NamedCommands.registerCommand("L2", new AutoScore(s_Manipulator));
     NamedCommands.registerCommand(
-        "L3", new autoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
+        "L3", new AutoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
 
     auto = AutoBuilder.buildAutoChooser();
 
@@ -139,13 +139,13 @@ public class RobotContainer {
     /* Other Subsystems Declairations */
 
     // Buttons to make Manip work
-    driverCon.rightBumper().whileTrue(new manipIntake(s_Manipulator, s_Elevator));
+    driverCon.rightBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator));
 
     // Trough Shot Button
 
     // Command to run the intake const and make it work
 
-    s_Manipulator.setDefaultCommand(new manipIdle(s_Manipulator));
+    s_Manipulator.setDefaultCommand(new ManipIdle(s_Manipulator));
 
     driverCon
         .povLeft()
@@ -179,25 +179,24 @@ public class RobotContainer {
             })
         .whileTrue(new ReefAlign(drivetrain, true));
 
-    driverCon.start().whileTrue(new autoElevator(s_Elevator, 17.5, s_Manipulator));
+    driverCon.start().whileTrue(new AutoElevator(s_Elevator, 17.5, s_Manipulator));
   }
 
   public void opControls() {
     /* Without eSwitch */
-
     opCon.leftBumper();
 
     // Run Climber When Pushed
     opCon
         .rightBumper()
-        .whileTrue(new runClimber(s_Climber, ClimberConstants.setpointForClimb))
-        .whileFalse(new runClimber(s_Climber, 0.0));
+        .whileTrue(new RunClimber(s_Climber, ClimberConstants.setpointForClimb))
+        .whileFalse(new RunClimber(s_Climber, 0.0));
 
     // Go To Elevator setpoints When Pushed
     opCon
         .povUp()
         .onTrue(
-            new runElevator(
+            new RunElevator(
                 s_Elevator,
                 ElevatorConstants.L3Setpoint,
                 s_Manipulator,
@@ -206,19 +205,15 @@ public class RobotContainer {
     //  L2 no Elevator.
     opCon
         .povLeft()
-        .whileTrue(new manipPivot(s_Manipulator, 4.75, true))
-        .whileFalse(new manipPivot(s_Manipulator, 0, false));
-    /*
-        opCon
-            .povRight()
-            .onTrue(new runElevator(s_Elevator, 20, s_Manipulator, 5.4, driverCon.rightBumper()));
-    */
-    opCon.povDown().whileTrue(new algaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
+        .whileTrue(new ManipPivot(s_Manipulator, 4.75, true))
+        .whileFalse(new ManipPivot(s_Manipulator, 0, false));
+
+    opCon.povDown().whileTrue(new AlgaeFlick(s_Elevator, s_Manipulator, false, opCon.povDown()));
 
     opCon
         .povDown()
         .and(opCon.start())
-        .whileTrue(new algaeFlick(s_Elevator, s_Manipulator, true, opCon.povDown()));
+        .whileTrue(new AlgaeFlick(s_Elevator, s_Manipulator, true, opCon.povDown()));
 
     /* With eSwitch */
 
@@ -226,31 +221,20 @@ public class RobotContainer {
     opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
     opCon.b().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Elevator.setElevatorZero()));
     opCon.y().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
-
-    // opCon.rightBumper().whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
-    //  opCon.leftBumper().onTrue(new reefAlignForAlgae(drivetrain, false, Elevator,
-    // s_Manipulator));
-    /*
-    opCon
-        .rightTrigger(0.5)
-        .whileTrue(new manipPivot(s_Manipulator, ManipulatorConstants.manipSetpoint, false))
-        .whileFalse(new manipPivot(s_Manipulator, 0, false));
-        */
   }
 
   public void RobotContainerPeriodic() {
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-    SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPose());
-    SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPose());
-    SmartDashboard.putNumber("Climber Pose", s_Climber.getPose());
+    SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
+    SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
+    SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
     SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
     SmartDashboard.putNumber("ManipVotage", s_Manipulator.minipVoltage());
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
-    DogLog.log("ClimberPos", s_Climber.getPose());
-    DogLog.log("Elevator Pos", s_Elevator.getPose());
-    DogLog.log("s_Manipulator Pos", s_Manipulator.getPose());
-
+    DogLog.log("ClimberPos", s_Climber.getPosition());
+    DogLog.log("Elevator Pos", s_Elevator.getPosition());
+    DogLog.log("s_Manipulator Pos", s_Manipulator.getPosition());
     DogLog.log("Elevator State", s_Elevator.elevatorState);
 
     // Log Swerve

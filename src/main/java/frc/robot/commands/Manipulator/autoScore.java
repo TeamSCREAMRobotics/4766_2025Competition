@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class autoScore extends Command {
+public class AutoScore extends Command {
   private Manipulator manipulator;
   private int state = 0;
 
   /** Creates a new autoScore. */
-  public autoScore(Manipulator manipulator) {
+  public AutoScore(Manipulator manipulator) {
     this.manipulator = manipulator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(manipulator);
@@ -33,7 +33,7 @@ public class autoScore extends Command {
       state = 2;
     }
 
-    if (state == 2 && manipulator.atSetpoint(5)) {
+    if (state == 2 && manipulator.atSetpoint(5, 0.3)) {
       manipulator.runFeedMotor(-7);
       state = 3;
     }
