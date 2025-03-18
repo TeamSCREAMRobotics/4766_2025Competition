@@ -21,7 +21,7 @@ public class Climber extends SubsystemBase {
 
   /** Creates a new Climber. */
 
-  // Creates new TalonFX Libarry motors
+  // Creates new TalonFX Library motors
   TalonFX climberMaster = new TalonFX(ClimberConstants.climberMasterID);
 
   // Configuration For The Motors
