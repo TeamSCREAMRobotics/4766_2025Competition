@@ -6,19 +6,23 @@ package frc.robot.commands.Manipulator;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
+import frc.robot.subsytems.ManipulatorFeeder;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoManipIntake extends Command {
   /** Creates a new autoManipIntake. */
   private Manipulator manipulator;
 
+  private ManipulatorFeeder manipFeed;
+
   private boolean laser = false;
   private boolean end = false;
 
-  public AutoManipIntake(Manipulator manipulator) {
+  public AutoManipIntake(Manipulator manipulator, ManipulatorFeeder manipFeed) {
     this.manipulator = manipulator;
+    this.manipFeed = manipFeed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulator);
+    addRequirements(manipulator, manipFeed);
   }
 
   // Called when the command is initially scheduled.
@@ -30,9 +34,9 @@ public class AutoManipIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    manipulator.runFeedMotor(5);
+    manipFeed.feed(5);
     if (laser == true) {
-      manipulator.stopFeed();
+      manipFeed.stopFeed();
       end = true;
     }
   }

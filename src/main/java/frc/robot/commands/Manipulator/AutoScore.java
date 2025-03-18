@@ -6,17 +6,20 @@ package frc.robot.commands.Manipulator;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Manipulator;
+import frc.robot.subsytems.ManipulatorFeeder;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoScore extends Command {
   private Manipulator manipulator;
+  private ManipulatorFeeder manipFeed;
   private int state = 0;
 
   /** Creates a new autoScore. */
-  public AutoScore(Manipulator manipulator) {
+  public AutoScore(Manipulator manipulator, ManipulatorFeeder manipFeed) {
     this.manipulator = manipulator;
+    this.manipFeed = manipFeed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulator);
+    addRequirements(manipulator, manipFeed);
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +37,7 @@ public class AutoScore extends Command {
     }
 
     if (state == 2 && manipulator.atSetpoint(5, 0.3)) {
-      manipulator.runFeedMotor(-7);
+      manipFeed.feed(-7);
       state = 3;
     }
   }
@@ -44,10 +47,9 @@ public class AutoScore extends Command {
   public void end(boolean interrupted) {
     state = 0;
     if (state == 0) {
-      manipulator.stopFeed();
+      manipFeed.stopFeed();
 
       manipulator.goToSetpoint(0);
-      manipulator.stopManip();
     }
   }
 

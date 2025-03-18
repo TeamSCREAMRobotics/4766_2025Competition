@@ -20,9 +20,8 @@ import frc.robot.constants.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
-  TalonFX feederMotor = new TalonFX(ManipulatorConstants.feederMotorID);
-
   TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
+
   CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
 
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
@@ -78,27 +77,7 @@ public class Manipulator extends SubsystemBase {
     pivotMotor.setPosition(0);
   }
 
-  public void stopFeed() {
-    feederMotor.setControl(m_request.withOutput(0));
-  }
-
-  public void stopManip() {
-    pivotMotor.setControl(m_request.withOutput(0));
-  }
-
-  public void runFeedMotor(double voltage) {
-    feederMotor.setControl(m_request.withOutput(voltage));
-  }
-
   public boolean laserPassed() {
     return manipRange.getIsDetected().getValue();
-  }
-
-  public void manualManip(double voltage) {
-    pivotMotor.setControl(m_request.withOutput(voltage));
-  }
-
-  public double minipVoltage() {
-    return feederMotor.getMotorVoltage().getValueAsDouble();
   }
 }

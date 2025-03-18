@@ -40,6 +40,7 @@ import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.CommandSwerveDrivetrain;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
+import frc.robot.subsytems.ManipulatorFeeder;
 import util.AllianceFlipUtil;
 import vision.LimelightHelpers;
 
@@ -47,6 +48,7 @@ public class RobotContainer {
   private Climber s_Climber = new Climber();
   private Elevator s_Elevator = new Elevator();
   private Manipulator s_Manipulator = new Manipulator();
+  private ManipulatorFeeder s_ManipFeed = new ManipulatorFeeder();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   public CommandXboxController driverCon = new CommandXboxController(0);
@@ -76,11 +78,11 @@ public class RobotContainer {
     // Setting the Elevator to work with Autos
 
     // Setting the Manip Commands to work with Autos
-    NamedCommands.registerCommand("intakeManip", new AutoManipIntake(s_Manipulator));
+    NamedCommands.registerCommand("intakeManip", new AutoManipIntake(s_Manipulator, s_ManipFeed));
     NamedCommands.registerCommand("AlgaeFlickL2", new AutoFlick(s_Elevator, s_Manipulator, false));
     NamedCommands.registerCommand("AlgaeFlickL3", new AutoFlick(s_Elevator, s_Manipulator, true));
     NamedCommands.registerCommand("moveAlgaeUp", new ManipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("L2", new AutoScore(s_Manipulator));
+    NamedCommands.registerCommand("L2", new AutoScore(s_Manipulator, s_ManipFeed));
     NamedCommands.registerCommand(
         "L3", new AutoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
 
@@ -139,13 +141,13 @@ public class RobotContainer {
     /* Other Subsystems Declairations */
 
     // Buttons to make Manip work
-    driverCon.rightBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator));
+    driverCon.rightBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator, s_ManipFeed));
 
     // Trough Shot Button
 
     // Command to run the intake const and make it work
 
-    s_Manipulator.setDefaultCommand(new ManipIdle(s_Manipulator));
+    s_Manipulator.setDefaultCommand(new ManipIdle(s_ManipFeed));
 
     driverCon
         .povLeft()
@@ -229,7 +231,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
     SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
-    SmartDashboard.putNumber("ManipVotage", s_Manipulator.minipVoltage());
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
     DogLog.log("ClimberPos", s_Climber.getPosition());

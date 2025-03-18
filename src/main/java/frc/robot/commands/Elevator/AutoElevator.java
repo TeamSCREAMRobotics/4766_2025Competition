@@ -8,22 +8,30 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.subsytems.Elevator;
 import frc.robot.subsytems.Manipulator;
+import frc.robot.subsytems.ManipulatorFeeder;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoElevator extends Command {
-  Elevator elevator;
-  double setpoint;
-  private final Manipulator manipulator;
+  private Elevator elevator;
+  private double setpoint;
+  private Manipulator manipulator;
+  private ManipulatorFeeder manipFeed;
   private double manipSetpoint = ManipulatorConstants.manipSetpoint;
   int state = 0;
 
   /** Creates a new runElevator. */
-  public AutoElevator(Elevator elevator, double setpoint, Manipulator manipulator) {
+  public AutoElevator(
+      Elevator elevator, ManipulatorFeeder manipFeed, Manipulator manipulator, double setpoint) {
     this.elevator = elevator;
     this.setpoint = setpoint;
     this.manipulator = manipulator;
+    this.manipFeed = manipFeed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator, manipulator);
+    addRequirements(elevator, manipulator, manipFeed);
+  }
+
+  public AutoElevator(Elevator s_Elevator, double l3setpoint, Manipulator s_Manipulator) {
+    // TODO Auto-generated constructor stub
   }
 
   // Called when the command is initially scheduled.
@@ -43,7 +51,7 @@ public class AutoElevator extends Command {
     }
 
     if (state == 2 && elevator.atSetpoint(setpoint)) {
-      manipulator.runFeedMotor(-7);
+      manipFeed.idleFeed();
       state = 3;
     }
   }
@@ -57,7 +65,6 @@ public class AutoElevator extends Command {
       manipulator.goToSetpoint(0);
       elevator.goToSetPoint(0);
 
-      manipulator.stopManip();
       elevator.stopElevatorMotor();
     }
   }
