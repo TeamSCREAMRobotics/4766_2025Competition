@@ -102,8 +102,8 @@ public class RobotContainer {
 
     final SwerveRequest.FieldCentric drive =
         new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.15)
-            .withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.10)
+            .withRotationalDeadband(MaxAngularRate * 0.10) // Add a 10% deadband
             .withDriveRequestType(
                 DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
@@ -147,7 +147,7 @@ public class RobotContainer {
 
     // Command to run the intake const and make it work
 
-    s_Manipulator.setDefaultCommand(new ManipIdle(s_ManipFeed));
+    s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed));
 
     driverCon
         .povLeft()
@@ -226,11 +226,11 @@ public class RobotContainer {
   }
 
   public void RobotContainerPeriodic() {
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-    SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
+    // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    // SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
-    SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
-    SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
+    // SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
+    // SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
     DogLog.log("ClimberPos", s_Climber.getPosition());

@@ -37,7 +37,7 @@ public class AlgaeFlick extends Command {
       if (L3True) {
         manipulator.goToSetpoint(5.56);
         Timer.delay(.5);
-        elevator.goToSetPoint(15.7);
+        elevator.goToSetPoint(20.8);
         state = 1;
       } else {
         manipulator.goToSetpoint(5.45);
