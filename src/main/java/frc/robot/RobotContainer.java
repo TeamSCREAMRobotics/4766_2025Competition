@@ -226,11 +226,11 @@ public class RobotContainer {
   }
 
   public void RobotContainerPeriodic() {
-    // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-    // SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
-    // SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
-    // SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
+    SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
+    SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
     DogLog.log("ClimberPos", s_Climber.getPosition());
