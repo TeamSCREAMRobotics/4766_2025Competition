@@ -4,6 +4,7 @@
 
 package frc.robot.subsytems;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -23,6 +24,11 @@ public class Manipulator extends SubsystemBase {
   TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
 
   CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
+
+  Orchestra undertail = new Orchestra();
+
+  private ManipulatorFeeder manipfeed = new ManipulatorFeeder();
+  private TalonFX feederMotor = manipfeed.manipFeeder;
 
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
   MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
@@ -58,6 +64,10 @@ public class Manipulator extends SubsystemBase {
     pivotMotor.getConfigurator().apply(pivotConfig);
     pivotMotor.getConfigurator().apply(slot0Configs);
     pivotMotor.getConfigurator().apply(pivotMagic);
+
+    undertail.addInstrument(pivotMotor);
+    undertail.addInstrument(feederMotor);
+    undertail.loadMusic("music/rickroll.chrp");
   }
 
   public double getPosition() {
@@ -66,6 +76,7 @@ public class Manipulator extends SubsystemBase {
 
   public void goToSetpoint(double setpoint) {
     pivotMotor.setControl(magicRequest.withPosition(setpoint));
+    undertail.play();
   }
 
   public boolean atSetpoint(double setpoint, double deadzone) {
