@@ -25,7 +25,7 @@ public class Manipulator extends SubsystemBase {
 
   CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
 
-  Orchestra undertail = new Orchestra();
+  Orchestra rickroll = new Orchestra();
 
   private ManipulatorFeeder manipfeed = new ManipulatorFeeder();
   private TalonFX feederMotor = manipfeed.manipFeeder;
@@ -65,9 +65,9 @@ public class Manipulator extends SubsystemBase {
     pivotMotor.getConfigurator().apply(slot0Configs);
     pivotMotor.getConfigurator().apply(pivotMagic);
 
-    undertail.addInstrument(pivotMotor);
-    undertail.addInstrument(feederMotor);
-    undertail.loadMusic("music/rickroll.chrp");
+    rickroll.addInstrument(pivotMotor);
+    rickroll.addInstrument(feederMotor);
+    rickroll.loadMusic("music/rickroll.chrp");
   }
 
   public double getPosition() {
@@ -76,7 +76,7 @@ public class Manipulator extends SubsystemBase {
 
   public void goToSetpoint(double setpoint) {
     pivotMotor.setControl(magicRequest.withPosition(setpoint));
-    undertail.play();
+    rickroll.play();
   }
 
   public boolean atSetpoint(double setpoint, double deadzone) {
