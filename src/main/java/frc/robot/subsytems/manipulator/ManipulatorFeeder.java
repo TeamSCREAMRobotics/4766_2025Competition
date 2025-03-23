@@ -1,4 +1,4 @@
-package frc.robot.subsytems;
+package frc.robot.subsytems.manipulator;
 
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;

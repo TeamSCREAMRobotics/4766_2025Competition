@@ -5,10 +5,9 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.Manipulator;
-import frc.robot.subsytems.ManipulatorFeeder;
+import frc.robot.subsytems.manipulator.Manipulator;
+import frc.robot.subsytems.manipulator.ManipulatorFeeder;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoElevator extends Command {
@@ -16,7 +15,7 @@ public class AutoElevator extends Command {
   private double setpoint;
   private Manipulator manipulator;
   private ManipulatorFeeder manipFeed;
-  private double manipSetpoint = ManipulatorConstants.manipSetpoint;
+  private double manipSetpoint = 0.0;
   int state = 0;
 
   /** Creates a new runElevator. */

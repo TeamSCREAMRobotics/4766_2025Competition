@@ -44,13 +44,12 @@ public class Elevator extends SubsystemBase {
     elevatorConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     elevatorConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
 
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kG = ElevatorConstants.kG;
-    slot0Configs.kV = ElevatorConstants.kV;
-    slot0Configs.kP = ElevatorConstants.kP;
-    slot0Configs.kI = ElevatorConstants.kI;
-    slot0Configs.kD = ElevatorConstants.kD;
-    slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
+    elevatorPIDConfigs.kG = ElevatorConstants.kG;
+    elevatorPIDConfigs.kV = ElevatorConstants.kV;
+    elevatorPIDConfigs.kP = ElevatorConstants.kP;
+    elevatorPIDConfigs.kI = ElevatorConstants.kI;
+    elevatorPIDConfigs.kD = ElevatorConstants.kD;
+    elevatorPIDConfigs.GravityType = GravityTypeValue.Elevator_Static;
 
     elevatorMagicConfigs.MotionMagicAcceleration = ElevatorConstants.kMagicAcceleration;
     elevatorMagicConfigs.MotionMagicCruiseVelocity = ElevatorConstants.kMagicVelocity;
@@ -59,7 +58,7 @@ public class Elevator extends SubsystemBase {
     elevatorFollower.getConfigurator().apply(elevatorConfigs);
     elevatorFollower.setControl(new Follower(elevatorMaster.getDeviceID(), true));
 
-    elevatorMaster.getConfigurator().apply(slot0Configs);
+    elevatorMaster.getConfigurator().apply(elevatorPIDConfigs);
     elevatorMaster.getConfigurator().apply(elevatorMagicConfigs);
   }
 

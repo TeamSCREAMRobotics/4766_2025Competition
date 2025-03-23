@@ -37,10 +37,11 @@ import frc.robot.constants.Constants.ElevatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsytems.Climber;
-import frc.robot.subsytems.CommandSwerveDrivetrain;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.Manipulator;
-import frc.robot.subsytems.ManipulatorFeeder;
+import frc.robot.subsytems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsytems.manipulator.AlgaeMotor;
+import frc.robot.subsytems.manipulator.Manipulator;
+import frc.robot.subsytems.manipulator.ManipulatorFeeder;
 import util.AllianceFlipUtil;
 import vision.LimelightHelpers;
 
@@ -49,6 +50,7 @@ public class RobotContainer {
   private Elevator s_Elevator = new Elevator();
   private Manipulator s_Manipulator = new Manipulator();
   private ManipulatorFeeder s_ManipFeed = new ManipulatorFeeder();
+  private AlgaeMotor s_AlgaeMotor = new AlgaeMotor();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   public CommandXboxController driverCon = new CommandXboxController(0);
@@ -69,6 +71,7 @@ public class RobotContainer {
   public RobotContainer() {
     driverControls();
     opControls();
+    defaultCommands();
 
     // LimelightHelpers.SetRobotOrientation("limelight-front", -160, 0.0, 20.0, 0.0, 0.0, 0.0);
     drivetrain.configureAutoBuilder();
@@ -95,6 +98,11 @@ public class RobotContainer {
 
   public void zeroSwerve() {
     drivetrain.runOnce(() -> drivetrain.seedFieldCentric());
+  }
+
+  public void defaultCommands() {
+    s_AlgaeMotor.setDefaultCommand(s_AlgaeMotor.runAlgaeMotor());
+    s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed));
   }
 
   public void driverControls() {
@@ -128,7 +136,6 @@ public class RobotContainer {
                         -driverCon.getRightX()
                             * MaxAngularRate) // Drive counterclockwise with negative X (left)
             ));
-    // .alongWith(Commands.run(() -> drivetrain.addVision())));
 
     driverCon.back().and(driverCon.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
     driverCon.back().and(driverCon.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
@@ -138,16 +145,7 @@ public class RobotContainer {
     // reset the field-centric heading on y button press
     driverCon.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-    /* Other Subsystems Declairations */
-
-    // Buttons to make Manip work
     driverCon.rightBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator, s_ManipFeed));
-
-    // Trough Shot Button
-
-    // Command to run the intake const and make it work
-
-    s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed));
 
     driverCon
         .povLeft()
@@ -237,12 +235,6 @@ public class RobotContainer {
     DogLog.log("Elevator Pos", s_Elevator.getPosition());
     DogLog.log("s_Manipulator Pos", s_Manipulator.getPosition());
     DogLog.log("Elevator State", s_Elevator.elevatorState);
-
-    // Log Swerve
-    DogLog.log("Swerve Rot", drivetrain.getOperatorForwardDirection());
-    DogLog.log("Swerve Rotation3d", drivetrain.getRotation3d());
-    DogLog.log("Swerve States", drivetrain.getModuleStates());
-    DogLog.log("Swerve Speed", drivetrain.getFieldVelocity());
   }
 
   public void zeros() {

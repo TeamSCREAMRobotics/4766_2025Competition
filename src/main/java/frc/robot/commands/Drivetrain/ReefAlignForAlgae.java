@@ -8,9 +8,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsytems.CommandSwerveDrivetrain;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.Manipulator;
+import frc.robot.subsytems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsytems.manipulator.Manipulator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ReefAlignForAlgae extends Command {
