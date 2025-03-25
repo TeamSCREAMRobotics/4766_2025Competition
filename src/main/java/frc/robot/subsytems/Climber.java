@@ -19,8 +19,6 @@ import frc.robot.constants.Constants.ClimberConstants;
 public class Climber extends SubsystemBase {
   // If this works, it will be a miracle
 
-  /** Creates a new Climber. */
-
   // Creates new TalonFX Library motors
   TalonFX climberMaster = new TalonFX(ClimberConstants.climberMasterID);
 

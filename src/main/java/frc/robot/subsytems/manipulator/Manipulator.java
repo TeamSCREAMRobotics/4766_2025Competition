@@ -33,6 +33,7 @@ public class Manipulator extends SubsystemBase {
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
   MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
   CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
+  Slot0Configs manipSlot0Configs = new Slot0Configs();
 
   MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
   VoltageOut m_request = new VoltageOut(0);
@@ -49,20 +50,19 @@ public class Manipulator extends SubsystemBase {
 
     rangeConfig.ProximityParams.ProximityThreshold = ManipulatorConstants.kCanRangeDistance;
 
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kG = ManipulatorConstants.kG;
-    slot0Configs.kV = ManipulatorConstants.kV;
-    slot0Configs.kP = ManipulatorConstants.kP;
-    slot0Configs.kI = ManipulatorConstants.kI;
-    slot0Configs.kD = ManipulatorConstants.kD;
-    slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
+    manipSlot0Configs.kG = ManipulatorConstants.kG;
+    manipSlot0Configs.kV = ManipulatorConstants.kV;
+    manipSlot0Configs.kP = ManipulatorConstants.kP;
+    manipSlot0Configs.kI = ManipulatorConstants.kI;
+    manipSlot0Configs.kD = ManipulatorConstants.kD;
+    manipSlot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 
     pivotMagic.MotionMagicAcceleration = ManipulatorConstants.kMagicAcceleration;
     pivotMagic.MotionMagicCruiseVelocity = ManipulatorConstants.kMagicVelocity;
 
     manipRange.getConfigurator().apply(rangeConfig);
     pivotMotor.getConfigurator().apply(pivotConfig);
-    pivotMotor.getConfigurator().apply(slot0Configs);
+    pivotMotor.getConfigurator().apply(manipSlot0Configs);
     pivotMotor.getConfigurator().apply(pivotMagic);
 
     rickroll.addInstrument(pivotMotor);

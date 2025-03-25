@@ -22,19 +22,18 @@ public class Elevator extends SubsystemBase {
   // Motors
   TalonFX elevatorMaster = new TalonFX(Constants.ElevatorConstants.elevatorMasterID);
   TalonFX elevatorFollower = new TalonFX(Constants.ElevatorConstants.elevatorFollowerID);
+
   // Configs
   TalonFXConfiguration elevatorConfigs = new TalonFXConfiguration();
-  Slot0Configs elevatorPIDConfigs = new Slot0Configs();
+  Slot0Configs elevatorSlot0 = new Slot0Configs();
   MotionMagicConfigs elevatorMagicConfigs = new MotionMagicConfigs();
+
   // Voltages
   VoltageOut m_request = new VoltageOut(0);
   MotionMagicVoltage m_magicRequest = new MotionMagicVoltage(0);
 
   /** Creates a new Elevator. */
   public Elevator() {
-    elevatorMaster.getConfigurator().apply(new TalonFXConfiguration());
-    elevatorFollower.getConfigurator().apply(new TalonFXConfiguration());
-
     elevatorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     elevatorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     elevatorConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
@@ -44,12 +43,12 @@ public class Elevator extends SubsystemBase {
     elevatorConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     elevatorConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
 
-    elevatorPIDConfigs.kG = ElevatorConstants.kG;
-    elevatorPIDConfigs.kV = ElevatorConstants.kV;
-    elevatorPIDConfigs.kP = ElevatorConstants.kP;
-    elevatorPIDConfigs.kI = ElevatorConstants.kI;
-    elevatorPIDConfigs.kD = ElevatorConstants.kD;
-    elevatorPIDConfigs.GravityType = GravityTypeValue.Elevator_Static;
+    elevatorSlot0.kG = ElevatorConstants.kG;
+    elevatorSlot0.kV = ElevatorConstants.kV;
+    elevatorSlot0.kP = ElevatorConstants.kP;
+    elevatorSlot0.kI = ElevatorConstants.kI;
+    elevatorSlot0.kD = ElevatorConstants.kD;
+    elevatorSlot0.GravityType = GravityTypeValue.Elevator_Static;
 
     elevatorMagicConfigs.MotionMagicAcceleration = ElevatorConstants.kMagicAcceleration;
     elevatorMagicConfigs.MotionMagicCruiseVelocity = ElevatorConstants.kMagicVelocity;
@@ -58,7 +57,7 @@ public class Elevator extends SubsystemBase {
     elevatorFollower.getConfigurator().apply(elevatorConfigs);
     elevatorFollower.setControl(new Follower(elevatorMaster.getDeviceID(), true));
 
-    elevatorMaster.getConfigurator().apply(elevatorPIDConfigs);
+    elevatorMaster.getConfigurator().apply(elevatorSlot0);
     elevatorMaster.getConfigurator().apply(elevatorMagicConfigs);
   }
 
