@@ -14,7 +14,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
@@ -81,14 +80,14 @@ public class Elevator extends SubsystemBase {
 
   public boolean atSetpoint(double setpoint, double deadzone) {
     return elevatorMaster.getPosition().getValueAsDouble() >= setpoint - deadzone
-          && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + deadzone;
+        && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + deadzone;
   }
 
   public double getPosition() {
     return elevatorMaster.getPosition().getValueAsDouble();
   }
 
-  public Command goDirectTOSetpoint(double setpoint){
+  public Command goDirectTOSetpoint(double setpoint) {
     return run(() -> goToSetPoint(setpoint));
   }
 }

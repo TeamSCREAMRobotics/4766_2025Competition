@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionMain extends SubsystemBase {
   // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-front");
-  
+
   /** Creates a new VisionMain. */
   public VisionMain() {}
 }

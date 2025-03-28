@@ -14,6 +14,7 @@ public class ManipMain extends Command {
   private Manipulator manipulator;
   private boolean range;
   private CommandXboxController xcon;
+
   /** Creates a new ManipMain. */
   public ManipMain(Manipulator manipulator, CommandXboxController xcon) {
     this.manipulator = manipulator;
@@ -25,9 +26,7 @@ public class ManipMain extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -37,11 +36,11 @@ public class ManipMain extends Command {
       manipulator.goToSetpoint(ManipulatorConstants.intakeSetpoint);
     }
 
-    if(range) {
+    if (range) {
       manipulator.goToSetpoint(ManipulatorConstants.levelFourSetpoint);
     }
 
-    if(range && xcon.povLeft().getAsBoolean()) {
+    if (range && xcon.povLeft().getAsBoolean()) {
       manipulator.goToSetpoint(ManipulatorConstants.levelTwoSetpoint);
     }
 

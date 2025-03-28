@@ -20,11 +20,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.SuperStructureDefault;
 import frc.robot.commands.Climber.RunClimber;
 import frc.robot.commands.Drivetrain.ReefAlign;
 import frc.robot.commands.Manipulator.ManipIdle;
 import frc.robot.commands.Manipulator.ManipIntake;
+import frc.robot.commands.SuperStructureDefault;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants;
@@ -75,7 +75,6 @@ public class RobotContainer {
     // Setting the Elevator to work with Autos
 
     // Setting the Manip Commands to work with Autos
-    
 
     auto = AutoBuilder.buildAutoChooser();
 
@@ -174,7 +173,7 @@ public class RobotContainer {
         .rightBumper()
         .whileTrue(new RunClimber(s_Climber, ClimberConstants.setpointForClimb))
         .whileFalse(new RunClimber(s_Climber, 0.0));
-    
+
     opCon.povDown().whileTrue(s_AlgaeMotor.runAlgaeMotor());
 
     // Go To Elevator setpoints When Pushed

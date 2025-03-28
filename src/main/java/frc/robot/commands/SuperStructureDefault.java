@@ -16,6 +16,7 @@ public class SuperStructureDefault extends Command {
   private SuperSubsystem ssuper;
   private CommandXboxController oXCon;
   private boolean range;
+
   /** Creates a new SuperStructureDefault. */
   public SuperStructureDefault(SuperSubsystem ssuper, CommandXboxController oXCon) {
     this.ssuper = ssuper;
@@ -40,7 +41,7 @@ public class SuperStructureDefault extends Command {
       ssuper.elevatorState = 1;
     }
 
-    if(range && ssuper.elevatorState == 1) {
+    if (range && ssuper.elevatorState == 1) {
       ssuper.manipGoTo(ManipulatorConstants.levelThreeSetpoint);
 
       if (!range) {
@@ -49,7 +50,7 @@ public class SuperStructureDefault extends Command {
       }
     }
 
-    if(range && oXCon.povLeft().getAsBoolean() && ssuper.elevatorState == 1) {
+    if (range && oXCon.povLeft().getAsBoolean() && ssuper.elevatorState == 1) {
       ssuper.manipGoTo(ManipulatorConstants.levelTwoSetpoint);
       if (!range) {
         Timer.delay(.2);
