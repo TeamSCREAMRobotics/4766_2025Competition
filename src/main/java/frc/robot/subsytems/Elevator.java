@@ -79,16 +79,14 @@ public class Elevator extends SubsystemBase {
     elevatorFollower.setPosition(0);
   }
 
-  public boolean atSetpoint(double setpoint) {
-    return elevatorMaster.getPosition().getValueAsDouble() >= setpoint - 0.3
-        && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + 0.3;
+  public boolean atSetpoint(double setpoint, double deadzone) {
+    return elevatorMaster.getPosition().getValueAsDouble() >= setpoint - deadzone
+          && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + deadzone;
   }
 
   public double getPosition() {
     return elevatorMaster.getPosition().getValueAsDouble();
   }
-
-  public int elevatorState = 0;
 
   public Command goDirectTOSetpoint(double setpoint){
     return run(() -> goToSetPoint(setpoint));

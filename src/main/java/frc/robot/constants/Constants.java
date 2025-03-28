@@ -47,38 +47,8 @@ public class Constants {
     public static final double kMagicAcceleration = 360.0;
 
     // Setpoints For Elevator.
-    public static final double L2Setpoint = 5.7;
-    public static final double L3Setpoint = 19;
-  }
-
-  // Constants for the Intake Subsystem.
-  public static final class IntakeConstants {
-    // Intake Motor and BeamBreakIDs.
-    public static final int intakePIDMotorID = 12;
-    public static final int intakeMotorID = 11;
-
-    // Intake SoftLimits.
-    public static final double intakeFowardSoftLimit = 0.0;
-    public static final double intakeReverseSoftLimit = 0.0;
-
-    // Intake PID.
-    public static final double intakeKP = 8;
-    public static final double intakeKD = 0;
-    public static final double intakeKI = 0;
-    public static final double intakeKV = 0.1;
-    public static final double intakeKG = 0.5;
-
-    // Intake MotionMagic.
-    public static final double motionMagicAcceleration = 10;
-    public static final double motionMagicCruiseVelocity = 15;
-
-    // Intake Setpoint.
-    public static final double intakeSetpoint = 1.26;
-
-    // AMPS for Intake spike once algae is grabbed.
-    public static final int canRangeID = 1;
-
-    public static final double kCanRangeDistance = 0.14;
+    public static final double idleSetpoint = 5.7;
+    public static final double L4Setpoint = 28.6;
   }
 
   // Constants for the Manipulator Subsystem
@@ -110,9 +80,13 @@ public class Constants {
     public static final double kCanRangeDistance = 0.054;
 
     // TODO: Add ALL setpoints for scoring and algae removal.
-    public static final double intakeSetpoint = 0.0;
+    public static final double intakeSetpoint = -7.0;
     public static final double levelTwoSetpoint = 0.0;
     public static final double levelThreeSetpoint = 0.0;
-    public static final double levelFourSetpoint = 0.0;
+    public static final double levelFourSetpoint = 30.6;
+
+    public static final double clearZoneSetpoint = 32;
+
+    public static final double algaeRemovalSetpoint = 10.0;
   }
 }

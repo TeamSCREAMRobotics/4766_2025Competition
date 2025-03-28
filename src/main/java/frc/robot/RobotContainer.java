@@ -11,7 +11,6 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,21 +20,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.SuperStructureDefault;
 import frc.robot.commands.Climber.RunClimber;
 import frc.robot.commands.Drivetrain.ReefAlign;
-import frc.robot.commands.Elevator.AutoElevator;
-import frc.robot.commands.Elevator.RunElevator;
-import frc.robot.commands.Manipulator.AutoManipIntake;
-import frc.robot.commands.Manipulator.AutoScore;
 import frc.robot.commands.Manipulator.ManipIdle;
 import frc.robot.commands.Manipulator.ManipIntake;
-import frc.robot.commands.Manipulator.ManipPivot;
 import frc.robot.constants.Constants.ClimberConstants;
-import frc.robot.constants.Constants.ElevatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
+import frc.robot.subsytems.SuperSubsystem;
 import frc.robot.subsytems.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.subsytems.manipulator.AlgaeMotor;
 import frc.robot.subsytems.manipulator.Manipulator;
@@ -49,6 +44,7 @@ public class RobotContainer {
   private Manipulator s_Manipulator = new Manipulator();
   private ManipulatorFeeder s_ManipFeed = new ManipulatorFeeder();
   private AlgaeMotor s_AlgaeMotor = new AlgaeMotor();
+  private SuperSubsystem s_super = new SuperSubsystem();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   public CommandXboxController driverCon = new CommandXboxController(0);
@@ -79,11 +75,7 @@ public class RobotContainer {
     // Setting the Elevator to work with Autos
 
     // Setting the Manip Commands to work with Autos
-    NamedCommands.registerCommand("intakeManip", new AutoManipIntake(s_Manipulator, s_ManipFeed));
-    NamedCommands.registerCommand("moveAlgaeUp", new ManipPivot(s_Manipulator, 0, false));
-    NamedCommands.registerCommand("L2", new AutoScore(s_Manipulator, s_ManipFeed));
-    NamedCommands.registerCommand(
-        "L3", new AutoElevator(s_Elevator, ElevatorConstants.L3Setpoint, s_Manipulator));
+    
 
     auto = AutoBuilder.buildAutoChooser();
 
@@ -97,10 +89,8 @@ public class RobotContainer {
   }
 
   public void defaultCommands() {
-    // s_AlgaeMotor.setDefaultCommand(s_AlgaeMotor.runAlgaeMotor());
     s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed));
-    opCon.leftBumper().onTrue(s_Manipulator.goDirectToSetpoint(-2));
-    driverCon.x().whileTrue(s_Elevator.goDirectTOSetpoint(28.6));
+    s_super.setDefaultCommand(new SuperStructureDefault(s_super, driverCon));
   }
 
   public void driverControls() {
@@ -176,35 +166,28 @@ public class RobotContainer {
               return validTags.contains((int) lastTagID);
             })
         .whileTrue(new ReefAlign(drivetrain, true));
-
-    driverCon.start().whileTrue(new AutoElevator(s_Elevator, 17.5, s_Manipulator));
   }
 
   public void opControls() {
-    /* Without eSwitch */
-    opCon.leftBumper();
-
     // Run Climber When Pushed
     opCon
         .rightBumper()
         .whileTrue(new RunClimber(s_Climber, ClimberConstants.setpointForClimb))
         .whileFalse(new RunClimber(s_Climber, 0.0));
+    
+    opCon.povDown().whileTrue(s_AlgaeMotor.runAlgaeMotor());
 
     // Go To Elevator setpoints When Pushed
-    opCon
-        .povUp()
-        .onTrue(
-            new RunElevator(
-                s_Elevator,
-                ElevatorConstants.L3Setpoint,
-                s_Manipulator,
-                5.4,
-                driverCon.rightBumper()));
+    // opCon
+    //     .povUp()
+    //     .onTrue(
+    //         new RunElevator(
+    //             s_Elevator,
+    //             ElevatorConstants.L3Setpoint,
+    //             s_Manipulator,
+    //             5.4,
+    //             driverCon.rightBumper()));
     //  L2 no Elevator.
-    opCon
-        .povLeft()
-        .whileTrue(new ManipPivot(s_Manipulator, 4.75, true))
-        .whileFalse(new ManipPivot(s_Manipulator, 0, false));
 
     // Zero Subsystems When Pushed
     opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
@@ -217,7 +200,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
-    SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
+    SmartDashboard.putNumber("Elevator State", s_super.elevatorState);
 
     SmartDashboard.putNumber("Encoder Pose", s_Manipulator.getMagPose());
 
@@ -225,7 +208,7 @@ public class RobotContainer {
     DogLog.log("ClimberPos", s_Climber.getPosition());
     DogLog.log("Elevator Pos", s_Elevator.getPosition());
     DogLog.log("s_Manipulator Pos", s_Manipulator.getPosition());
-    DogLog.log("Elevator State", s_Elevator.elevatorState);
+    DogLog.log("Elevator State", s_super.elevatorState);
   }
 
   public void zeros() {

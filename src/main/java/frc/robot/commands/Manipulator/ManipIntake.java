@@ -14,14 +14,12 @@ import frc.robot.subsytems.manipulator.ManipulatorFeeder;
 public class ManipIntake extends Command {
   private Manipulator manipulator;
   private ManipulatorFeeder manipFeed;
-  private Elevator elevator;
   private boolean trigger;
   private Timer timer = new Timer();
 
   /** Creates a new manip. */
   public ManipIntake(Manipulator manipulator, Elevator elevator, ManipulatorFeeder manipFeed) {
     this.manipulator = manipulator;
-    this.elevator = elevator;
     this.manipFeed = manipFeed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(manipulator, manipFeed);
@@ -32,9 +30,7 @@ public class ManipIntake extends Command {
   public void initialize() {
     trigger = manipulator.laserPassed();
     if (trigger) {
-      if (elevator.elevatorState == 1) {
-        manipFeed.feed(-4);
-      } else manipFeed.feed(-3);
+      manipFeed.feed(-3);
       timer.reset();
     } else {
       manipFeed.feed(7);

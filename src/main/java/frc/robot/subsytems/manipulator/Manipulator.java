@@ -4,7 +4,6 @@
 
 package frc.robot.subsytems.manipulator;
 
-import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -24,14 +23,11 @@ import frc.robot.constants.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
-  TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
+  public TalonFX pivotMotor = new TalonFX(ManipulatorConstants.pivotMotorID);
 
   CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
 
   CANcoder manipEncoder = new CANcoder(4);
-
-  private ManipulatorFeeder manipfeed = new ManipulatorFeeder();
-  private TalonFX feederMotor = manipfeed.manipFeeder;
 
   TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
   MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
