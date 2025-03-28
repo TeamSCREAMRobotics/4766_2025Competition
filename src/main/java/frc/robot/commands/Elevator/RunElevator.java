@@ -49,26 +49,26 @@ public class RunElevator extends Command {
     }
 
     if (s_Elevator.elevatorState == 0) {
-      manipulator.goToSetpoint(0);
+      // manipulator.goToSetpoint(0);
       s_Elevator.goToSetPoint(Setpoint);
       s_Elevator.elevatorState = 1;
     }
 
     if (s_Elevator.elevatorState == 1) {
-      manipulator.goToSetpoint(manipSetpoint);
+      //manipulator.goToSetpoint(manipSetpoint);
       s_Elevator.goToSetPoint(Setpoint);
     }
 
     if (s_Elevator.elevatorState == 1 && trigger.getAsBoolean() == true) {
       Timer.delay(0.1);
-      manipulator.goToSetpoint(0);
+      //manipulator.goToSetpoint(0);
       s_Elevator.goToSetPoint(Setpoint);
       s_Elevator.elevatorState = 2;
     }
 
     if (s_Elevator.elevatorState == 2) {
       s_Elevator.goToSetPoint(0);
-      manipulator.goToSetpoint(0);
+      //manipulator.goToSetpoint(0);
       s_Elevator.elevatorState = 3;
     }
   }

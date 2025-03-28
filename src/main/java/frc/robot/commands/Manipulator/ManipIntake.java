@@ -34,7 +34,7 @@ public class ManipIntake extends Command {
     if (trigger) {
       if (elevator.elevatorState == 1) {
         manipFeed.feed(-4);
-      } else manipFeed.feed(-5);
+      } else manipFeed.feed(-3);
       timer.reset();
     } else {
       manipFeed.feed(7);

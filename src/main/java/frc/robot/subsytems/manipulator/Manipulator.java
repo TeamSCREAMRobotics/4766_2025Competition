@@ -11,11 +11,14 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.ManipulatorConstants;
 
@@ -25,7 +28,7 @@ public class Manipulator extends SubsystemBase {
 
   CANrange manipRange = new CANrange(ManipulatorConstants.canRangeID);
 
-  Orchestra rickroll = new Orchestra();
+  CANcoder manipEncoder = new CANcoder(4);
 
   private ManipulatorFeeder manipfeed = new ManipulatorFeeder();
   private TalonFX feederMotor = manipfeed.manipFeeder;
@@ -37,58 +40,61 @@ public class Manipulator extends SubsystemBase {
 
   MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
   VoltageOut m_request = new VoltageOut(0);
+  
+    public Manipulator() {
+      pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      pivotConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+      pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+          ManipulatorConstants.climberForwardSoftLimit;
+      pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
+          ManipulatorConstants.climberReverseSoftLimit;
+      pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+  
+      rangeConfig.ProximityParams.ProximityThreshold = ManipulatorConstants.kCanRangeDistance;
+  
+      manipSlot0Configs.kG = ManipulatorConstants.kG;
+      manipSlot0Configs.kV = ManipulatorConstants.kV;
+      manipSlot0Configs.kP = ManipulatorConstants.kP;
+      manipSlot0Configs.kI = ManipulatorConstants.kI;
+      manipSlot0Configs.kD = ManipulatorConstants.kD;
+      manipSlot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
+  
+      pivotMagic.MotionMagicAcceleration = ManipulatorConstants.kMagicAcceleration;
+      pivotMagic.MotionMagicCruiseVelocity = ManipulatorConstants.kMagicVelocity;
+  
+      manipRange.getConfigurator().apply(rangeConfig);
+      pivotMotor.getConfigurator().apply(pivotConfig);
+      pivotMotor.getConfigurator().apply(manipSlot0Configs);
+      pivotMotor.getConfigurator().apply(pivotMagic);
+    }
+  
+    public double getPosition() {
+      return pivotMotor.getPosition().getValueAsDouble();
+    }
+  
+    public void goToSetpoint(double setpoint) {
+      pivotMotor.setControl(magicRequest.withPosition(setpoint));
+    }
 
-  public Manipulator() {
-    pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    pivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
-        ManipulatorConstants.climberForwardSoftLimit;
-    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
-        ManipulatorConstants.climberReverseSoftLimit;
-    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-
-    rangeConfig.ProximityParams.ProximityThreshold = ManipulatorConstants.kCanRangeDistance;
-
-    manipSlot0Configs.kG = ManipulatorConstants.kG;
-    manipSlot0Configs.kV = ManipulatorConstants.kV;
-    manipSlot0Configs.kP = ManipulatorConstants.kP;
-    manipSlot0Configs.kI = ManipulatorConstants.kI;
-    manipSlot0Configs.kD = ManipulatorConstants.kD;
-    manipSlot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
-
-    pivotMagic.MotionMagicAcceleration = ManipulatorConstants.kMagicAcceleration;
-    pivotMagic.MotionMagicCruiseVelocity = ManipulatorConstants.kMagicVelocity;
-
-    manipRange.getConfigurator().apply(rangeConfig);
-    pivotMotor.getConfigurator().apply(pivotConfig);
-    pivotMotor.getConfigurator().apply(manipSlot0Configs);
-    pivotMotor.getConfigurator().apply(pivotMagic);
-
-    rickroll.addInstrument(pivotMotor);
-    rickroll.addInstrument(feederMotor);
-    rickroll.loadMusic("music/rickroll.chrp");
-  }
-
-  public double getPosition() {
-    return pivotMotor.getPosition().getValueAsDouble();
-  }
-
-  public void goToSetpoint(double setpoint) {
-    pivotMotor.setControl(magicRequest.withPosition(setpoint));
-    rickroll.play();
-  }
-
-  public boolean atSetpoint(double setpoint, double deadzone) {
-    return pivotMotor.getPosition().getValueAsDouble() >= setpoint - deadzone
-        && pivotMotor.getPosition().getValueAsDouble() <= setpoint + deadzone;
-  }
-
-  public void zeroManip() {
-    pivotMotor.setPosition(0);
-  }
-
-  public boolean laserPassed() {
-    return manipRange.getIsDetected().getValue();
+    public double getMagPose(){
+      return manipEncoder.getPosition().getValueAsDouble();
+    }
+  
+    public boolean atSetpoint(double setpoint, double deadzone) {
+      return pivotMotor.getPosition().getValueAsDouble() >= setpoint - deadzone
+          && pivotMotor.getPosition().getValueAsDouble() <= setpoint + deadzone;
+    }
+  
+    public void zeroManip() {
+      pivotMotor.setPosition(0);
+    }
+  
+    public boolean laserPassed() {
+      return manipRange.getIsDetected().getValue();
+    }
+  
+    public Command goDirectToSetpoint(double setpoint){
+      return run(()-> goToSetpoint(setpoint));
   }
 }

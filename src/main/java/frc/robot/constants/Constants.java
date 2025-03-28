@@ -36,15 +36,15 @@ public class Constants {
     public static final double elevatorReverseSoftLimit = -50;
 
     // PID for Elevator.
-    public static final double kG = 0.5;
+    public static final double kG = 1;
     public static final double kV = 0.0;
-    public static final double kP = 7;
+    public static final double kP = 8;
     public static final double kI = 0.0;
     public static final double kD = 0.04;
 
     // MotionMagic for Elevator.
-    public static final double kMagicVelocity = 580.0;
-    public static final double kMagicAcceleration = 460.0;
+    public static final double kMagicVelocity = 480.0;
+    public static final double kMagicAcceleration = 360.0;
 
     // Setpoints For Elevator.
     public static final double L2Setpoint = 5.7;
@@ -86,19 +86,19 @@ public class Constants {
     // MotorIDs for Manipulator.
     public static final int feederMotorID = 9;
     public static final int pivotMotorID = 10;
-    public static final int algaeMaxID = 16;
+    public static final int algaeMaxID = 1;
 
     // ID for the CANrange
     public static final int canRangeID = 0;
 
     // SoftLimits for Manipulator.
-    public static final double climberForwardSoftLimit = 7;
-    public static final double climberReverseSoftLimit = 0;
+    public static final double climberForwardSoftLimit = 29;
+    public static final double climberReverseSoftLimit = -8;
 
     // PID for Manipulator.
-    public static final double kG = 0.5;
+    public static final double kG = 1;
     public static final double kV = 0.0;
-    public static final double kP = 8;
+    public static final double kP = 12;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
@@ -107,7 +107,7 @@ public class Constants {
     public static final double kMagicAcceleration = 28;
 
     // Laser Threshold Distance for Manipulator.
-    public static final double kCanRangeDistance = 0.074;
+    public static final double kCanRangeDistance = 0.054;
 
     // TODO: Add ALL setpoints for scoring and algae removal.
     public static final double intakeSetpoint = 0.0;

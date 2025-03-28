@@ -97,8 +97,10 @@ public class RobotContainer {
   }
 
   public void defaultCommands() {
-    s_AlgaeMotor.setDefaultCommand(s_AlgaeMotor.runAlgaeMotor());
+    // s_AlgaeMotor.setDefaultCommand(s_AlgaeMotor.runAlgaeMotor());
     s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed));
+    opCon.leftBumper().onTrue(s_Manipulator.goDirectToSetpoint(-2));
+    driverCon.x().whileTrue(s_Elevator.goDirectTOSetpoint(28.6));
   }
 
   public void driverControls() {
@@ -216,6 +218,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
     SmartDashboard.putNumber("Elevator State", s_Elevator.elevatorState);
+
+    SmartDashboard.putNumber("Encoder Pose", s_Manipulator.getMagPose());
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator
     DogLog.log("ClimberPos", s_Climber.getPosition());
