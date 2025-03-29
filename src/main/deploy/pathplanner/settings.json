@@ -2,12 +2,7 @@
   "robotWidth": 0.8919464,
   "robotLength": 0.9046464,
   "holonomicMode": true,
-  "pathFolders": [
-    "C2L",
-    "C2R",
-    "Center Auto Paths",
-    "Center Trough"
-  ],
+  "pathFolders": [],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
