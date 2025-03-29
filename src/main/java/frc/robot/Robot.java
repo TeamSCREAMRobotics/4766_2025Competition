@@ -47,7 +47,9 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+    m_robotContainer.getRobotState(true);
+  }
 
   @Override
   public void autonomousInit() {
@@ -78,7 +80,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {}
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+    m_robotContainer.getRobotState(false);
+  }
 
   @Override
   public void testInit() {

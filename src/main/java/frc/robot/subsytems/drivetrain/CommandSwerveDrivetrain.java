@@ -17,12 +17,14 @@ import drivers.PhoenixSwerveHelper;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
@@ -33,13 +35,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Logger;
 import frc.robot.constants.DrivetrainConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.constants.VisionConstants;
 import java.util.function.Supplier;
 import lombok.Getter;
 import vision.LimelightHelpers;
 import vision.LimelightHelpers.PoseEstimate;
+import vision.LimelightVision.Limelight;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements Subsystem so it can easily
@@ -53,6 +58,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   private Field2d fieldWidget = new Field2d();
   boolean doRejectVisionUpdate = false;
   public boolean UpdatingPose = false;
+  public boolean hasEnabled = false;
+  Limelight left = new Limelight("limelight-left", new Pose3d());
+  Limelight right = new Limelight("limelight-right", new Pose3d());
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -285,13 +293,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   @Override
   public void periodic() {
-    if (!DriverStation.isAutonomous()) addVision();
+    //  if (!DriverStation.isAutonomous()) addVision();
 
     fieldWidget.setRobotPose(getPose());
 
     LimelightHelpers.SetRobotOrientation(
-        "limelight-swerve", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        "limelight-left", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.SetRobotOrientation(
+        "limelight-right", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
 
+    addGlobalPoseEstimate(left);
+    addGlobalPoseEstimate(right);
     /*
      * Periodically try to apply the operator perspective.
      * If we haven't applied the operator perspective before, then we should apply it regardless of DS state.
@@ -371,10 +383,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return getPose().getRotation();
   }
 
+  public Rotation2d getYawRate() {
+    return Rotation2d.fromDegrees(
+        getPigeon2().getAngularVelocityZWorld().asSupplier().get().in(Units.DegreesPerSecond));
+  }
+
+  /*
   public void addVision() {
-    if (LimelightHelpers.getTV("limelight-swerve")) {
+    if (LimelightHelpers.getTV("limelight-left")) {
       PoseEstimate poseEstimate =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-swerve");
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-left");
       if (poseEstimate == null
           || poseEstimate.tagCount == 0
           || !FieldConstants.FIELD_AREA.contains(poseEstimate.pose.getTranslation())
@@ -392,12 +410,79 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       UpdatingPose = true;
     }
   }
+    */
 
   /*
       public void resetPigeonYaw(){
           getPigeon2().setYaw(0.0);
       }
   */
+  private boolean rejectEstimate(PoseEstimate estimate) {
+    return estimate == null
+        || estimate.tagCount == 0
+        || !FieldConstants.FIELD_AREA.contains(estimate.pose)
+        || (estimate.tagCount == 1 && estimate.rawFiducials[0].ambiguity > 0.3)
+        || (Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 540)
+        || (getLinearVelocity().getNorm() > 3.0);
+  }
+
+  public void addVisionMeasurement(
+      Pose2d visionRobotPoseMeters,
+      double timestampSeconds,
+      Matrix<N3, N1> visionMeasurementStdDevs,
+      boolean rejectHeading) {
+    Logger.log("Vision/ActiveGlobalVisionMeasurement", visionRobotPoseMeters);
+    super.addVisionMeasurement(
+        !rejectHeading
+            ? visionRobotPoseMeters
+            : new Pose2d(visionRobotPoseMeters.getTranslation(), getHeading()),
+        Utils.fpgaToCurrentTime(timestampSeconds),
+        visionMeasurementStdDevs);
+  }
+
+  private void addGlobalPoseEstimate(Limelight limelight) {
+    LimelightHelpers.SetRobotOrientation(
+        limelight.name(), getHeading().getDegrees(), getYawRate().getDegrees(), 0, 0, 0, 0);
+    PoseEstimate mt2Estimate =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight.name());
+
+    boolean shouldUseMt1 = !hasEnabled;
+    boolean shouldUseMt2 = hasEnabled && !rejectEstimate(mt2Estimate);
+
+    if (shouldUseMt1) {
+      var mtEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight.name());
+      if (!rejectEstimate(mtEstimate)) {
+        double stdFactor = Math.pow(mtEstimate.avgTagDist, 2.5) / (mtEstimate.tagCount * 0.5);
+        double xyStds = VisionConstants.xyStdBaseline * stdFactor;
+        double thetaStds = VisionConstants.thetaStdBaseline * stdFactor;
+        addVisionMeasurement(
+            mtEstimate.pose,
+            mtEstimate.timestampSeconds,
+            VecBuilder.fill(xyStds, xyStds, thetaStds),
+            false);
+        Logger.log("Vision/" + limelight.name() + "/XyStds", xyStds);
+        Logger.log("Vision/" + limelight.name() + "/ThetaStds", thetaStds);
+      }
+    }
+
+    if (shouldUseMt2) {
+      double stdFactor = Math.pow(mt2Estimate.avgTagDist, 2.2) / (mt2Estimate.tagCount * 0.5);
+      double xyStds = VisionConstants.xyStdBaseline * stdFactor * VisionConstants.xyMt2StdFactor;
+      addVisionMeasurement(
+          mt2Estimate.pose,
+          mt2Estimate.timestampSeconds,
+          VecBuilder.fill(xyStds, xyStds, 999999999.0),
+          true);
+      Logger.log("Vision/" + limelight.name() + "/PoseEstimate", mt2Estimate.pose);
+      Logger.log("Vision/" + limelight.name() + "/XyStds", xyStds);
+      Logger.log("Vision/" + limelight.name() + "/ThetaStds", 999999999.0);
+    } else {
+      Logger.log("Vision/" + limelight.name() + "/PoseEstimate", Pose2d.kZero);
+      Logger.log("Vision/" + limelight.name() + "/XyStds", 0.0);
+      Logger.log("Vision/" + limelight.name() + "/ThetaStds", 0.0);
+    }
+  }
+
   public Translation2d getLinearVelocity() {
     return new Translation2d(
             getState().Speeds.vxMetersPerSecond, getState().Speeds.vyMetersPerSecond)

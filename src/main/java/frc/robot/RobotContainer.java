@@ -169,11 +169,11 @@ public class RobotContainer {
     driverCon
         .povLeft()
         .onTrue(
-            Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-front")));
+            Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-left")));
     driverCon
         .povRight()
         .onTrue(
-            Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-front")));
+            Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-right")));
 
     // TODO: FIX: Left and right are flipped on auto align.
     driverCon
@@ -291,6 +291,10 @@ public class RobotContainer {
     //   s_Manipulator.goDirectToSetpoint(33);
     //   s_Elevator.goDirectTOSetpoint(0);
     // }
+  }
+
+  public void getRobotState(boolean enabled) {
+    drivetrain.hasEnabled = enabled;
   }
 
   public void zeros() {
