@@ -47,7 +47,7 @@ public class Constants {
     public static final double kMagicAcceleration = 360.0;
 
     // Setpoints For Elevator.
-    public static final double idleSetpoint = 5.7;
+    public static final double loadingSetpoint = 4.24;
     public static final double L4Setpoint = 28.6;
   }
 
@@ -62,22 +62,22 @@ public class Constants {
     public static final int canRangeID = 0;
 
     // SoftLimits for Manipulator.
-    public static final double climberForwardSoftLimit = 29;
+    public static final double climberForwardSoftLimit = 33;
     public static final double climberReverseSoftLimit = -8;
 
     // PID for Manipulator.
     public static final double kG = 1;
     public static final double kV = 0.0;
-    public static final double kP = 12;
+    public static final double kP = 15;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
     // MotionMagic for Manipulator.
-    public static final double kMagicVelocity = 112;
-    public static final double kMagicAcceleration = 28;
+    public static final double kMagicVelocity = 480;
+    public static final double kMagicAcceleration = 360;
 
     // Laser Threshold Distance for Manipulator.
-    public static final double kCanRangeDistance = 0.054;
+    public static final double kCanRangeDistance = 0.064;
 
     // TODO: Add ALL setpoints for scoring and algae removal.
     public static final double intakeSetpoint = -7.0;
@@ -85,7 +85,7 @@ public class Constants {
     public static final double levelThreeSetpoint = 0.0;
     public static final double levelFourSetpoint = 30.6;
 
-    public static final double clearZoneSetpoint = 32;
+    public static final double clearZoneSetpoint = 33;
 
     public static final double algaeRemovalSetpoint = 10.0;
   }

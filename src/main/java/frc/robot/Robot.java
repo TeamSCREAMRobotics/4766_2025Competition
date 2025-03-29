@@ -9,9 +9,13 @@ import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsytems.Climber;
+import frc.robot.subsytems.manipulator.Manipulator;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Climber climber = new Climber();
+  private Manipulator manip = new Manipulator();
 
   // private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 

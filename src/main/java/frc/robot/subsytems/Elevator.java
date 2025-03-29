@@ -84,10 +84,10 @@ public class Elevator extends SubsystemBase {
   }
 
   public double getPosition() {
-    return elevatorMaster.getPosition().getValueAsDouble();
+    return elevatorMaster.getPosition(true).getValueAsDouble();
   }
 
   public Command goDirectTOSetpoint(double setpoint) {
-    return run(() -> goToSetPoint(setpoint));
+    return startEnd(() -> goToSetPoint(setpoint), () -> goToSetPoint(0));
   }
 }

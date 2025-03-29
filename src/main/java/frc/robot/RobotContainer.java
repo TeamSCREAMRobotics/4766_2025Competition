@@ -24,13 +24,13 @@ import frc.robot.commands.Climber.RunClimber;
 import frc.robot.commands.Drivetrain.ReefAlign;
 import frc.robot.commands.Manipulator.ManipIdle;
 import frc.robot.commands.Manipulator.ManipIntake;
-import frc.robot.commands.SuperStructureDefault;
+import frc.robot.commands.Manipulator.ManipPivot;
 import frc.robot.constants.Constants.ClimberConstants;
+import frc.robot.constants.Constants.ManipulatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.SuperSubsystem;
 import frc.robot.subsytems.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.subsytems.manipulator.AlgaeMotor;
 import frc.robot.subsytems.manipulator.Manipulator;
@@ -44,7 +44,6 @@ public class RobotContainer {
   private Manipulator s_Manipulator = new Manipulator();
   private ManipulatorFeeder s_ManipFeed = new ManipulatorFeeder();
   private AlgaeMotor s_AlgaeMotor = new AlgaeMotor();
-  private SuperSubsystem s_super = new SuperSubsystem();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   public CommandXboxController driverCon = new CommandXboxController(0);
@@ -89,7 +88,10 @@ public class RobotContainer {
 
   public void defaultCommands() {
     s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed));
-    s_super.setDefaultCommand(new SuperStructureDefault(s_super, driverCon));
+    if (s_Climber.getPosition() < 1) {
+      s_Manipulator.setDefaultCommand(
+          Commands.run(() -> s_Manipulator.goToSetpoint(33), s_Manipulator));
+    }
   }
 
   public void driverControls() {
@@ -170,23 +172,30 @@ public class RobotContainer {
   public void opControls() {
     // Run Climber When Pushed
     opCon
-        .rightBumper()
-        .whileTrue(new RunClimber(s_Climber, ClimberConstants.setpointForClimb))
-        .whileFalse(new RunClimber(s_Climber, 0.0));
+        .back()
+        .toggleOnTrue(
+            new RunClimber(
+                s_Climber, s_Manipulator, ClimberConstants.setpointForClimb, opCon.rightBumper()));
 
-    opCon.povDown().whileTrue(s_AlgaeMotor.runAlgaeMotor());
-
-    // Go To Elevator setpoints When Pushed
-    // opCon
-    //     .povUp()
-    //     .onTrue(
-    //         new RunElevator(
-    //             s_Elevator,
-    //             ElevatorConstants.L3Setpoint,
-    //             s_Manipulator,
-    //             5.4,
-    //             driverCon.rightBumper()));
-    //  L2 no Elevator.
+    opCon
+        .povDown()
+        .whileTrue(
+            s_AlgaeMotor
+                .runAlgaeMotor()
+                .alongWith(
+                    new ManipPivot(s_Manipulator, ManipulatorConstants.algaeRemovalSetpoint)));
+    opCon
+        .povDown()
+        .and(opCon.start())
+        .whileTrue(
+            s_AlgaeMotor
+                .runAlgaeMotor()
+                .alongWith(
+                    s_Elevator
+                        .goDirectTOSetpoint(15)
+                        .alongWith(
+                            new ManipPivot(
+                                s_Manipulator, ManipulatorConstants.algaeRemovalSetpoint))));
 
     // Zero Subsystems When Pushed
     opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
@@ -199,7 +208,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
-    SmartDashboard.putNumber("Elevator State", s_super.elevatorState);
 
     SmartDashboard.putNumber("Encoder Pose", s_Manipulator.getMagPose());
 
@@ -207,7 +215,11 @@ public class RobotContainer {
     DogLog.log("ClimberPos", s_Climber.getPosition());
     DogLog.log("Elevator Pos", s_Elevator.getPosition());
     DogLog.log("s_Manipulator Pos", s_Manipulator.getPosition());
-    DogLog.log("Elevator State", s_super.elevatorState);
+
+    if (s_Climber.getPosition() > 1) {
+      s_Manipulator.goDirectToSetpoint(33);
+      s_Elevator.goDirectTOSetpoint(0);
+    }
   }
 
   public void zeros() {
