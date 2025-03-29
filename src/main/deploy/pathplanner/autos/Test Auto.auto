@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ManipHome"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Test Path"
@@ -13,19 +19,13 @@
         {
           "type": "named",
           "data": {
-            "name": "LevelThree"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "name": "elevatorLevelFour"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ManipHome"
+            "name": "levelFourManipulator"
           }
         }
       ]
