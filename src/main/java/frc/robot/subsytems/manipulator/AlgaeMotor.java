@@ -24,7 +24,7 @@ public class AlgaeMotor extends SubsystemBase {
     return this.startEnd(() -> this.runAlgaeMotor(-1.5), () -> this.runAlgaeMotor(0));
   }
 
-  public Command stopAlgaeMotor() {
-    return this.run(() -> this.runAlgaeMotor(0));
+  public Command runAlgaeMotorForever(double voltage) {
+    return this.run(() -> this.runAlgaeMotor(voltage));
   }
 }

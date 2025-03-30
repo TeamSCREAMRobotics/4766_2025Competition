@@ -1,0 +1,77 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.015740872692026,
+        "y": 5.247458589709681
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.63125,
+        "y": 6.199249999999999
+      },
+      "isLocked": false,
+      "linkedName": "Left Auto Path 1"
+    },
+    {
+      "anchor": {
+        "x": 1.502704763909449,
+        "y": 7.326345597735835
+      },
+      "prevControl": {
+        "x": 2.438704763909449,
+        "y": 7.277595597735835
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Auto Path 2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.0,
+        "y": 4.8
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.15441176470588813,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "load",
+      "waypointRelativePos": 0.24264705882353024,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "load"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -53.13010235415587
+  },
+  "reversed": false,
+  "folder": "Left Auto 2",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -120.60008282522821
+  },
+  "useDefaultConstraints": true
+}

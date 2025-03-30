@@ -29,7 +29,7 @@ public final class DrivetrainConstants {
 
   // TODO: Tune this PIDController for DriveToPose.
   public static final ProfiledPIDController DRIVE_ALIGNMENT_CONTROLLER =
-      new ProfiledPIDController(3.0, 0.0, 0.001, new Constraints(5, 4));
+      new ProfiledPIDController(3.20, 0.0, 0.001, new Constraints(5, 4));
 
   public static final PIDController HEADING_CONTROLLER =
       HEADING_CORRECTION_CONSTANTS.getPIDController(-Math.PI, Math.PI);

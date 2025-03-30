@@ -21,14 +21,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.AutoElevate;
 import frc.robot.commands.AutoLoad;
+import frc.robot.commands.AutoManipSetpoint;
 import frc.robot.commands.Drivetrain.ReefAlign;
+import frc.robot.commands.ManipIdle;
 import frc.robot.commands.ManipIntake;
+import frc.robot.commands.ManipOuttake;
 import frc.robot.commands.RunClimber;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ElevatorConstants;
 import frc.robot.constants.Constants.ManipulatorConstants;
-import frc.robot.constants.FieldConstants;
 import frc.robot.constants.TunerConstants;
 import frc.robot.subsytems.Climber;
 import frc.robot.subsytems.Elevator;
@@ -36,7 +39,7 @@ import frc.robot.subsytems.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.subsytems.manipulator.AlgaeMotor;
 import frc.robot.subsytems.manipulator.Manipulator;
 import frc.robot.subsytems.manipulator.ManipulatorFeeder;
-import util.AllianceFlipUtil;
+import java.util.function.BooleanSupplier;
 import vision.LimelightHelpers;
 
 public class RobotContainer {
@@ -46,6 +49,7 @@ public class RobotContainer {
   private ManipulatorFeeder s_ManipFeed = new ManipulatorFeeder();
   private AlgaeMotor s_AlgaeMotor = new AlgaeMotor();
   private CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+  BooleanSupplier auton;
 
   public CommandXboxController driverCon = new CommandXboxController(0);
   public CommandXboxController opCon = new CommandXboxController(1);
@@ -63,7 +67,9 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
 
   public RobotContainer() {
+    auton = () -> DriverStation.isAutonomous();
     driverControls();
+
     opControls();
     defaultCommands();
 
@@ -71,21 +77,22 @@ public class RobotContainer {
     drivetrain.configureAutoBuilder();
 
     NamedCommands.registerCommand(
-        "ManipHome", s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
-    NamedCommands.registerCommand("elevatorHome", s_Elevator.toSetpoint(0));
+        "ManipHome", new AutoManipSetpoint(s_Manipulator, ManipulatorConstants.clearZoneSetpoint));
+    NamedCommands.registerCommand("elevatorHome", new AutoElevate(s_Elevator, 0));
     NamedCommands.registerCommand(
-        "LevelTwo", s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelTwoSetpoint));
+        "LevelTwo", new AutoManipSetpoint(s_Manipulator, ManipulatorConstants.levelTwoSetpoint));
     NamedCommands.registerCommand(
-        "LevelThree", s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelThreeSetpoint));
+        "LevelThree",
+        new AutoManipSetpoint(s_Manipulator, ManipulatorConstants.levelThreeSetpoint));
     NamedCommands.registerCommand(
         "levelFourManipulator",
-        s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelFourSetpoint));
+        new AutoManipSetpoint(s_Manipulator, ManipulatorConstants.levelFourSetpoint));
     NamedCommands.registerCommand(
         "algaeFlickTwo",
         s_AlgaeMotor
             .runAlgaeMotor()
             .alongWith(
-                s_Manipulator.goDirectToSetpoint(ManipulatorConstants.algaeRemovalSetpoint)));
+                new AutoManipSetpoint(s_Manipulator, ManipulatorConstants.algaeRemovalSetpoint)));
     NamedCommands.registerCommand(
         "algaeFlickThree",
         s_AlgaeMotor
@@ -97,16 +104,24 @@ public class RobotContainer {
                         s_Manipulator.goDirectToSetpoint(
                             ManipulatorConstants.algaeRemovalSetpoint))));
     NamedCommands.registerCommand(
-        "elevatorLevelFour", s_Elevator.toSetpoint(ElevatorConstants.L4Setpoint));
+        "elevatorLevelFour", new AutoElevate(s_Elevator, ElevatorConstants.L4Setpoint));
     NamedCommands.registerCommand(
         "load",
-        new AutoLoad(s_Manipulator, s_Elevator, s_ManipFeed, () -> s_Manipulator.laserPassed()));
+        new AutoLoad(
+            s_Manipulator,
+            s_Elevator,
+            s_ManipFeed,
+            () -> s_Manipulator.laserPassed(),
+            () -> DriverStation.isAutonomous()));
     NamedCommands.registerCommand(
         "feedFoward", Commands.run(() -> s_ManipFeed.idleFeed(), s_ManipFeed));
+    NamedCommands.registerCommand(
+        "manipOuttake4", new ManipOuttake(s_ManipFeed, () -> s_Manipulator.laserPassed(), -3));
 
     auto = AutoBuilder.buildAutoChooser();
 
     auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
+    auto.addOption("Do Nothing", null);
 
     SmartDashboard.putData(auto);
   }
@@ -116,9 +131,9 @@ public class RobotContainer {
   }
 
   public void defaultCommands() {
-    s_ManipFeed.setDefaultCommand(Commands.run(() -> s_ManipFeed.idleFeed(), s_ManipFeed));
     s_Manipulator.setDefaultCommand(
         s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
+    s_ManipFeed.setDefaultCommand(new ManipIdle(s_ManipFeed, auton));
   }
 
   public void driverControls() {
@@ -164,17 +179,19 @@ public class RobotContainer {
     driverCon.leftBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator, s_ManipFeed));
 
     // TODO: FIX: Left and right are flipped on auto align.
-    driverCon
-        .povLeft()
-        .whileTrue(new ReefAlign(drivetrain, true));
+    driverCon.povLeft().whileTrue(new ReefAlign(drivetrain, true));
+
+    driverCon.povRight().whileTrue(new ReefAlign(drivetrain, false));
 
     driverCon
-        .povRight()
-        .whileTrue(new ReefAlign(drivetrain, false));
-
-        driverCon
         .leftTrigger(.5)
-        .whileTrue(new AutoLoad(s_Manipulator, s_Elevator, s_ManipFeed, () -> s_Manipulator.laserPassed()));
+        .whileTrue(
+            new AutoLoad(
+                s_Manipulator,
+                s_Elevator,
+                s_ManipFeed,
+                () -> s_Manipulator.laserPassed(),
+                () -> DriverStation.isAutonomous()));
   }
 
   public void opControls() {

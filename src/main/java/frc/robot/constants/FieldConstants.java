@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,15 +104,16 @@ public class FieldConstants {
       Rotation2d redRotation = Rotation2d.fromDegrees((i * 60) + 180);
 
       RIGHT_BLUE_REEF_LOCATIONS.add(
-              new Pose2d(BLUE_REEF_CENTER.plus(SCORE_LOCATION_1.rotateBy(rotation)), blueRotation));
+          new Pose2d(BLUE_REEF_CENTER.plus(SCORE_LOCATION_1.rotateBy(rotation)), blueRotation));
 
-      LEFT_BLUE_REEF_LOCATIONS.add(new Pose2d(
-        BLUE_REEF_CENTER.plus(SCORE_LOCATION_2.rotateBy(rotation)), blueRotation));
+      LEFT_BLUE_REEF_LOCATIONS.add(
+          new Pose2d(BLUE_REEF_CENTER.plus(SCORE_LOCATION_2.rotateBy(rotation)), blueRotation));
 
       RIGHT_RED_REEF_LOCATIONS.add(
-              new Pose2d(RED_REEF_CENTER.plus(SCORE_LOCATION_1.rotateBy(rotation)), redRotation));
+          new Pose2d(RED_REEF_CENTER.plus(SCORE_LOCATION_1.rotateBy(rotation)), redRotation));
 
-      LEFT_RED_REEF_LOCATIONS.add(new Pose2d(RED_REEF_CENTER.plus(SCORE_LOCATION_2.rotateBy(rotation)), redRotation));
+      LEFT_RED_REEF_LOCATIONS.add(
+          new Pose2d(RED_REEF_CENTER.plus(SCORE_LOCATION_2.rotateBy(rotation)), redRotation));
 
       BLUE_ALGAE_LOCATIONS.put(
           i, new Pose2d(BLUE_REEF_CENTER.plus(ALGAE_LOCATION.rotateBy(rotation)), blueRotation));

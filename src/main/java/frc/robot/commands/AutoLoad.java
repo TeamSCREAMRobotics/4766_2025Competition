@@ -20,13 +20,19 @@ public class AutoLoad extends Command {
   private Elevator elevator;
   private ManipulatorFeeder feeder;
   private BooleanSupplier range;
+  private BooleanSupplier auton;
 
   public AutoLoad(
-      Manipulator manipulator, Elevator elevator, ManipulatorFeeder feeder, BooleanSupplier range) {
+      Manipulator manipulator,
+      Elevator elevator,
+      ManipulatorFeeder feeder,
+      BooleanSupplier range,
+      BooleanSupplier auton) {
     this.manipulator = manipulator;
     this.elevator = elevator;
     this.feeder = feeder;
     this.range = range;
+    this.auton = auton;
 
     addRequirements(manipulator, elevator, feeder);
   }
@@ -53,7 +59,9 @@ public class AutoLoad extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevator.goToSetPoint(0);
+    if (!auton.getAsBoolean()) {
+      elevator.goToSetPoint(0);
+    }
   }
 
   // Returns true when the command should end.

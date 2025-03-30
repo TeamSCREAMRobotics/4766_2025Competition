@@ -4,46 +4,31 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsytems.Elevator;
-import frc.robot.subsytems.manipulator.Manipulator;
-import frc.robot.subsytems.manipulator.ManipulatorFeeder;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ManipIntake extends Command {
-  private Manipulator manipulator;
-  private ManipulatorFeeder manipFeed;
-  private boolean trigger;
-  private Timer timer = new Timer();
+public class AutoElevate extends Command {
+  /** Creates a new AutoElevate. */
+  private Elevator elevator;
 
-  /** Creates a new manip. */
-  public ManipIntake(Manipulator manipulator, Elevator elevator, ManipulatorFeeder manipFeed) {
-    this.manipulator = manipulator;
-    this.manipFeed = manipFeed;
+  private double setpoint;
+
+  public AutoElevate(Elevator elevator, double setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulator, manipFeed);
+    this.elevator = elevator;
+    this.setpoint = setpoint;
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if (manipulator.getPosition() >= 34.5) {
-      manipFeed.feed(-3.5);
-    }
-    if (manipulator.getPosition() <= 25.5) {
-      manipFeed.feed(-5);
-    } else {
-      manipFeed.feed(-4.2);
-    }
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (trigger) {
-      timer.start();
-    }
+    elevator.goToSetPoint(setpoint);
   }
 
   // Called once the command ends or is interrupted.
@@ -53,6 +38,6 @@ public class ManipIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return elevator.atSetpoint(setpoint, .2);
   }
 }

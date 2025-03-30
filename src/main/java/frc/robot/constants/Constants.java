@@ -32,8 +32,8 @@ public class Constants {
     public static final int elevatorFollowerID = 14;
 
     // SoftLimits for Elevator.
-    public static final double elevatorForwardSoftLimit = 50;
-    public static final double elevatorReverseSoftLimit = -50;
+    public static final double elevatorForwardSoftLimit = 28.7;
+    public static final double elevatorReverseSoftLimit = 0;
 
     // PID for Elevator.
     public static final double kG = 1;
@@ -81,7 +81,7 @@ public class Constants {
     public static final double kCanRangeDistance = 0.064;
 
     // TODO: Add ALL setpoints for scoring and algae removal.
-    public static final double intakeSetpoint = -6.0;
+    public static final double intakeSetpoint = -7.0;
     public static final double levelTwoSetpoint = 25;
     public static final double levelThreeSetpoint = 35;
     public static final double levelFourSetpoint = 30.6;
