@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AutoLoad;
 import frc.robot.commands.Drivetrain.ReefAlign;
-import frc.robot.commands.ManipIdle;
 import frc.robot.commands.ManipIntake;
 import frc.robot.commands.RunClimber;
 import frc.robot.constants.Constants.ClimberConstants;
@@ -117,9 +116,7 @@ public class RobotContainer {
   }
 
   public void defaultCommands() {
-    s_ManipFeed.setDefaultCommand(
-        new ManipIdle(
-            s_ManipFeed, () -> s_Manipulator.laserPassed(), () -> s_Manipulator.getPosition()));
+    s_ManipFeed.setDefaultCommand(Commands.run(() -> s_ManipFeed.idleFeed(), s_ManipFeed));
     s_Manipulator.setDefaultCommand(
         s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
   }
@@ -164,39 +161,20 @@ public class RobotContainer {
     // reset the field-centric heading on y button press
     driverCon.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-    driverCon.rightBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator, s_ManipFeed));
-
-    driverCon
-        .povLeft()
-        .onTrue(
-            Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-left")));
-    driverCon
-        .povRight()
-        .onTrue(
-            Commands.runOnce(() -> lastTagID = LimelightHelpers.getFiducialID("limelight-right")));
+    driverCon.leftBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator, s_ManipFeed));
 
     // TODO: FIX: Left and right are flipped on auto align.
     driverCon
         .povLeft()
-        .and(
-            () -> {
-              var validTags =
-                  AllianceFlipUtil.get(
-                      FieldConstants.BLUE_VALID_REEF_TAGS, FieldConstants.RED_VALID_REEF_TAGS);
-              return validTags.contains((int) lastTagID);
-            })
-        .whileTrue(new ReefAlign(drivetrain, false));
+        .whileTrue(new ReefAlign(drivetrain, true));
 
     driverCon
         .povRight()
-        .and(
-            () -> {
-              var validTags =
-                  AllianceFlipUtil.get(
-                      FieldConstants.BLUE_VALID_REEF_TAGS, FieldConstants.RED_VALID_REEF_TAGS);
-              return validTags.contains((int) lastTagID);
-            })
-        .whileTrue(new ReefAlign(drivetrain, true));
+        .whileTrue(new ReefAlign(drivetrain, false));
+
+        driverCon
+        .leftTrigger(.5)
+        .whileTrue(new AutoLoad(s_Manipulator, s_Elevator, s_ManipFeed, () -> s_Manipulator.laserPassed()));
   }
 
   public void opControls() {
@@ -208,7 +186,7 @@ public class RobotContainer {
                 s_Climber, s_Manipulator, ClimberConstants.setpointForClimb, opCon.rightBumper()));
 
     opCon
-        .povDown()
+        .povRight()
         .whileTrue(
             s_AlgaeMotor
                 .runAlgaeMotor()
@@ -217,8 +195,7 @@ public class RobotContainer {
                         ManipulatorConstants.algaeRemovalSetpoint,
                         ManipulatorConstants.clearZoneSetpoint)));
     opCon
-        .povDown()
-        .and(opCon.start())
+        .povUp()
         .whileTrue(
             s_AlgaeMotor
                 .runAlgaeMotor()
@@ -231,18 +208,18 @@ public class RobotContainer {
                                 ManipulatorConstants.clearZoneSetpoint))));
 
     opCon
-        .povLeft()
+        .a()
         .whileTrue(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelTwoSetpoint))
         .whileFalse(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
 
     opCon
-        .povUp()
+        .b()
         .whileTrue(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelThreeSetpoint))
         .whileFalse(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
 
     // TODO: this broke most likely
     opCon
-        .povRight()
+        .y()
         .whileTrue(
             Commands.sequence(
                 Commands.parallel(
@@ -259,14 +236,6 @@ public class RobotContainer {
                         () -> s_Manipulator.atSetpoint(ManipulatorConstants.clearZoneSetpoint, .2)),
                 Commands.parallel(s_Elevator.toSetpoint(0))
                     .until(() -> s_Elevator.atSetpoint(0, .2))));
-
-    opCon
-        .leftTrigger()
-        .toggleOnTrue(
-            s_Elevator
-                .goDirectTOSetpoint(ElevatorConstants.loadingSetpoint)
-                .alongWith(
-                    s_Manipulator.goToSetpointCommand(-7, ManipulatorConstants.clearZoneSetpoint)));
 
     // Zero Subsystems When Pushed
     opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));

@@ -28,13 +28,13 @@ public class ManipIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    trigger = manipulator.laserPassed();
-    if (trigger) {
-      manipFeed.feed(-3);
-      timer.reset();
-    } else {
-      manipFeed.feed(5);
-    }
+   // if (manipulator.getPosition() >= 34.5) {
+   //   manipFeed.feed(-3.5);
+   // } if (manipulator.getPosition() <= 25.5) {
+   //   manipFeed.feed(-5);
+   // } else {
+   //   manipFeed.feed(-4.2);
+   // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,17 +48,11 @@ public class ManipIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    manipFeed.stopFeed();
-    trigger = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (trigger == true) {
-      return timer.hasElapsed(0.5);
-    } else {
-      return manipulator.laserPassed();
-    }
+    return false;
   }
 }

@@ -43,8 +43,8 @@ public class Constants {
     public static final double kD = 0.04;
 
     // MotionMagic for Elevator.
-    public static final double kMagicVelocity = 480.0;
-    public static final double kMagicAcceleration = 360.0;
+    public static final double kMagicVelocity = 660.0;
+    public static final double kMagicAcceleration = 500.0;
 
     // Setpoints For Elevator.
     public static final double loadingSetpoint = 4.24;

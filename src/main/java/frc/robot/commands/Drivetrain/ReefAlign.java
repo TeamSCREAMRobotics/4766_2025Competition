@@ -5,12 +5,15 @@
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Logger;
 import frc.robot.constants.FieldConstants;
 import frc.robot.subsytems.drivetrain.CommandSwerveDrivetrain;
 import util.AllianceFlipUtil;
+import util.GeomUtil;
 import vision.LimelightHelpers;
+import vision.LimelightVision.Limelight;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ReefAlign extends Command {
@@ -39,15 +42,23 @@ public class ReefAlign extends Command {
     // FieldConstants.RED_VALID_REEF_TAGS));
     // if(validTags.contains(lastTagID))
 
-    lastTagID = (int) LimelightHelpers.getFiducialID("limelight-front");
-    isCurrentTag = LimelightHelpers.getTV("limelight-front");
+    /* if(LimelightHelpers.getTV("limelight-left")){
+      lastTagID = (int) LimelightHelpers.getFiducialID("limelight-left");
+    }
+
+    if(LimelightHelpers.getTV("limelight-right")){
+      lastTagID = (int) LimelightHelpers.getFiducialID("limelight-right");
+    }
+    
+    if(LimelightHelpers.getTV("limelight-left") || LimelightHelpers.getTV("limelight-right")) isCurrentTag = true;
+    
     var reefLocations =
         AllianceFlipUtil.get(FieldConstants.BLUE_REEF_LOCATIONS, FieldConstants.RED_REEF_LOCATIONS);
-    var tags = AllianceFlipUtil.get(FieldConstants.BLUE_REEF_TAGS, FieldConstants.RED_REEF_TAGS);
+    var tags = AllianceFlipUtil.get(FieldConstants.BLUE_REEF_TAGS, FieldConstants.RED_REEF_TAGS); */
 
     if (leftTrue) {
-      TargetPose = reefLocations.get(tags.get(lastTagID)).getFirst();
-    } else TargetPose = reefLocations.get(tags.get(lastTagID)).getSecond();
+      TargetPose = findClosest(s_drivetrain.getPose(), AllianceFlipUtil.get(FieldConstants.LEFT_BLUE_REEF_LOCATIONS, FieldConstants.LEFT_RED_REEF_LOCATIONS).toArray(Pose2d[]::new));//reefLocations.get(tags.get(lastTagID)).getFirst();
+    } else TargetPose = findClosest(s_drivetrain.getPose(), AllianceFlipUtil.get(FieldConstants.RIGHT_BLUE_REEF_LOCATIONS, FieldConstants.RIGHT_RED_REEF_LOCATIONS).toArray(Pose2d[]::new));
     command = new DriveToPose(s_drivetrain, TargetPose);
     command.initialize();
   }
@@ -67,6 +78,21 @@ public class ReefAlign extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return atReefPose || !isCurrentTag;
+    return atReefPose;
+  }
+
+  public static Pose2d findClosest(Pose2d origin, Pose2d... others){
+    Pose2d closest = null;
+    double smallestDistance = Double.MAX_VALUE;
+
+    for(Pose2d point : others){
+      double distance = origin.getTranslation().getDistance(point.getTranslation());
+      if(distance < smallestDistance){
+        smallestDistance = distance;
+        closest = point;
+      }
+    }
+
+    return closest;
   }
 }
