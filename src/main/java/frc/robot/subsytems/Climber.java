@@ -19,9 +19,7 @@ import frc.robot.constants.Constants.ClimberConstants;
 public class Climber extends SubsystemBase {
   // If this works, it will be a miracle
 
-  /** Creates a new Climber. */
-
-  // Creates new TalonFX Libarry motors
+  // Creates new TalonFX Library motors
   TalonFX climberMaster = new TalonFX(ClimberConstants.climberMasterID);
 
   // Configuration For The Motors
@@ -32,8 +30,6 @@ public class Climber extends SubsystemBase {
   Slot0Configs slot0Configs = new Slot0Configs();
 
   public Climber() {
-    // climberMaster.getConfigurator().apply(new TalonFXConfiguration());
-
     climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     climberConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     climberConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
@@ -55,7 +51,6 @@ public class Climber extends SubsystemBase {
 
     climberMaster.getConfigurator().apply(climberMagic);
     climberMaster.getConfigurator().apply(slot0Configs);
-    // climberMaster.getConfigurator().apply(climberConfig);
   }
 
   public void goToSetPoint(double setpoint) {
@@ -67,7 +62,7 @@ public class Climber extends SubsystemBase {
         && climberMaster.getPosition().getValueAsDouble() <= setpoint + 0.3;
   }
 
-  public double getPose() {
+  public double getPosition() {
     return climberMaster.getPosition().getValueAsDouble();
   }
 

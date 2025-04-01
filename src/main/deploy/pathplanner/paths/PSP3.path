@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.2587090163934425,
+        "y": 0.4346823770491801
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.289651639344262,
+        "y": 1.2977971311475391
+      },
+      "isLocked": false,
+      "linkedName": "PSP2"
+    },
+    {
+      "anchor": {
+        "x": 3.7042008196721308,
+        "y": 2.9640881147540985
+      },
+      "prevControl": {
+        "x": 2.865061475409836,
+        "y": 2.2328381147540983
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "elevatorLevelFour",
+      "waypointRelativePos": 0.6293045239702821,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "elevatorLevelFour"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "levelFourManipulator"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 58.81502534126156
+  },
+  "reversed": false,
+  "folder": "Processor Side",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 52.76516601842537
+  },
+  "useDefaultConstraints": true
+}

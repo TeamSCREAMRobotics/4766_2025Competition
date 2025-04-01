@@ -1,0 +1,65 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.941808687969611,
+        "y": 5.129493320906599
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.735143442622951,
+        "y": 6.212756147540984
+      },
+      "isLocked": false,
+      "linkedName": "Left Auto Path 1"
+    },
+    {
+      "anchor": {
+        "x": 1.0069672131147542,
+        "y": 7.567366803278689
+      },
+      "prevControl": {
+        "x": 2.009203963070182,
+        "y": 7.216817376638922
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Auto Path 2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.0,
+        "y": 4.8
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.15441176470588813,
+      "maxWaypointRelativePos": 0.8047968021319232,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -54.85414078123973
+  },
+  "reversed": false,
+  "folder": "Left Auto 2",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -119.67848992513524
+  },
+  "useDefaultConstraints": false
+}

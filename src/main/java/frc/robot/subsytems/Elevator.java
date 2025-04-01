@@ -14,6 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ElevatorConstants;
@@ -22,19 +23,18 @@ public class Elevator extends SubsystemBase {
   // Motors
   TalonFX elevatorMaster = new TalonFX(Constants.ElevatorConstants.elevatorMasterID);
   TalonFX elevatorFollower = new TalonFX(Constants.ElevatorConstants.elevatorFollowerID);
+
   // Configs
   TalonFXConfiguration elevatorConfigs = new TalonFXConfiguration();
-  Slot0Configs elevatorPIDConfigs = new Slot0Configs();
+  Slot0Configs elevatorSlot0 = new Slot0Configs();
   MotionMagicConfigs elevatorMagicConfigs = new MotionMagicConfigs();
+
   // Voltages
   VoltageOut m_request = new VoltageOut(0);
   MotionMagicVoltage m_magicRequest = new MotionMagicVoltage(0);
 
   /** Creates a new Elevator. */
   public Elevator() {
-    elevatorMaster.getConfigurator().apply(new TalonFXConfiguration());
-    elevatorFollower.getConfigurator().apply(new TalonFXConfiguration());
-
     elevatorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     elevatorConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     elevatorConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
@@ -44,22 +44,20 @@ public class Elevator extends SubsystemBase {
     elevatorConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     elevatorConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
 
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kG = ElevatorConstants.kG;
-    slot0Configs.kV = ElevatorConstants.kV;
-    slot0Configs.kP = ElevatorConstants.kP;
-    slot0Configs.kI = ElevatorConstants.kI;
-    slot0Configs.kD = ElevatorConstants.kD;
-    slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
+    elevatorSlot0.kG = ElevatorConstants.kG;
+    elevatorSlot0.kV = ElevatorConstants.kV;
+    elevatorSlot0.kP = ElevatorConstants.kP;
+    elevatorSlot0.kI = ElevatorConstants.kI;
+    elevatorSlot0.kD = ElevatorConstants.kD;
+    elevatorSlot0.GravityType = GravityTypeValue.Elevator_Static;
 
     elevatorMagicConfigs.MotionMagicAcceleration = ElevatorConstants.kMagicAcceleration;
     elevatorMagicConfigs.MotionMagicCruiseVelocity = ElevatorConstants.kMagicVelocity;
 
-    elevatorMaster.getConfigurator().apply(elevatorConfigs);
-    elevatorFollower.getConfigurator().apply(elevatorConfigs);
     elevatorFollower.setControl(new Follower(elevatorMaster.getDeviceID(), true));
+    elevatorMaster.getConfigurator().apply(elevatorConfigs);
 
-    elevatorMaster.getConfigurator().apply(slot0Configs);
+    elevatorMaster.getConfigurator().apply(elevatorSlot0);
     elevatorMaster.getConfigurator().apply(elevatorMagicConfigs);
   }
 
@@ -80,14 +78,20 @@ public class Elevator extends SubsystemBase {
     elevatorFollower.setPosition(0);
   }
 
-  public boolean atSetpoint(double setpoint) {
-    return elevatorMaster.getPosition().getValueAsDouble() >= setpoint - 0.3
-        && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + 0.3;
+  public boolean atSetpoint(double setpoint, double deadzone) {
+    return elevatorMaster.getPosition().getValueAsDouble() >= setpoint - deadzone
+        && elevatorMaster.getPosition().getValueAsDouble() <= setpoint + deadzone;
   }
 
-  public double getPose() {
-    return elevatorMaster.getPosition().getValueAsDouble();
+  public double getPosition() {
+    return elevatorMaster.getPosition(true).getValueAsDouble();
   }
 
-  public int elevatorState = 0;
+  public Command goDirectTOSetpoint(double setpoint) {
+    return startEnd(() -> goToSetPoint(setpoint), () -> goToSetPoint(0));
+  }
+
+  public Command toSetpoint(double setpoint) {
+    return run(() -> goToSetPoint(setpoint));
+  }
 }

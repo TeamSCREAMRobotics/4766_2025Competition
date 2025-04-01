@@ -18,11 +18,11 @@ public class Constants {
     public static final double kD = 0.0;
 
     // MotionMagic for Climber.
-    public static final double kMagicVelocity = 500.0;
-    public static final double kMagicAcceleration = 250.0;
+    public static final double kMagicVelocity = 400.0;
+    public static final double kMagicAcceleration = 200.0;
 
     // Climbing setpoint
-    public static final double setpointForClimb = 475;
+    public static final double setpointForClimb = 297;
   }
 
   // Constants for the Elevator Subsystem
@@ -32,51 +32,24 @@ public class Constants {
     public static final int elevatorFollowerID = 14;
 
     // SoftLimits for Elevator.
-    public static final double elevatorForwardSoftLimit = 50;
-    public static final double elevatorReverseSoftLimit = -50;
+    public static final double elevatorForwardSoftLimit = 28.7;
+    public static final double elevatorReverseSoftLimit = 0;
 
     // PID for Elevator.
-    public static final double kG = 0.5;
+    public static final double kG = 1;
     public static final double kV = 0.0;
-    public static final double kP = 7;
+    public static final double kP = 8;
     public static final double kI = 0.0;
     public static final double kD = 0.04;
 
     // MotionMagic for Elevator.
-    public static final double kMagicVelocity = 360.0;
-    public static final double kMagicAcceleration = 280.0;
+    public static final double kMagicVelocity = 660.0;
+    public static final double kMagicAcceleration = 500.0;
 
     // Setpoints For Elevator.
-    public static final double L2Setpoint = 5.7;
-    public static final double L3Setpoint = 19;
-  }
-
-  // Constants for the Intake Subsystem.
-  public static final class IntakeConstants {
-    // Intake Motor and BeamBreakIDs.
-    public static final int intakePIDMotorID = 12;
-    public static final int intakeMotorID = 11;
-
-    // Intake SoftLimits.
-    public static final double intakeFowardSoftLimit = 0.0;
-    public static final double intakeReverseSoftLimit = 0.0;
-
-    // Intake PID.
-    public static final double intakeKP = 8;
-    public static final double intakeKD = 0;
-    public static final double intakeKI = 0;
-    public static final double intakeKV = 0.1;
-    public static final double intakeKG = 0.5;
-
-    // Intake MotionMagic.
-    public static final double motionMagicAcceleration = 10;
-    public static final double motionMagicCruiseVelocity = 15;
-
-    // Intake Setpoint.
-    public static final double intakeSetpoint = 1.26;
-
-    // AMPS for Intake spike once algae is grabbed.
-    public static final double kAmps = 30;
+    public static final double loadingSetpoint = 4.24;
+    public static final double algaeFlickL3 = 15;
+    public static final double L4Setpoint = 28.6;
   }
 
   // Constants for the Manipulator Subsystem
@@ -84,27 +57,37 @@ public class Constants {
     // MotorIDs for Manipulator.
     public static final int feederMotorID = 9;
     public static final int pivotMotorID = 10;
+    public static final int algaeMaxID = 1;
+
+    // ID for the CANrange
     public static final int canRangeID = 0;
 
     // SoftLimits for Manipulator.
-    public static final double climberForwardSoftLimit = 7;
-    public static final double climberReverseSoftLimit = 0;
+    public static final double climberForwardSoftLimit = 35;
+    public static final double climberReverseSoftLimit = -8;
 
     // PID for Manipulator.
-    public static final double kG = 0.5;
+    public static final double kG = 1;
     public static final double kV = 0.0;
-    public static final double kP = 8;
+    public static final double kP = 15;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
     // MotionMagic for Manipulator.
-    public static final double kMagicVelocity = 112;
-    public static final double kMagicAcceleration = 28;
+    public static final double kMagicVelocity = 480;
+    public static final double kMagicAcceleration = 200;
 
     // Laser Threshold Distance for Manipulator.
-    public static final double kCanRangeDistance = 0.074;
+    public static final double kCanRangeDistance = 0.064;
 
     // TODO: Add ALL setpoints for scoring and algae removal.
-    public static final double manipSetpoint = 5.6;
+    public static final double intakeSetpoint = -7.0;
+    public static final double levelTwoSetpoint = 25;
+    public static final double levelThreeSetpoint = 30.9;
+    public static final double levelFourSetpoint = 30;
+
+    public static final double clearZoneSetpoint = 33.5;
+
+    public static final double algaeRemovalSetpoint = 10.0;
   }
 }

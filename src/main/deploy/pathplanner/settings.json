@@ -3,19 +3,17 @@
   "robotLength": 0.9046464,
   "holonomicMode": true,
   "pathFolders": [
-    "C2L",
-    "C2R",
-    "Center Auto Paths",
-    "Center Trough"
+    "Left Auto 2",
+    "Processor Side"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 5.6,
-  "defaultMaxAccel": 5.6,
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
-  "robotMass": 74.088,
-  "robotMOI": 6.883,
+  "robotMass": 65.09,
+  "robotMOI": 6.75,
   "robotTrackwidth": 0.546,
   "driveWheelRadius": 0.0508,
   "driveGearing": 7.125,
@@ -34,6 +32,7 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"radius\":0.2,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"radius\":0.2,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.3,\"y\":0.0},\"size\":{\"width\":0.2,\"length\":0.2},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
   ]
 }

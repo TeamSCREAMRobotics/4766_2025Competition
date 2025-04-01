@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.119497201930378,
-        "y": 4.025
+        "x": 1.0069672131147542,
+        "y": 7.567366803278689
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.96358253897373,
-        "y": 3.8295758001804416
+        "x": 2.2744672131122563,
+        "y": 7.362616803278375
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Left Auto Path 2"
     },
     {
       "anchor": {
-        "x": 5.68217213114754,
-        "y": 3.8511782786885242
+        "x": 4.077432068083891,
+        "y": 5.069565605602763
       },
       "prevControl": {
-        "x": 5.951385947836733,
-        "y": 3.831418208695758
+        "x": 3.5314320680813935,
+        "y": 5.898315605602449
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Testpath"
+      "linkedName": "Left Auto 3"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "elevatorLevelFour",
-      "waypointRelativePos": 0.5356429047301774,
+      "waypointRelativePos": 0.5544117647058808,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,8 +45,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -60.40770364064207
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left Auto 2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -54.85414078123973
   },
   "useDefaultConstraints": false
 }
