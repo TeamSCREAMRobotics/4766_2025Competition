@@ -5,7 +5,6 @@
 package frc.robot.commands.Drivetrain;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -81,7 +80,6 @@ public class ReefAlign extends Command {
     command.execute();
     atReefPose = s_drivetrain.comparePose2d(TargetPose, 0.02, 0.02, 1);
     Logger.log("TargetPose", TargetPose);
-
   }
 
   // Called once the command ends or is interrupted.
