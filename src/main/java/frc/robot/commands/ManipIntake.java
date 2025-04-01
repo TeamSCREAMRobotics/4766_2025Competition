@@ -28,8 +28,8 @@ public class ManipIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (manipulator.getPosition() >= 34.5) {
-      manipFeed.feed(-3.5);
+    if (manipulator.getPosition() >= 33.0) {
+      manipFeed.feed(-6);
     }
     if (manipulator.getPosition() <= 25.5) {
       manipFeed.feed(-5);

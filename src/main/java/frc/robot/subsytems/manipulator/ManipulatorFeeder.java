@@ -16,7 +16,7 @@ public class ManipulatorFeeder extends SubsystemBase {
   }
 
   public void idleFeed() {
-    manipFeeder.setControl(m_request.withOutput(0.7));
+    manipFeeder.setControl(m_request.withOutput(0.25));
   }
 
   public void stopFeed() {

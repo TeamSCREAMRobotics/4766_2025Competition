@@ -107,16 +107,13 @@ public class RobotContainer {
         "elevatorLevelFour", new AutoElevate(s_Elevator, ElevatorConstants.L4Setpoint));
     NamedCommands.registerCommand(
         "load",
-        new AutoLoad(
-            s_Manipulator,
-            s_Elevator,
-            s_ManipFeed,
-            () -> s_Manipulator.laserPassed(),
-            () -> DriverStation.isAutonomous()));
+        new AutoLoad(s_Manipulator, s_Elevator, s_ManipFeed, () -> s_Manipulator.laserPassed()));
     NamedCommands.registerCommand(
         "feedFoward", Commands.run(() -> s_ManipFeed.idleFeed(), s_ManipFeed));
     NamedCommands.registerCommand(
         "manipOuttake4", new ManipOuttake(s_ManipFeed, () -> s_Manipulator.laserPassed(), -3));
+    NamedCommands.registerCommand("leftAlign", new ReefAlign(drivetrain, true));
+    NamedCommands.registerCommand("rightAlign", new ReefAlign(drivetrain, false));
 
     auto = AutoBuilder.buildAutoChooser();
 
@@ -187,11 +184,7 @@ public class RobotContainer {
         .leftTrigger(.5)
         .whileTrue(
             new AutoLoad(
-                s_Manipulator,
-                s_Elevator,
-                s_ManipFeed,
-                () -> s_Manipulator.laserPassed(),
-                () -> DriverStation.isAutonomous()));
+                s_Manipulator, s_Elevator, s_ManipFeed, () -> s_Manipulator.laserPassed()));
   }
 
   public void opControls() {
@@ -231,8 +224,22 @@ public class RobotContainer {
 
     opCon
         .b()
-        .whileTrue(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelThreeSetpoint))
-        .whileFalse(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
+        .whileTrue(
+            Commands.sequence(
+                Commands.parallel(
+                        s_Elevator.toSetpoint(ElevatorConstants.loadingSetpoint),
+                        s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint))
+                    .until(() -> s_Elevator.atSetpoint(ElevatorConstants.loadingSetpoint, .2)),
+                Commands.parallel(
+                    s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelThreeSetpoint))))
+        .whileFalse(
+            Commands.sequence(
+                Commands.parallel(
+                        s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint))
+                    .until(
+                        () -> s_Manipulator.atSetpoint(ManipulatorConstants.clearZoneSetpoint, .2)),
+                Commands.parallel(s_Elevator.toSetpoint(0))
+                    .until(() -> s_Elevator.atSetpoint(0, .2))));
 
     // TODO: this broke most likely
     opCon

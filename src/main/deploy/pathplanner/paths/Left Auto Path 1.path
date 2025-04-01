@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.015740872692026,
-        "y": 5.247458589709681
+        "x": 4.941808687969611,
+        "y": 5.129493320906599
       },
       "prevControl": {
-        "x": 5.7916763306968235,
-        "y": 5.831730484538853
+        "x": 5.717744145974408,
+        "y": 5.713765215735771
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -54,7 +54,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.60008282522821
+    "rotation": -119.67848992513524
   },
   "reversed": false,
   "folder": "Left Auto 2",

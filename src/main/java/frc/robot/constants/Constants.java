@@ -75,7 +75,7 @@ public class Constants {
 
     // MotionMagic for Manipulator.
     public static final double kMagicVelocity = 480;
-    public static final double kMagicAcceleration = 360;
+    public static final double kMagicAcceleration = 200;
 
     // Laser Threshold Distance for Manipulator.
     public static final double kCanRangeDistance = 0.064;
@@ -83,10 +83,10 @@ public class Constants {
     // TODO: Add ALL setpoints for scoring and algae removal.
     public static final double intakeSetpoint = -7.0;
     public static final double levelTwoSetpoint = 25;
-    public static final double levelThreeSetpoint = 35;
+    public static final double levelThreeSetpoint = 30.9;
     public static final double levelFourSetpoint = 30.6;
 
-    public static final double clearZoneSetpoint = 33;
+    public static final double clearZoneSetpoint = 33.5;
 
     public static final double algaeRemovalSetpoint = 10.0;
   }

@@ -6,6 +6,7 @@ package frc.robot;
 
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
+import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
     DogLog.setEnabled(true);
     DogLog.setOptions(new DogLogOptions().withLogEntryQueueCapacity(1000));
     m_robotContainer.zeros();
+
+    Threads.setCurrentThreadPriority(true, 10);
   }
 
   @Override
