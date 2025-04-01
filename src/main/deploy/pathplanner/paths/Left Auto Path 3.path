@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1987704918032787,
-        "y": 7.423514344262295
+        "x": 1.0069672131147542,
+        "y": 7.567366803278689
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.466270491800781,
-        "y": 7.218764344261982
+        "x": 2.2744672131122563,
+        "y": 7.362616803278375
       },
       "isLocked": false,
       "linkedName": "Left Auto Path 2"
@@ -60,7 +60,7 @@
   "folder": "Left Auto 2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -53.13010235415587
+    "rotation": -54.85414078123973
   },
   "useDefaultConstraints": false
 }

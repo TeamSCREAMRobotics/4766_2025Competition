@@ -4,6 +4,10 @@
 
 package frc.robot.commands.Drivetrain;
 
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Logger;
@@ -15,8 +19,7 @@ import util.AllianceFlipUtil;
 public class ReefAlign extends Command {
   private CommandSwerveDrivetrain s_drivetrain;
   private boolean leftTrue = false;
-  private int lastTagID = 0;
-  private boolean isCurrentTag = false;
+  private Debouncer withinBoundary = new Debouncer(0.010, DebounceType.kRising);
   private boolean atReefPose = false;
   private Pose2d TargetPose = new Pose2d();
   private DriveToPose command;
@@ -76,18 +79,22 @@ public class ReefAlign extends Command {
   @Override
   public void execute() {
     command.execute();
-    atReefPose = s_drivetrain.comparePose2d(TargetPose, 0.02, 0.02, 5);
+    atReefPose = s_drivetrain.comparePose2d(TargetPose, 0.02, 0.02, 1);
     Logger.log("TargetPose", TargetPose);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("ReefAlign: I have finished!");
+    s_drivetrain.setControl(new SwerveRequest.Idle());
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return atReefPose;
+    return withinBoundary.calculate(atReefPose);
   }
 
   public static Pose2d findClosest(Pose2d origin, Pose2d... others) {

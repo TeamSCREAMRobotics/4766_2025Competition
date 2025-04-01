@@ -84,7 +84,7 @@ public class Constants {
     public static final double intakeSetpoint = -7.0;
     public static final double levelTwoSetpoint = 25;
     public static final double levelThreeSetpoint = 30.9;
-    public static final double levelFourSetpoint = 30.6;
+    public static final double levelFourSetpoint = 30;
 
     public static final double clearZoneSetpoint = 33.5;
 

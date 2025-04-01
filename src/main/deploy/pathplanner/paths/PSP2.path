@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.077432068083891,
-        "y": 5.069565605602763
+        "x": 5.010860655737704,
+        "y": 2.820235655737705
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6818378057888097,
-        "y": 6.028581999045387
+        "x": 5.454405737704918,
+        "y": 1.6454405737704905
       },
       "isLocked": false,
-      "linkedName": "Left Auto 3"
+      "linkedName": "PSP1"
     },
     {
       "anchor": {
-        "x": 1.0069672131147542,
-        "y": 7.567366803278689
+        "x": 1.2587090163934425,
+        "y": 0.4346823770491801
       },
       "prevControl": {
-        "x": 1.9300204918032784,
-        "y": 7.339600409836065
+        "x": 1.9300204918032786,
+        "y": 1.4056864754098353
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Auto Path 2"
+      "linkedName": "PSP2"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.85414078123973
+    "rotation": 52.76516601842537
   },
   "reversed": false,
-  "folder": "Left Auto 2",
+  "folder": "Processor Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -60.40770364064207
+    "rotation": 121.70142966950566
   },
   "useDefaultConstraints": false
 }

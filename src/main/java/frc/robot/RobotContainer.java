@@ -150,15 +150,15 @@ public class RobotContainer {
                 drive
                     .withVelocityX(
                         -driverCon.getLeftY()
-                            * 1.2
+                            * MaxSpeed
                             * (driverCon.getRightTriggerAxis() > 0.5
-                                ? MaxSpeed
+                                ? 0.5
                                 : 1)) // Drive forward with negative Y (forward)
                     .withVelocityY(
                         -driverCon.getLeftX()
-                            * 1.2
+                            * MaxSpeed
                             * (driverCon.getRightTriggerAxis() > 0.5
-                                ? MaxSpeed
+                                ? 0.5
                                 : 1)) // Drive left with negative X (left)
                     .withRotationalRate(
                         -driverCon.getRightX()

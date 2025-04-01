@@ -1,0 +1,90 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.39641393442623,
+        "y": 1.5495389344262287
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.32950819672131,
+        "y": 1.777305327868853
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.010860655737704,
+        "y": 2.820235655737705
+      },
+      "prevControl": {
+        "x": 5.849999999999999,
+        "y": 2.1249487704918035
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "PSP1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "home",
+      "waypointRelativePos": 0.23227548953409394,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ManipHome"
+        }
+      }
+    },
+    {
+      "name": "elevatorLevelFour",
+      "waypointRelativePos": 0.6185010128291646,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "elevatorLevelFour"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "levelFourManipulator"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 121.70142966950566
+  },
+  "reversed": false,
+  "folder": "Processor Side",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}

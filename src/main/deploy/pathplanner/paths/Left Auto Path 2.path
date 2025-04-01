@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.557317815277584,
-        "y": 6.081284731196917
+        "x": 4.735143442622951,
+        "y": 6.212756147540984
       },
       "isLocked": false,
       "linkedName": "Left Auto Path 1"
     },
     {
       "anchor": {
-        "x": 1.1987704918032787,
-        "y": 7.423514344262295
+        "x": 1.0069672131147542,
+        "y": 7.567366803278689
       },
       "prevControl": {
-        "x": 2.301639344262295,
-        "y": 6.9679815573770485
+        "x": 2.009203963070182,
+        "y": 7.216817376638922
       },
       "nextControl": null,
       "isLocked": false,
@@ -44,8 +44,8 @@
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -53,7 +53,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.13010235415587
+    "rotation": -54.85414078123973
   },
   "reversed": false,
   "folder": "Left Auto 2",
@@ -61,5 +61,5 @@
     "velocity": 0,
     "rotation": -119.67848992513524
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
