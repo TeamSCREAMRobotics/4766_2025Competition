@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.0069672131147542,
-        "y": 7.567366803278689
+        "x": 1.4145491803278687,
+        "y": 7.4594774590163935
       },
       "prevControl": {
-        "x": 1.9300204918032784,
-        "y": 7.339600409836065
+        "x": 4.039856557377049,
+        "y": 5.745235655737704
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Auto Path 2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
     "rotation": -54.85414078123973
   },
   "reversed": false,
-  "folder": "Left Auto 2",
+  "folder": "Non Processor BLUE",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -60.40770364064207

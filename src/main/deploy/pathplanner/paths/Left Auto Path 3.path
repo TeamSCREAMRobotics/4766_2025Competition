@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0069672131147542,
-        "y": 7.567366803278689
+        "x": 0.9949795081967214,
+        "y": 6.93201844262295
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2744672131122563,
-        "y": 7.362616803278375
+        "x": 2.2624795081942244,
+        "y": 6.727268442622637
       },
       "isLocked": false,
-      "linkedName": "Left Auto Path 2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.077432068083891,
-        "y": 5.069565605602763
+        "x": 4.077,
+        "y": 5.07
       },
       "prevControl": {
-        "x": 3.5314320680813935,
-        "y": 5.898315605602449
+        "x": 3.531241140181987,
+        "y": 5.898378697776653
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.40770364064207
+    "rotation": -60.408
   },
   "reversed": false,
-  "folder": "Left Auto 2",
+  "folder": "Non Processor BLUE",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.85414078123973
+    "rotation": -55.0
   },
   "useDefaultConstraints": false
 }

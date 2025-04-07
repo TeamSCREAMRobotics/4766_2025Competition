@@ -3,7 +3,8 @@
   "robotLength": 0.9046464,
   "holonomicMode": true,
   "pathFolders": [
-    "Left Auto 2",
+    "Non Processor RED",
+    "Non Processor BLUE",
     "Processor Side"
   ],
   "autoFolders": [],
