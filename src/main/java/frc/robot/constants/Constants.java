@@ -50,7 +50,7 @@ public class Constants {
     public static final double loadingSetpoint = 4.14;
     public static final double algaeFlickL3 = 15;
     public static final double L4Setpoint = 28.823;
-    //L4 was around 28.7, increased to stop against hard stops.
+    // L4 was around 28.7, increased to stop against hard stops.
   }
 
   // Constants for the Manipulator Subsystem

@@ -12,8 +12,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -120,7 +118,7 @@ public class RobotContainer {
 
     // auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
     auto.setDefaultOption("Do Nothing", null);
-   // auto.addOption("Non Processor RED", new PathPlannerAuto("Non Processor RED"));
+    // auto.addOption("Non Processor RED", new PathPlannerAuto("Non Processor RED"));
 
     SmartDashboard.putData(auto);
   }

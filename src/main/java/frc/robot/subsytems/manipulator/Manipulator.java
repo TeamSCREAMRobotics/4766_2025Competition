@@ -13,7 +13,6 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -46,8 +45,8 @@ public class Manipulator extends SubsystemBase {
         ManipulatorConstants.climberReverseSoftLimit;
     pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-   // pivotConfig.Feedback.FeedbackRemoteSensorID = manipEncoder.getDeviceID();
-   // pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    // pivotConfig.Feedback.FeedbackRemoteSensorID = manipEncoder.getDeviceID();
+    // pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
 
     rangeConfig.ProximityParams.ProximityThreshold = ManipulatorConstants.kCanRangeDistance;
 
