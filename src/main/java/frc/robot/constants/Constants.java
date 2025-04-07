@@ -32,7 +32,7 @@ public class Constants {
     public static final int elevatorFollowerID = 14;
 
     // SoftLimits for Elevator.
-    public static final double elevatorForwardSoftLimit = 28.7;
+    public static final double elevatorForwardSoftLimit = 29;
     public static final double elevatorReverseSoftLimit = 0;
 
     // PID for Elevator.
@@ -47,9 +47,10 @@ public class Constants {
     public static final double kMagicAcceleration = 500.0;
 
     // Setpoints For Elevator.
-    public static final double loadingSetpoint = 4.24;
+    public static final double loadingSetpoint = 4.14;
     public static final double algaeFlickL3 = 15;
-    public static final double L4Setpoint = 28.6;
+    public static final double L4Setpoint = 28.823;
+    // L4 was around 28.7, increased to stop against hard stops.
   }
 
   // Constants for the Manipulator Subsystem
@@ -63,31 +64,52 @@ public class Constants {
     public static final int canRangeID = 0;
 
     // SoftLimits for Manipulator.
+    // 35
     public static final double climberForwardSoftLimit = 35;
+    // NEW: 0.550;
+    // -8
     public static final double climberReverseSoftLimit = -8;
+    // NEW: -0.1;
 
     // PID for Manipulator.
     public static final double kG = 1;
     public static final double kV = 0.0;
+    // 15
     public static final double kP = 15;
+    // TODO: Tune CANCoder P: 35;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
+    // 0.05;
 
     // MotionMagic for Manipulator.
+    // 480
     public static final double kMagicVelocity = 480;
+    // NEW: 300;
+    // 200
     public static final double kMagicAcceleration = 200;
+    // NEW: 80;
 
     // Laser Threshold Distance for Manipulator.
     public static final double kCanRangeDistance = 0.064;
 
     // TODO: Add ALL setpoints for scoring and algae removal.
+    // Intake was -7.0
     public static final double intakeSetpoint = -7.0;
+    // NEW: -0.057;
+    // L2 was 25
     public static final double levelTwoSetpoint = 25;
+    // NEW: 0.375;
+    // L3 was 30.9
     public static final double levelThreeSetpoint = 30.9;
+    // NEW: 0.458;
+    // L4 was 30
     public static final double levelFourSetpoint = 30;
-
+    // NEW: 0.452;
+    // Home was 33.5
     public static final double clearZoneSetpoint = 33.5;
-
-    public static final double algaeRemovalSetpoint = 10.0;
+    // NEW: 0.5;
+    // Remove was 10.0
+    public static final double algaeRemovalSetpoint = 10;
+    // NEW: 0.135;
   }
 }

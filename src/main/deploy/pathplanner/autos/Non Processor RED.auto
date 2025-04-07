@@ -31,7 +31,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.225
           }
         },
         {
@@ -66,26 +66,19 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Auto Path 2"
+                  "pathName": "NPR1"
                 }
               },
               {
-                "type": "sequential",
+                "type": "wait",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.7
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "load"
-                      }
-                    }
-                  ]
+                  "waitTime": 0.7
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "load"
                 }
               }
             ]
@@ -100,7 +93,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Auto Path 3"
+            "pathName": "NPR2"
           }
         },
         {
@@ -118,88 +111,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "manipOuttake4"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ManipHome"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "elevatorHome"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Left Auto Path 4"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.7
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "load"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left Auto Path 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "rightAlign"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "levelFourManipulator"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "waitTime": 0.225
           }
         },
         {

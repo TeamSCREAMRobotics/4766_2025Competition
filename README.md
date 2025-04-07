@@ -6,6 +6,9 @@ View our [2025 build blog](https://www.chiefdelphi.com/t/team-scream-4522-and-te
 
 ![Banner](/TeamSCREAMBanner.png)
 
+## FINAL PUSH 4/7/25
+## This Repository will not be updated anymore due to Jr not competing contemporarily, a rebuild of this repository will be done soon. This has been a great season and we have enjoyed it.
+
 # Controls
 Use The Following Image As Reference
 
@@ -15,54 +18,33 @@ Use The Following Image As Reference
   - ### Swerve 
     - Left Joystick = Move Robot Without Rotation
     - Right Joystick = Rotate Robot
-    - Left Bumper = reset field-centric
-  - ### Intake
-    - Left Trigger = Spitout Algae
-    - Left Bumper = Intake to Rest Pose
+    - Y Button = reset field-centric
+    - Left D-Pad = Go to Left Reef Pose
+    - Right D-Pad = Go to Right Reef Pose
+    - Right Trigger = Slow Mode
+      
   - ### Manipulator
-    - Right Bumper = Intake
-    - Right Trigger = Outtake
+    - Left Bumper = Outtake
+    - Left Trigger = Intake
 
 - ## Operator Controls (opCon)
-    - ### Swerve
-      - Left Trigger = Go to the left of the Reef
-      - Right Trigger = Go to the right of the Reef
     - ### Climber
-      - Right Bumper = Run Climber
-      - A = Zero Climber
+      - Select = Climbing Mode
+        - Right Bumper = Run Climber
+      - Start + X = Zero Climber
     - ### Elevator
-      - D-Pad Down = Level One
-      - D-Pad Left = Level Two
-      - D-Pad Up = Level Three
-      - B = Zero Elevator
-    - ### Intake
-      - X = Zero Intake
+      - Y = Level Four
+      - B = Level Three
+      - D-Pad Right = Level 2 Algae Flick
+      - D-Pad Up = Level 3 Algae Flick
+      - Start + B = Zero Elevator
     - ### Manipulator
-      - Y = Zero Manipulator
+      - Start + Y = Zero Manipulator
+      - A = Level One Coral
+      - B = Level Two Coral
+      - Y = Level Three Coral
+      - D-Pad Right = Level Two Algae Flick
+      - D-Pad Up = Level Three Algae Flick
 
 - ## Operator Controls (buttonBoard)
-    - ### Without eSwitch
-      - #### Swerve
-        - B1 = Go to the left of the Reef
-        - B2 = Go to the right of the Reef
-      - #### Climber
-        - B3 = Run Climber
-      - #### Elevator
-        - B4 = Level One
-        - B5 = Level Two
-        - B6 = Level Three
-        - JoyY = Manual Elevator
-      - ### Intake
-        - JoyX = Manual Intake
-  - ### With eSwitch
-      - #### Climber
-          - B3 = Zero Climber
-          - JoyY = Manual Climber
-      - #### Elevator
-          - B4 = Zero Elevator
-      - #### Intake
-          - B5 = Zero Intake
-      - #### Manipulator
-          - B6 = Zero Manipulator
-          - JoyX = Manual Manipulator
-         
+  - ### buttonBoard is deprecated  

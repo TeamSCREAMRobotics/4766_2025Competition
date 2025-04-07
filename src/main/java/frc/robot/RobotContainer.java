@@ -12,7 +12,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -117,8 +116,9 @@ public class RobotContainer {
 
     auto = AutoBuilder.buildAutoChooser();
 
-    auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
-    auto.addOption("Do Nothing", null);
+    // auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
+    auto.setDefaultOption("Do Nothing", null);
+    // auto.addOption("Non Processor RED", new PathPlannerAuto("Non Processor RED"));
 
     SmartDashboard.putData(auto);
   }
@@ -272,7 +272,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("Manip Pose", s_Manipulator.getPosition());
     SmartDashboard.putNumber("Elevator Pose", s_Elevator.getPosition());
     SmartDashboard.putNumber("Climber Pose", s_Climber.getPosition());
-
     SmartDashboard.putNumber("Encoder Pose", s_Manipulator.getMagPose());
 
     // Log Posistion For Climber, Elevator, Intake, and s_Manipulator

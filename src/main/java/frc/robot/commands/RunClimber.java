@@ -34,7 +34,9 @@ public class RunClimber extends Command {
     // This should be the same setpoint as where the cage ends up.
 
     // Sends pivot out.
-    s_Pivot.goToSetpoint(15);
+    // Was 15 NEW: 0.238
+    s_Pivot.goToSetpoint(18);
+    // 10 NEW: 0.2
     if (buttonA.getAsBoolean() && s_Pivot.getPosition() > 10) {
       // Cage grabbing point.
       s_Climber.goToSetPoint(setpoint);

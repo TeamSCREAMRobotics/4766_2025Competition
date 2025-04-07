@@ -12,45 +12,52 @@
         "y": 6.212459230114474
       },
       "isLocked": false,
-      "linkedName": "Left Auto Path 1"
+      "linkedName": null
     },
     {
       "anchor": {
         "x": 0.671,
-        "y": 7.412
+        "y": 7.519
       },
       "prevControl": {
-        "x": 2.0498975409836064,
-        "y": 5.841137295081967
+        "x": 2.409099951752291,
+        "y": 5.8887553687502345
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Auto Path 2"
+      "linkedName": "NPR2"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.8190045248868794,
+      "waypointRelativePos": 0.30703624733475743,
+      "rotationDegrees": -119.99999999999999
+    },
+    {
+      "waypointRelativePos": 0.8550106609807967,
       "rotationDegrees": -55.0
     }
   ],
-  "constraintZones": [],
-  "pointTowardsZones": [
+  "constraintZones": [
     {
-      "fieldPosition": {
-        "x": 4.0,
-        "y": 4.8
-      },
-      "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.15441176470588813,
-      "maxWaypointRelativePos": 0.8047968021319232,
-      "name": "Point Towards Zone"
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.8939905469277425,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 4.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 6.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -61,10 +68,10 @@
     "rotation": -55.0
   },
   "reversed": false,
-  "folder": "Non Processor BLUE",
+  "folder": "Non Processor RED",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.67848992513524
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": false
 }

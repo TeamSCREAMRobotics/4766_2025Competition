@@ -45,6 +45,8 @@ public class Manipulator extends SubsystemBase {
         ManipulatorConstants.climberReverseSoftLimit;
     pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    // pivotConfig.Feedback.FeedbackRemoteSensorID = manipEncoder.getDeviceID();
+    // pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
 
     rangeConfig.ProximityParams.ProximityThreshold = ManipulatorConstants.kCanRangeDistance;
 
