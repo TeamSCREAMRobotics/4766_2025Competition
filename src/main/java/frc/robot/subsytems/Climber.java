@@ -46,8 +46,8 @@ public class Climber extends SubsystemBase {
     slot0Configs.kD = ClimberConstants.kD;
     slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 
-    climberMagic.MotionMagicAcceleration = ClimberConstants.kMagicAcceleration;
-    climberMagic.MotionMagicCruiseVelocity = ClimberConstants.kMagicVelocity;
+    climberMagic.MotionMagicAcceleration = ClimberConstants.magicAcceleration;
+    climberMagic.MotionMagicCruiseVelocity = ClimberConstants.magicVelocity;
 
     climberMaster.getConfigurator().apply(climberMagic);
     climberMaster.getConfigurator().apply(slot0Configs);

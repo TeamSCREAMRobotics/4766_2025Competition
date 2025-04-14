@@ -18,8 +18,8 @@ public class Constants {
     public static final double kD = 0.0;
 
     // MotionMagic for Climber.
-    public static final double kMagicVelocity = 400.0;
-    public static final double kMagicAcceleration = 200.0;
+    public static final double magicVelocity = 400.0;
+    public static final double magicAcceleration = 200.0;
 
     // Climbing setpoint
     public static final double setpointForClimb = 297;
@@ -43,8 +43,8 @@ public class Constants {
     public static final double kD = 0.04;
 
     // MotionMagic for Elevator.
-    public static final double kMagicVelocity = 660.0;
-    public static final double kMagicAcceleration = 500.0;
+    public static final double magicVelocity = 660.0;
+    public static final double magicAcceleration = 500.0;
 
     // Setpoints For Elevator.
     public static final double loadingSetpoint = 4.14;
@@ -83,10 +83,10 @@ public class Constants {
 
     // MotionMagic for Manipulator.
     // 480
-    public static final double kMagicVelocity = 480;
+    public static final double magicVelocity = 480;
     // NEW: 300;
     // 200
-    public static final double kMagicAcceleration = 200;
+    public static final double magicAcceleration = 200;
     // NEW: 80;
 
     // Laser Threshold Distance for Manipulator.

@@ -51,8 +51,8 @@ public class Elevator extends SubsystemBase {
     elevatorSlot0.kD = ElevatorConstants.kD;
     elevatorSlot0.GravityType = GravityTypeValue.Elevator_Static;
 
-    elevatorMagicConfigs.MotionMagicAcceleration = ElevatorConstants.kMagicAcceleration;
-    elevatorMagicConfigs.MotionMagicCruiseVelocity = ElevatorConstants.kMagicVelocity;
+    elevatorMagicConfigs.MotionMagicAcceleration = ElevatorConstants.magicAcceleration;
+    elevatorMagicConfigs.MotionMagicCruiseVelocity = ElevatorConstants.magicVelocity;
 
     elevatorFollower.setControl(new Follower(elevatorMaster.getDeviceID(), true));
     elevatorMaster.getConfigurator().apply(elevatorConfigs);

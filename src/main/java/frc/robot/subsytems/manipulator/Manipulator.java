@@ -28,42 +28,38 @@ public class Manipulator extends SubsystemBase {
 
   CANcoder manipEncoder = new CANcoder(4);
 
-  TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
-  MotionMagicConfigs pivotMagic = new MotionMagicConfigs();
+  TalonFXConfiguration wristConfig = new TalonFXConfiguration();
   CANrangeConfiguration rangeConfig = new CANrangeConfiguration();
-  Slot0Configs manipSlot0Configs = new Slot0Configs();
 
   MotionMagicVoltage magicRequest = new MotionMagicVoltage(0).withSlot(0);
   VoltageOut m_request = new VoltageOut(0);
 
   public Manipulator() {
-    pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    pivotConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+    wristConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    wristConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    wristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
         ManipulatorConstants.climberForwardSoftLimit;
-    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
+    wristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
         ManipulatorConstants.climberReverseSoftLimit;
-    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    // pivotConfig.Feedback.FeedbackRemoteSensorID = manipEncoder.getDeviceID();
-    // pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    wristConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    wristConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    // wristConfig.Feedback.FeedbackRemoteSensorID = manipEncoder.getDeviceID();
+    // wristConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+
+    wristConfig.Slot0.kG = ManipulatorConstants.kG;
+    wristConfig.Slot0.kV = ManipulatorConstants.kV;
+    wristConfig.Slot0.kP = ManipulatorConstants.kP;
+    wristConfig.Slot0.kI = ManipulatorConstants.kI;
+    wristConfig.Slot0.kD = ManipulatorConstants.kD;
+    wristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+
+    wristConfig.MotionMagic.MotionMagicAcceleration = ManipulatorConstants.magicAcceleration;
+    wristConfig.MotionMagic.MotionMagicCruiseVelocity = ManipulatorConstants.magicVelocity;
 
     rangeConfig.ProximityParams.ProximityThreshold = ManipulatorConstants.kCanRangeDistance;
 
-    manipSlot0Configs.kG = ManipulatorConstants.kG;
-    manipSlot0Configs.kV = ManipulatorConstants.kV;
-    manipSlot0Configs.kP = ManipulatorConstants.kP;
-    manipSlot0Configs.kI = ManipulatorConstants.kI;
-    manipSlot0Configs.kD = ManipulatorConstants.kD;
-    manipSlot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
-
-    pivotMagic.MotionMagicAcceleration = ManipulatorConstants.kMagicAcceleration;
-    pivotMagic.MotionMagicCruiseVelocity = ManipulatorConstants.kMagicVelocity;
-
     manipRange.getConfigurator().apply(rangeConfig);
-    pivotMotor.getConfigurator().apply(pivotConfig);
-    pivotMotor.getConfigurator().apply(manipSlot0Configs);
-    pivotMotor.getConfigurator().apply(pivotMagic);
+    pivotMotor.getConfigurator().apply(wristConfig);
   }
 
   public double getPosition() {
