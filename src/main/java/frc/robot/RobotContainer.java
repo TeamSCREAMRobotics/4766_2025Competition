@@ -12,6 +12,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -19,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.AutoElevate;
 import frc.robot.commands.AutoLoad;
 import frc.robot.commands.AutoManipSetpoint;
@@ -51,7 +51,7 @@ public class RobotContainer {
   BooleanSupplier auton;
 
   public CommandXboxController driverCon = new CommandXboxController(0);
-  public CommandXboxController opCon = new CommandXboxController(1);
+  // public CommandXboxController opCon = new CommandXboxController(1);
   public double lastTagID;
 
   private static double MaxSpeed =
@@ -68,8 +68,6 @@ public class RobotContainer {
   public RobotContainer() {
     auton = () -> DriverStation.isAutonomous();
     driverControls();
-
-    opControls();
     defaultCommands();
 
     LimelightHelpers.SetRobotOrientation("limelight-swerve", -160, 0.0, 20.0, 0.0, 0.0, 0.0);
@@ -116,7 +114,7 @@ public class RobotContainer {
 
     auto = AutoBuilder.buildAutoChooser();
 
-    // auto.setDefaultOption("testAuto", new PathPlannerAuto("Test Auto"));
+    auto.setDefaultOption("testAuto", new PathPlannerAuto("test auto"));
     auto.setDefaultOption("Do Nothing", null);
     // auto.addOption("Non Processor RED", new PathPlannerAuto("Non Processor RED"));
 
@@ -151,33 +149,34 @@ public class RobotContainer {
                     .withVelocityX(
                         -driverCon.getLeftY()
                             * MaxSpeed
-                            * (driverCon.getRightTriggerAxis() > 0.5
+                            * 0.6
+                            * (driverCon.getRightTriggerAxis() > 0.75
                                 ? 0.5
                                 : 1)) // Drive forward with negative Y (forward)
                     .withVelocityY(
                         -driverCon.getLeftX()
                             * MaxSpeed
-                            * (driverCon.getRightTriggerAxis() > 0.5
+                            * 0.6
+                            * (driverCon.getRightTriggerAxis() > 0.75
                                 ? 0.5
                                 : 1)) // Drive left with negative X (left)
                     .withRotationalRate(
                         -driverCon.getRightX()
-                            * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                            * MaxAngularRate
+                            * 0.5) // Drive counterclockwise with negative X (left)
             ));
 
-    driverCon.back().and(driverCon.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-    driverCon.back().and(driverCon.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-    driverCon.start().and(driverCon.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-    driverCon.start().and(driverCon.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+    // driverCon.back().and(driverCon.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+    // driverCon.back().and(driverCon.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+    // driverCon.start().and(driverCon.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+    // driverCon.start().and(driverCon.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
     // reset the field-centric heading on y button press
-    driverCon.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+    driverCon.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
     driverCon.leftBumper().whileTrue(new ManipIntake(s_Manipulator, s_Elevator, s_ManipFeed));
 
-    // TODO: FIX: Left and right are flipped on auto align.
     driverCon.povLeft().whileTrue(new ReefAlign(drivetrain, true));
-
     driverCon.povRight().whileTrue(new ReefAlign(drivetrain, false));
 
     driverCon
@@ -185,28 +184,29 @@ public class RobotContainer {
         .whileTrue(
             new AutoLoad(
                 s_Manipulator, s_Elevator, s_ManipFeed, () -> s_Manipulator.laserPassed()));
-  }
 
-  public void opControls() {
     // Run Climber When Pushed
-    opCon
+    driverCon
         .back()
         .toggleOnTrue(
             new RunClimber(
-                s_Climber, s_Manipulator, ClimberConstants.setpointForClimb, opCon.rightBumper()));
+                s_Climber,
+                s_Manipulator,
+                ClimberConstants.setpointForClimb,
+                driverCon.rightBumper()));
 
-    opCon
-        .povRight()
-        .whileTrue(
+    driverCon
+        .povDown()
+        .toggleOnTrue(
             s_AlgaeMotor
                 .runAlgaeMotor()
                 .alongWith(
                     s_Manipulator.goToSetpointCommand(
                         ManipulatorConstants.algaeRemovalSetpoint,
                         ManipulatorConstants.clearZoneSetpoint)));
-    opCon
+    driverCon
         .povUp()
-        .whileTrue(
+        .toggleOnTrue(
             s_AlgaeMotor
                 .runAlgaeMotor()
                 .alongWith(
@@ -217,12 +217,12 @@ public class RobotContainer {
                                 ManipulatorConstants.algaeRemovalSetpoint,
                                 ManipulatorConstants.clearZoneSetpoint))));
 
-    opCon
+    driverCon
         .a()
         .whileTrue(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.levelTwoSetpoint))
         .whileFalse(s_Manipulator.goDirectToSetpoint(ManipulatorConstants.clearZoneSetpoint));
 
-    opCon
+    driverCon
         .b()
         .whileTrue(
             Commands.sequence(
@@ -242,7 +242,7 @@ public class RobotContainer {
                     .until(() -> s_Elevator.atSetpoint(0, .2))));
 
     // TODO: this broke most likely
-    opCon
+    driverCon
         .y()
         .whileTrue(
             Commands.sequence(
@@ -262,9 +262,15 @@ public class RobotContainer {
                     .until(() -> s_Elevator.atSetpoint(0, .2))));
 
     // Zero Subsystems When Pushed
-    opCon.x().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
-    opCon.b().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Elevator.setElevatorZero()));
-    opCon.y().and(opCon.start()).whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
+    driverCon.x().and(driverCon.start()).whileTrue(Commands.runOnce(() -> s_Climber.zeroClimber()));
+    driverCon
+        .b()
+        .and(driverCon.start())
+        .whileTrue(Commands.runOnce(() -> s_Elevator.setElevatorZero()));
+    driverCon
+        .y()
+        .and(driverCon.start())
+        .whileTrue(Commands.runOnce(() -> s_Manipulator.zeroManip()));
   }
 
   public void RobotContainerPeriodic() {

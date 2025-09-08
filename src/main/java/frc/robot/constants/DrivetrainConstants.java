@@ -44,7 +44,7 @@ public final class DrivetrainConstants {
 
   public static final RobotConfig ROBOT_CONFIG =
       new RobotConfig(
-          Units.lbsToKilograms(150), 6.883, MODULE_CONFIG, TunerConstants.TRACK_WIDTH.getMeters());
+          Units.lbsToKilograms(102), 6.883, MODULE_CONFIG, TunerConstants.TRACK_WIDTH.getMeters());
 
   public static final PathFollowingController PATH_FOLLOWING_CONTROLLER =
       new PPHolonomicDriveController(

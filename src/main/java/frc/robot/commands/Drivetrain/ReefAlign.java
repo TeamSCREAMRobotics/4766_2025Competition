@@ -35,7 +35,6 @@ public class ReefAlign extends Command {
   @Override
   public void initialize() {
 
-    // TODO: Reference this and check for tag in controller trigger.
     // var validTags = Arrays.asList(AllianceFlipUtil.get(FieldConstants.BLUE_VALID_REEF_TAGS,
     // FieldConstants.RED_VALID_REEF_TAGS));
     // if(validTags.contains(lastTagID))

@@ -233,7 +233,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     try {
       var config = RobotConfig.fromGUISettings();
       AutoBuilder.configure(
-          () -> getState().Pose, // Supplier of current robot pose
+          () -> getPose(), // Supplier of current robot pose
           this::resetPose, // Consumer for seeding pose against auto
           () -> getState().Speeds, // Supplier of current robot speeds
           // Consumer of ChassisSpeeds and feedforwards to drive the robot
@@ -245,6 +245,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                       .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
           new PPHolonomicDriveController(
               // PID constants for translation
+              // TODO: Tune Translation PID.
               new PIDConstants(10, 0, 0),
               // PID constants for rotation
               new PIDConstants(7, 0, 0)),
@@ -388,35 +389,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         getPigeon2().getAngularVelocityZWorld().asSupplier().get().in(Units.DegreesPerSecond));
   }
 
-  /*
-  public void addVision() {
-    if (LimelightHelpers.getTV("limelight-left")) {
-      PoseEstimate poseEstimate =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-left");
-      if (poseEstimate == null
-          || poseEstimate.tagCount == 0
-          || !FieldConstants.FIELD_AREA.contains(poseEstimate.pose.getTranslation())
-          || Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 540
-          || getLinearVelocity().getNorm() > 3.0) {
-        return;
-      }
-      addVisionMeasurement(
-          poseEstimate.pose,
-          poseEstimate.timestampSeconds,
-          VecBuilder.fill(
-              Math.pow(0.2, poseEstimate.tagCount) * poseEstimate.avgTagDist * 2,
-              Math.pow(0.2, poseEstimate.tagCount) * poseEstimate.avgTagDist * 2,
-              9999999));
-      UpdatingPose = true;
-    }
-  }
-    */
-
-  /*
-      public void resetPigeonYaw(){
-          getPigeon2().setYaw(0.0);
-      }
-  */
   private boolean rejectEstimate(PoseEstimate estimate) {
     return estimate == null
         || estimate.tagCount == 0
