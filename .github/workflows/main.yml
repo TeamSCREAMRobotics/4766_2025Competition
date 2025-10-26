@@ -55,7 +55,7 @@ jobs:
         fi
 
   build:
-    if: steps.build.outcome == 'success'
+    if: steps.spotless-changes.build.outcome == 'success'
     runs-on: ubuntu-latest
     name: Checkout code
 
