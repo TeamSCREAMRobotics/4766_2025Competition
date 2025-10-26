@@ -13,7 +13,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  spotless-changes:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -42,7 +42,7 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Build (auto-formats code)
+    - name: Build and Commit Spotless changes
       id: build
       run: |
         ./gradlew build
@@ -54,35 +54,21 @@ jobs:
           echo "changes=false" >> $GITHUB_OUTPUT
         fi
 
+  build:
+    if: jobs.spotless-changes.outcome == 'success'
+    runs-on: ubuntu-latest
+    name: Checkout code
+
+    steps:
+
       # Runs a Spotless command to check for code lint
     - name: Lint robot code
-      if: steps.build.outcome == 'success'
       run: |
         ./gradlew :spotlessCheck
         if [ $? -ne 0 ]; then
           echo "Code formatting issues found."
           exit 1
         fi
-
-    - name: Check for formatted files
-      if: steps.build.outputs.changes == 'true'
-      id: check-changes
-      run: |
-        if git status --porcelain | grep -q .; then
-          echo "files-changed=true" >> $GITHUB_OUTPUT
-          echo "Formatted files:"
-          git status --porcelain
-        else
-          echo "files-changed=false" >> $GITHUB_OUTPUT
-          echo "No files needed formatting"
-        fi
-
-    - name: Commit and push spotless changes
-      if: steps.build.outputs.changes == 'true' && steps.check-changes.outputs.files-changed == 'true'
-      run: |
-        git add .
-        git commit -m "Apply Spotless formatting" || echo "No changes to commit"
-        git push origin HEAD:${{ github.ref }} || echo "No changes to push"
 
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
