@@ -22,6 +22,22 @@ public class Logger extends DogLog {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   public static void logDebug(String key, boolean... value) {
     if (debug) {
       log(key, value);

@@ -78,7 +78,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     if(useLocalVersion) {
-        implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:local'
+        implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:25.0.2'
     }
     else {
         implementation 'com.github.TeamSCREAMRobotics:SCREAMLib:main-SNAPSHOT'
