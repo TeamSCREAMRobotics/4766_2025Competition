@@ -43,27 +43,17 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
     - name: Build (auto-formats code)
+      id: build
       run: ./gradlew build
-
-    - name: Check current formatting status
-      id: check_format
-      run: |
-        if ./gradlew :spotlessCheck; then
-          echo "changes=false" >> $GITHUB_OUTPUT
-          echo "No formatting changes needed"
-        else
-          echo "changes=true" >> $GITHUB_OUTPUT
-          echo "Formatting changes needed"
-        fi
 
       # Runs a Spotless command to check for code lint
     - name: Lint robot code
-      if: steps.check_format.outputs.changes == 'true'
+      if: steps.build.outputs.changes == 'true'
       run: |
         ./gradlew :spotlessCheck
 
     - name: Check for formatted files
-      if: steps.check_format.outputs.changes == 'true'
+      if: steps.build.outputs.changes == 'true'
       id: check-changes
       run: |
         if git status --porcelain | grep -q .; then
@@ -76,7 +66,7 @@ jobs:
         fi
 
     - name: Commit and push spotless changes
-      if: steps.check_format.outputs.changes == 'true' && steps.check_changes.outputs.files-changed == 'true'
+      if: steps.build.outputs.changes == 'true' && steps.check-changes.outputs.files-changed == 'true'
       run: |
         git add .
         git commit -m "Apply Spotless formatting" || echo "No changes to commit"
