@@ -32,18 +32,23 @@ jobs:
     - name: Add repository to git safe directories
       run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
+      # Grant execute permission for gradlew
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
       # Creates a Git user for committing changes
     - name: Setup Git User
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    # Grant execute permission for gradlew
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
+    - name: Check current formatting status
+      run: |
+        ./gradlew :spotlessCheck
 
     # Runs a Spotless command to check for code lint
     - name: Lint robot code
+      id: format
       run: |
         ./gradlew :spotlessCheck
       
@@ -57,6 +62,7 @@ jobs:
         fi
 
     - name: Commit and push spotless changes
+      if: steps.format.outputs.changes == 'true'
       run: |
         git add .
         git commit -m "Apply Spotless formatting" || echo "No changes to commit"
@@ -64,7 +70,7 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
-      run: ./gradlew build
+      run: ./gradlew build --no-daemon
 
     - name: Verify code formatting
-      run: ./gradlew :spotlessCheck
+      run: ./gradlew :spotlessCheck --no-daemon
