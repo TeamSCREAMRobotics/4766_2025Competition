@@ -12,8 +12,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  spotless-changes:
+  # This workflow contains one job called "build"
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -42,6 +42,7 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      # Runs a Spotless command to format code then commit any changes
     - name: Build and Commit Spotless changes
       id: build
       run: |
@@ -53,36 +54,3 @@ jobs:
         else
           echo "changes=false" >> $GITHUB_OUTPUT
         fi
-
-  build:
-    runs-on: ubuntu-latest
-    name: Checkout code
-    needs: spotless-changes
-
-    steps:
-    - uses: actions/checkout@v3
-      with:
-          fetch-depth: 0
-          token: '${{ github.token }}'
-
-    - name: Add repository to git safe directories
-      run: git config --global --add safe.directory $GITHUB_WORKSPACE
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
-
-      # Runs a Spotless command to check for code lint
-    - name: Lint robot code
-      run: |
-        ./gradlew :spotlessCheck
-        if [ $? -ne 0 ]; then
-          echo "Code formatting issues found."
-          exit 1
-        fi
-
-    # Runs a single command using the runners shell
-    - name: Compile and run tests on robot code
-      run: ./gradlew build --no-daemon
-
-    - name: Verify code formatting
-      run: ./gradlew :spotlessCheck --no-daemon
