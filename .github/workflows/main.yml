@@ -56,7 +56,7 @@ jobs:
 
       # Runs a Spotless command to check for code lint
     - name: Lint robot code
-      if: steps.build.outputs.changes == 'true'
+      if: steps.build.outcome == 'success'
       run: |
         ./gradlew :spotlessCheck
         if [ $? -ne 0 ]; then
