@@ -32,6 +32,15 @@ public class Robot extends TimedRobot {
     DogLog.setOptions(new DogLogOptions().withLogEntryQueueCapacity(1000));
     m_robotContainer.zeros();
 
+
+
+
+
+
+
+
+    
+
     Threads.setCurrentThreadPriority(true, 10);
   }
 
