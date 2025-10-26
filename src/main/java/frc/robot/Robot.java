@@ -33,30 +33,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.zeros();
 
     Threads.setCurrentThreadPriority(true, 10);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
   }
 
   @Override
