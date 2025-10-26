@@ -287,6 +287,7 @@ public class RobotContainer {
 
   public void getRobotState(boolean enabled) {
     drivetrain.hasEnabled = enabled;
+    System.out.println("Enabled");
   }
 
   public void zeros() {
