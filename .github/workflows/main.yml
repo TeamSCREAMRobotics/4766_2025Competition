@@ -24,10 +24,18 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: '${{ github.token }}'
 
     # Declares the repository safe and not under dubious ownership.
     - name: Add repository to git safe directories
       run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+    - name: Setup Git User
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
     # Grant execute permission for gradlew
     - name: Grant execute permission for gradlew
@@ -37,6 +45,15 @@ jobs:
     - name: Lint robot code
       run: ./gradlew :spotlessCheck
 
+    - name: Commit and push spotless changes
+      run: |
+        git add .
+        git commit -m "Apply Spotless formatting" || echo "No changes to commit"
+        git push origin HEAD:${{ github.ref }} || echo "No changes to push"
+
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
       run: ./gradlew build
+
+    - name: Verify code formatting
+      run: ./gradlew :spotlessCheck
