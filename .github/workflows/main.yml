@@ -51,6 +51,10 @@ jobs:
       if: steps.build.outputs.changes == 'true'
       run: |
         ./gradlew :spotlessCheck
+        if [ $? -ne 0 ]; then
+          echo "Code formatting issues found."
+          exit 1
+        fi
 
     - name: Check for formatted files
       if: steps.build.outputs.changes == 'true'
