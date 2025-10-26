@@ -28,10 +28,11 @@ jobs:
         fetch-depth: 0
         token: '${{ github.token }}'
 
-    # Declares the repository safe and not under dubious ownership.
+      # Declares the repository safe and not under dubious ownership.
     - name: Add repository to git safe directories
       run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
+      # Creates a Git user for committing changes
     - name: Setup Git User
       run: |
         git config --global user.name "github-actions[bot]"
@@ -43,7 +44,17 @@ jobs:
 
     # Runs a Spotless command to check for code lint
     - name: Lint robot code
-      run: ./gradlew :spotlessCheck
+      run: |
+        ./gradlew :spotlessCheck
+      
+        if git diff --quiet; then
+          echo "No formatting changes needed"
+          echo "FORMATTING_CHANGED=false" >> $GITHUB_ENV
+        else
+          echo "Formatting changes applied"
+          echo "FORMATTING_CHANGED=true" >> $GITHUB_ENV
+          git diff --name-only
+        fi
 
     - name: Commit and push spotless changes
       run: |
