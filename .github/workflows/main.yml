@@ -42,6 +42,9 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+    - name: Build (auto-formats code)
+      run: ./gradlew build
+
     - name: Check current formatting status
       id: check_format
       run: |
