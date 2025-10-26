@@ -43,11 +43,13 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
     - name: Check current formatting status
+      id: check_format
       run: |
         ./gradlew :spotlessCheck
 
     # Runs a Spotless command to check for code lint
     - name: Lint robot code
+      if: steps.check_format.outcome == 'failure'
       id: format
       run: |
         ./gradlew :spotlessCheck
