@@ -45,26 +45,35 @@ jobs:
     - name: Check current formatting status
       id: check_format
       run: |
-        ./gradlew :spotlessCheck
+        if ./gradlew :spotlessCheck; then
+          echo "changes=false" >> $GITHUB_OUTPUT
+          echo "No formatting changes needed"
+        else
+          echo "changes=true" >> $GITHUB_OUTPUT
+          echo "Formatting changes needed"
+        fi
 
-    # Runs a Spotless command to check for code lint
+      # Runs a Spotless command to check for code lint
     - name: Lint robot code
-      if: steps.check_format.outcome == 'failure'
-      id: format
+      if: steps.check_format.outputs.changes == 'true'
       run: |
         ./gradlew :spotlessCheck
-      
-        if git diff --quiet; then
-          echo "No formatting changes needed"
-          echo "FORMATTING_CHANGED=false" >> $GITHUB_ENV
+
+    - name: Check for formatted files
+      if: steps.check_format.outputs.changes == 'true'
+      id: check-changes
+      run: |
+        if git status --porcelain | grep -q .; then
+          echo "files-changed=true" >> $GITHUB_OUTPUT
+          echo "Formatted files:"
+          git status --porcelain
         else
-          echo "Formatting changes applied"
-          echo "FORMATTING_CHANGED=true" >> $GITHUB_ENV
-          git diff --name-only
+          echo "files-changed=false" >> $GITHUB_OUTPUT
+          echo "No files needed formatting"
         fi
 
     - name: Commit and push spotless changes
-      if: steps.format.outputs.changes == 'true'
+      if: steps.check_format.outputs.changes == 'true' && steps.check_changes.outputs.files-changed == 'true'
       run: |
         git add .
         git commit -m "Apply Spotless formatting" || echo "No changes to commit"
